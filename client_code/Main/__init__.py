@@ -483,10 +483,10 @@ class Main(MainTemplate):
       self.select_all.checked = False
       
       self.view_row.visible = True
-      self.edit_row.visible = True if Global.site_user_role in ["Site Editor","Manager", "Site Leader"] or Global.system_user_role == "System Administrator" else False
-      self.delete_row.visible = True if Global.site_user_role in ["Manager","Site Leader"] or Global.system_user_role == "System Administrator" else False
+      self.edit_row.visible = True if Global.site_user_role in ["Site Editor","Site Manager", "Site Leader"] or Global.system_user_role == "System Administrator" else False
+      self.delete_row.visible = True if Global.site_user_role in ["Site Manager","Site Leader"] or Global.system_user_role == "System Administrator" else False
       if Global.table_name == "query":
-        self.execute_sql.visible = True #if Global.site_user_role in ["Manager", "Site Leader"] or Global.system_user_role == "System Administrator" else False
+        self.execute_sql.visible = True #if Global.site_user_role in ["Site Manager", "Site Leader"] or Global.system_user_role == "System Administrator" else False
       else:
         self.execute_sql.visible = False
       
@@ -727,7 +727,7 @@ class Main(MainTemplate):
           options = Global.sys_admin_action_dropdown + Global.site_admin_action_dropdown
           self.admin_dropdown.items = options
           self.admin_dropdown.visible = True
-        if Global.site_user_role in ["Manager","Site Leader"]:
+        if Global.site_user_role in ["Site Manager","Site Leader"]:
           # add site manager admin actions to admin dropdown
           options = Global.site_leader_action_dropdown + Global.site_admin_action_dropdown
           self.admin_dropdown.items = options
@@ -757,7 +757,7 @@ class Main(MainTemplate):
         self.site_summary.visible = True
         self.site_summary.items = db_summary
 
-        if Global.site_user_role in ["Manager","Site Leader"] or Global.system_user_role == "System Administrator":
+        if Global.site_user_role in ["Site Manager","Site Leader"] or Global.system_user_role == "System Administrator":
           self.list_dropdown.visible = True
           self.view_row.visible = True        
           self.edit_row.visible = True
