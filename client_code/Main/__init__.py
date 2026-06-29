@@ -585,6 +585,7 @@ class Main(MainTemplate):
       # if user has system admin role, add system admin actions list and set it visible
       user = anvil.users.get_user()
       Global.system_user_role = user["systemrole"]
+      Global.user_initials = user["initials"]
       self.user_role.text = Global.system_user_role
       #print(Global.system_user_role)
       
@@ -712,7 +713,7 @@ class Main(MainTemplate):
       Global.action_seq_no = {}
       Global.work_area = {}
       # check user authorisation role for the selected site
-      Global.site_user_role = anvil.server.call("user_authorisation",Global.site_options[self.select_site_dropdown.selected_value],Global.username)
+      Global.site_user_role = anvil.server.call("user_authorisation",Global.site_options[self.select_site_dropdown.selected_value],Global.user_initials)
       if Global.site_user_role != "unknown" or Global.system_user_role == "System Administrator":
         # user found with a role for the selected site
         #Global.help_page.visible = False
