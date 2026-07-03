@@ -102,14 +102,14 @@ def create_table_columns(column_list,work_area):
     work_area["columns_show"].append(column)
     # work out column width on various criteria
     data_type = next(x["COLUMN_TYPE"] for x in work_area["table_info"] if x["COLUMN_NAME"] == column)
-    #print("in create_table_columns: data_type is: "+data_type)
-    #print(column,data_type)
+    print("in create_table_columns: data_type is: "+data_type)
+    print(column,data_type)
     ratio = 8 # pixels per char
     padding = 10 # padding
     if data_type == "text" or ("varchar" in data_type and int(data_type.strip("varchar()")) > 50 ):
       col_width = 300
-    elif data_type == "date":
-      col_width = (max(10,len(column))) * ratio + padding
+    elif data_type in ["date","datetime"]:
+      col_width = (max(15,len(column))) * ratio + padding
     else:
       dt_len = re.findall(r'\d+', data_type)[0]
       col_width = (max(int(dt_len),len(column))) * ratio + padding
