@@ -102,8 +102,8 @@ def create_table_columns(column_list,work_area):
     work_area["columns_show"].append(column)
     # work out column width on various criteria
     data_type = next(x["COLUMN_TYPE"] for x in work_area["table_info"] if x["COLUMN_NAME"] == column)
-    print("in create_table_columns: data_type is: "+data_type)
-    print(column,data_type)
+    #print("in create_table_columns: data_type is: "+data_type)
+    #print(column,data_type)
     ratio = 8 # pixels per char
     padding = 10 # padding
     if data_type == "text" or ("varchar" in data_type and int(data_type.strip("varchar()")) > 50 ):

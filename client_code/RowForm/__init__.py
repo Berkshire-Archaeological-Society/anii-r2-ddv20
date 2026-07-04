@@ -442,7 +442,7 @@ class RowForm(RowFormTemplate):
             if row_list[col_name_txt] == "\n":
               row_list[col_name_txt] = ""
             row_list[col[0]] = col[1]["field"].get_html()
-            print(col_name_txt,type(row_list[col_name_txt]),len(row_list[col_name_txt]))
+            #print(col_name_txt,type(row_list[col_name_txt]),len(row_list[col_name_txt]))
           else:
             row_list[col[0]] = col[1]["field"].getText()
           #delta = col[1]["field"].getContents()
@@ -465,7 +465,7 @@ class RowForm(RowFormTemplate):
         if row_list[col[0]] in ["","\n"," "]:
           row_list[col[0]] = None
       #
-      print(Global.action, table_name, row_list)
+      #print(Global.action, table_name, row_list)
       #
       if action in ["add","insert"]:
         ret = anvil.server.call("row_insert",table_name,row_list)
