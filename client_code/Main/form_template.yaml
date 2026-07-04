@@ -291,7 +291,7 @@ components:
         type: FlowPanel
       layout_properties: {full_width_row: true, grid_position: 'MMDTPN,DMQBFC'}
       name: menu_middle
-      properties: {background: 'theme:Primary', col_spacing: none, col_widths: '{"ZMXKSM":10,"GYVRON":35,"BHRWOL":15}'}
+      properties: {background: 'theme:Primary', col_spacing: none, col_widths: '{"ZMXKSM":20,"GYVRON":30,"BHRWOL":10}'}
       type: ColumnPanel
     layout_properties: {full_width_row: true, grid_position: 'XRHQDB,TSHPZF'}
     name: menu_top
