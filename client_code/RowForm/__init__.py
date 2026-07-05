@@ -113,7 +113,8 @@ class RowForm(RowFormTemplate):
       if column_type == "text":
         #create TextArea input field for text type
         #input = TextArea(tag=column_name)
-        input = Quill(placeholder=column_name,toolbar=Global.Quill_toolbarOptions)
+        #input = Quill(placeholder=column_name,toolbar=Global.Quill_toolbarOptions)
+        input = Quill(toolbar=Global.Quill_toolbarOptions)
         max_length = 65535
         input.add_event_handler('text_change',self.input_change)
       elif column_type == "date":
