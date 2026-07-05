@@ -19,7 +19,7 @@ from .. import Global
 class RowForm(RowFormTemplate):
   def input_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
-    print("In input_change function")
+    #print("In input_change function")
     column = event_args["sender"].placeholder
     # add * to column if field is required
     #print(Global.work_area[Global.current_work_area_name]["table_info"])
@@ -29,11 +29,11 @@ class RowForm(RowFormTemplate):
       #col = "* " + column
       col = "*" + "<b>&nbsp"+column+"</b>"
 
-    print(column)
-    if column in self.form_fields:
-      print(column+" in form_fields dictionary")
-    else:
-      print(column+" not in form_fields dictionary")
+    #print(column)
+    #if column in self.form_fields:
+    #  print(column+" in form_fields dictionary")
+    #else:
+    #  print(column+" not in form_fields dictionary")
 
     #print(str(type(event_args["sender"])))
     if str(type(event_args["sender"])) == "<class 'anvil.TextBox'>":
@@ -48,7 +48,7 @@ class RowForm(RowFormTemplate):
       #self.form_fields[column]["header"].text = col + " (" + str(len(self.form_fields[column]["field"].getText())) + "/" + str(self.form_fields[column]["length"]) + "):"
       #self.form_fields[column]["header"].content = col + " (" + str(len(self.form_fields[column]["field"].getText())) + "/" + str(self.form_fields[column]["length"]) + "):"
       #self.form_fields[column]["header"].content = col + " (" + str(self.form_fields[column]["field"].getLength()) + "/" + str(self.form_fields[column]["length"]) + "):"
-    print("Leaving input_change function")
+    #print("Leaving input_change function")
   pass # end of input_change
 
   def __init__(self, site_id, table_name, data_list, action, page_info, **properties):
@@ -359,7 +359,7 @@ class RowForm(RowFormTemplate):
       col_header.add_component(col_description)
       # add columns details to nested dictionary
       field_details = {"header": lab, "description": col_description,"field": input, "length": max_length}
-      print(column_name+" added to form_field dictionary")
+      #print(column_name+" added to form_field dictionary")
       self.form_fields[column_name] = field_details
       # add col_header and input field to column_panel
       # do not add an input field for DBAcontrol column if table is not dbdiary
