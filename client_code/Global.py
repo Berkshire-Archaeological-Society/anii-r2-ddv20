@@ -100,6 +100,8 @@ Quill_toolbarOptions = [
 ['clean']                                         # remove formatting button
 ]
 #
+# for every table we need an entry in this multi-level dictionary. There is one entry for all FS tables, so for these there is no need for a entry per fs table.
+# 
 role_access = {
 'Site Viewer': {
   "anomaly":         {'List': True,  'View': True,  'Edit': False, 'Insert': False, 'Import': False, 'Export': False, 'Delete': False},
