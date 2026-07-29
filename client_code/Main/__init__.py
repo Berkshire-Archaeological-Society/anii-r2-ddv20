@@ -274,7 +274,7 @@ class Main(MainTemplate):
     Global.action = action
     
     # set name of work_area to be action name with small modifications in some cases
-    work_area_name = action
+    work_area_name = action.capitalize()
     if action in ["List Users","Insert User","Import Users"]:
       work_area_name = action.split(" ")[0] + " System " + action.split(" ")[1]
     if action.split(" ")[1].lower() == "siteuserrole":
