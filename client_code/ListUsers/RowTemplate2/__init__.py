@@ -18,7 +18,8 @@ class RowTemplate2(RowTemplate2Template):
     # Any code you write here will run before the form opens.
     self.delete_user_button.visible = False
     self.edit_user_button.visible = False
-    if Global.system_user_role == "System Administrator":
+    #print(Global.login_system_user_role)
+    if Global.login_system_user_role == "System Administrator":
       self.delete_user_button.visible = True
       self.edit_user_button.visible = True
 

@@ -252,8 +252,8 @@ class Main(MainTemplate):
       if Global.table_name[0:2] == Global.prefix_special_finds_table:
         table = "fs tables"
       role = "System Administrator"
-      if Global.system_user_role == "Site User":
-        role = Global.site_user_role
+      if Global.login_system_user_role == "Site User":
+        role = Global.login_site_user_role
       #print(role)
       #print(table)
       self.edit_row.visible = Global.role_access.get(role, {}).get(table, {}).get("Edit", None)
@@ -483,8 +483,8 @@ class Main(MainTemplate):
       self.select_all.checked = False
       
       self.view_row.visible = True
-      self.edit_row.visible = True if Global.site_user_role in ["Site Editor","Site Manager", "Site Leader"] or Global.system_user_role == "System Administrator" else False
-      self.delete_row.visible = True if Global.site_user_role in ["Site Manager","Site Leader"] or Global.system_user_role == "System Administrator" else False
+      self.edit_row.visible = True if Global.login_site_user_role in ["Site Editor","Site Manager", "Site Leader"] or Global.login_system_user_role == "System Administrator" else False
+      self.delete_row.visible = True if Global.login_site_user_role in ["Site Manager","Site Leader"] or Global.login_system_user_role == "System Administrator" else False
       if Global.table_name == "query":
         self.execute_sql.visible = True #if Global.site_user_role in ["Site Manager", "Site Leader"] or Global.system_user_role == "System Administrator" else False
       else:
@@ -509,8 +509,8 @@ class Main(MainTemplate):
       if Global.table_name[0:2] == Global.prefix_special_finds_table:
         table = "fs tables"
       role = "System Administrator"
-      if Global.system_user_role == "Site User":
-        role = Global.site_user_role
+      if Global.login_system_user_role == "Site User":
+        role = Global.login_site_user_role
       #print(role)
       #print(table)
       self.edit_row.visible = Global.role_access.get(role, {}).get(table, {}).get("Edit", None)
@@ -584,9 +584,9 @@ class Main(MainTemplate):
 
       # if user has system admin role, add system admin actions list and set it visible
       user = anvil.users.get_user()
-      Global.system_user_role = user["systemrole"]
-      Global.user_initials = user["initials"]
-      self.user_role.text = Global.system_user_role
+      Global.login_system_user_role = user["systemrole"]
+      Global.login_user_initials = user["initials"]
+      self.user_role.text = Global.login_system_user_role
       #print(Global.system_user_role)
       
       # when user is logged in, enable Action menu, username field and logout button, and disable content panel (welcome message)
@@ -613,7 +613,7 @@ class Main(MainTemplate):
       self.mm_middle.visible = False      
       
       self.mm_right.visible = True
-      if Global.system_user_role in ["System Administrator"]:
+      if Global.login_system_user_role in ["System Administrator"]:
         self.menu_middle.visible = True
         self.mm_right.visible = True
         self.mm_left.visible = True
@@ -714,14 +714,14 @@ class Main(MainTemplate):
       Global.work_area = {}
       # check user authorisation role for the selected site
       Global.site_user_role = anvil.server.call("user_authorisation",Global.site_options[self.select_site_dropdown.selected_value],Global.user_initials)
-      if Global.site_user_role != "unknown" or Global.system_user_role == "System Administrator":
+      if Global.login_site_user_role != "unknown" or Global.login_system_user_role == "System Administrator":
         # user found with a role for the selected site
         #Global.help_page.visible = False
         self.site_summary.visible = True
 
         # Update role text if system_role is not System Administrator
-        if Global.system_user_role == "Site User":
-          self.user_role.text = Global.site_user_role
+        if Global.login_system_user_role == "Site User":
+          self.user_role.text = Global.login_site_user_role
 
         if Global.site_user_role in ["Site Manager","Site Leader"]:
           # add site manager admin actions to admin dropdown
@@ -729,7 +729,7 @@ class Main(MainTemplate):
           self.admin_dropdown.items = options
           self.admin_dropdown.visible = True
           
-        if Global.system_user_role == "System Administrator":
+        if Global.login_system_user_role == "System Administrator":
           # add site manager / sie leader admin actions to admin dropdown
           options = Global.sys_admin_action_dropdown + Global.site_admin_action_dropdown
           self.admin_dropdown.items = options
@@ -739,8 +739,8 @@ class Main(MainTemplate):
         # Check permissions and build Query Dropdown list
         Global.query_action_dropdown = []
         role = "System Administrator"
-        if Global.system_user_role == "Site User":
-          role = Global.site_user_role
+        if Global.login_system_user_role == "Site User":
+          role = Global.login_site_user_role
         #print(role)
         if Global.role_access.get(role, {}).get("query", {}).get("List", None):
           Global.query_action_dropdown.append(("List Query","List query"))
@@ -760,7 +760,7 @@ class Main(MainTemplate):
         self.site_summary.visible = True
         self.site_summary.items = db_summary
 
-        if Global.site_user_role in ["Site Manager","Site Leader"] or Global.system_user_role == "System Administrator":
+        if Global.login_site_user_role in ["Site Manager","Site Leader"] or Global.login_system_user_role == "System Administrator":
           self.list_dropdown.visible = True
           self.view_row.visible = True        
           self.edit_row.visible = True
@@ -1245,7 +1245,7 @@ class Main(MainTemplate):
     self.admin_dropdown.items = []
     self.username_dropdown.placeholder = Global.username
     self.username_dropdown.items = []
-    Global.system_user_role = ""
+    Global.login_system_user_role = ""
     self.user_role.text = ""
 
     # To be done: save work areas in table for user for loading when login

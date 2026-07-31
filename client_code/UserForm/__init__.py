@@ -116,10 +116,12 @@ class UserForm(UserFormTemplate):
       Global.user_firstname = self.firstname.text
       Global.user_lastname = self.lastname.text
       Global.user_initials = self.initials.text
+      
       if self.user_status_value.selected_value == "True":
         Global.user_status = True
       else:
         Global.user_status = False
+        
       Global.system_user_role = self.user_role_value.selected_value
       msg = ""
       # check if initials is unique if action is not "Edit User"
