@@ -723,16 +723,18 @@ class Main(MainTemplate):
         if Global.system_user_role == "Site User":
           self.user_role.text = Global.site_user_role
 
-        if Global.system_user_role == "System Administrator":
-          # add site manager / sie leader admin actions to admin dropdown
-          options = Global.sys_admin_action_dropdown + Global.site_admin_action_dropdown
-          self.admin_dropdown.items = options
-          self.admin_dropdown.visible = True
         if Global.site_user_role in ["Site Manager","Site Leader"]:
           # add site manager admin actions to admin dropdown
           options = Global.site_leader_action_dropdown + Global.site_admin_action_dropdown
           self.admin_dropdown.items = options
           self.admin_dropdown.visible = True
+          
+        if Global.system_user_role == "System Administrator":
+          # add site manager / sie leader admin actions to admin dropdown
+          options = Global.sys_admin_action_dropdown + Global.site_admin_action_dropdown
+          self.admin_dropdown.items = options
+          self.admin_dropdown.visible = True
+
 
         # Check permissions and build Query Dropdown list
         Global.query_action_dropdown = []
