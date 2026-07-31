@@ -477,6 +477,10 @@ class RowForm(RowFormTemplate):
           if table_name == "site":
             Global.site_options = FunctionsB.set_select_site_dropdown_options() 
             Global.select_site_dropdown.items = Global.site_options.keys()
+          # update Site Summary
+          db_summary = anvil.server.call("db_get_summary",Global.site_id)
+          Global.main_form.site_summary.visible = True
+          Global.main_form.site_summary.items = db_summary
         else:
           msg = "Row has not been inserted to the database, because of " + ret
       elif action in ["edit","update"]:

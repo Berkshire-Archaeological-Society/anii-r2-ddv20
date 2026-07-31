@@ -74,6 +74,10 @@ class ImportForm(ImportFormTemplate):
     anvil.media.download(text_file)
     n = Notification("The successful Inserts have been comitted to the table. The message log has been downloaded.")
     n.show()
+    # update Site Summary
+    db_summary = anvil.server.call("db_get_summary",Global.site_id)
+    Global.main_form.site_summary.visible = True
+    Global.main_form.site_summary.items = db_summary
     #
     self.upload_file.clear()
     self.selected_file_name.text = ""

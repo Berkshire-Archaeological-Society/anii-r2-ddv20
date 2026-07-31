@@ -945,7 +945,7 @@ class Main(MainTemplate):
   def site_summary_change(self, **event_args):
     """ This Function is called when the users selects an option form the Site Summary dropdown"""
     """This method is called when an item is selected"""
-    # here we do not do anything except set the selected value of th dropdown to None
+    # here we do not do anything except set the selected value of the dropdown to None
     self.site_summary.selected_value = None
     pass # site_summary_change
 
@@ -1060,6 +1060,10 @@ class Main(MainTemplate):
       # confirmation to delete the slected rows
       # call server function to do the actual deletion
       msg = anvil.server.call('delete_row',Global.table_name,rows_to_delete)
+      # update Site Summary
+      db_summary = anvil.server.call("db_get_summary",Global.site_id)
+      Global.main_form.site_summary.visible = True
+      Global.main_form.site_summary.items = db_summary
       alert(msg)
     pass # delete_row_click
 
