@@ -78,6 +78,7 @@ work_area = {}
 wa_header_menu_bottom = {}
 wa_header_mb_left = {}
 wa_header_mb_middle = {}
+wa_header_mb_search = {}
 wa_header_mb_right = {}
 #
 selected_row = []

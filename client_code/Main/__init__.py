@@ -95,6 +95,7 @@ class Main(MainTemplate):
     Global.wa_header_menu_bottom = self.menu_bottom
     Global.wa_header_mb_left = self.mb_left
     Global.wa_header_mb_middle = self.mb_middle
+    Global.wa_header_mb_search = self.mb_search
     Global.wa_header_mb_right = self.mb_right
     #self.action_list.visible = False
     self.site_summary.visible = False
@@ -169,9 +170,11 @@ class Main(MainTemplate):
       if Global.work_area[Global.current_work_area_name]["action"].split(" ")[0] in ["View", "Edit", "Insert", "Add", "Import"] or Global.work_area[Global.current_work_area_name]["action"] == "List Users":
       #if Global.work_area[Global.current_work_area_name]["action"].split(" ")[0] in ["View", "Edit", "Insert", "Add", "Import"]:
         self.mb_middle.visible = False
+        self.mb_search.visible = False
         self.mb_left.visible = False
       elif Global.work_area[Global.current_work_area_name]["action"].split(" ")[0] in ["List"]:
         self.mb_middle.visible = True
+        self.mb_search.visible = True
         self.mb_left.visible = True
 
       self.select_all.indeterminate = False
@@ -474,9 +477,11 @@ class Main(MainTemplate):
       if Global.work_area[Global.current_work_area_name]["action"].split(" ")[0] in ["View", "Edit", "Insert", "Add", "Import","Help"] or Global.work_area[Global.current_work_area_name]["action"] in ["List Users"]:
       #if Global.work_area[Global.current_work_area_name]["action"].split(" ")[0] in ["View", "Edit", "Insert", "Add", "Import"]:
         self.mb_middle.visible = False
+        self.mb_search.visible = False
         self.mb_left.visible = False
       elif Global.work_area[Global.current_work_area_name]["action"].split(" ")[0] in ["List"]:
         self.mb_middle.visible = True
+        self.mb_search.visible = True
         self.mb_left.visible = True
 
       self.select_all.indeterminate = False
@@ -1378,3 +1383,8 @@ class Main(MainTemplate):
         else:
           print("Main form not found!")
     pass # execute_sql_click
+
+  @handle("search_btn", "click")
+  def search_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass  # Write Code Here
