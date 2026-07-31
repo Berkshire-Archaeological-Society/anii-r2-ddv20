@@ -363,7 +363,7 @@ Welcome <user>.
 </p>
 <p>
 Please select a site. If a site you require access to, is not in the 'Select Site' list, please contact the Site Leader for that site to provide you with access.
-<br>Once selected you can use the menu items to select your actions.</p>
+<br>Once a site has been selected you can use the menu items to select your actions.</p>
 <p>
 <b>Note:</b> When changing/selecting a new site, all current active workspaces will be closed.</p>
 <h3> </h3>
