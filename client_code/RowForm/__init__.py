@@ -14,6 +14,7 @@ from anvil_extras.Quill import Quill
 #from ..Validation import Validator
 from ..validation import Validator
 from .. import FunctionsB
+from .. import Function
 from .. import Global
 
 class RowForm(RowFormTemplate):
@@ -468,12 +469,14 @@ class RowForm(RowFormTemplate):
       #
       #print(Global.action, table_name, row_list)
       #
+      del_workspace = False
       if action in ["add","insert"]:
         ret = anvil.server.call("row_insert",table_name,row_list)
         # if success then goto list contexts
         if ret[:2] == "OK":
           msg = "Row has been successfully inserted to the database."
           # if a site has been added, update the site selection dropdown
+          del_workspace = True
           if table_name == "site":
             Global.site_options = FunctionsB.set_select_site_dropdown_options() 
             Global.select_site_dropdown.items = Global.site_options.keys()
@@ -488,12 +491,14 @@ class RowForm(RowFormTemplate):
         # if success then goto list contexts
         if ret[:2] == "OK":
           msg = "Row has been successfully updated in the database."
+          del_workspace = True
         else:
           msg = "Row has not been updated in the database, because of " + ret
       else:
         msg = "Unknown action: " + action
       alert(content=msg)
-
+      if del_workspace:
+        Function.delete_workspace(Global.current_work_area_name)
     else:
       self.validator.show_all_errors()
       alert("There are errors in the form input")
