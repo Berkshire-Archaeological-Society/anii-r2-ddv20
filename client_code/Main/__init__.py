@@ -604,7 +604,7 @@ class Main(MainTemplate):
       #Global.help_page_form.help_page_text.add_component(rt)
       
       self.username_dropdown.placeholder = Global.username
-      self.username_dropdown.items = ["Change password","Clear saved Work Areas","Save all Work Areas","Delete all Work Areas","Logout"]
+      self.username_dropdown.items = ["Delete all Work Areas","Save all Work Areas","Clear saved Work Areas","Change password","Logout"]
 
       # notify server side of login
       Global.ip_address = anvil.server.call("user_authentication")
@@ -1388,3 +1388,4 @@ class Main(MainTemplate):
   def search_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
     pass  # Write Code Here
+
