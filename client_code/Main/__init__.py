@@ -227,7 +227,7 @@ class Main(MainTemplate):
       if Global.action_form_type in Global.action_forms_with_download:
         # Make download button visible for Global.action_form_type
         #Global.header_download_button.visible = True
-        self.download_csv.visible = True if Global.table_name != "users" and Global.site_user_role != "Site Viewer" else False
+        self.download_csv.visible = True if Global.table_name != "users" and Global.login_site_user_role != "Site Viewer" else False
       else:
         #Global.header_download_button.visible = False
         self.download_csv.visible = False
@@ -555,7 +555,7 @@ class Main(MainTemplate):
       if Global.action_form_type in Global.action_forms_with_download:
         # Make download button visible for Global.action_form_type
         #Global.header_download_button.visible = True
-        self.download_csv.visible = True if Global.table_name != "users" and Global.site_user_role != "Site Viewer" else False
+        self.download_csv.visible = True if Global.table_name != "users" and Global.login_site_user_role != "Site Viewer" else False
       else:
         #Global.header_download_button.visible = False
         self.download_csv.visible = False
@@ -718,7 +718,7 @@ class Main(MainTemplate):
       Global.action_seq_no = {}
       Global.work_area = {}
       # check user authorisation role for the selected site
-      Global.site_user_role = anvil.server.call("user_authorisation",Global.site_options[self.select_site_dropdown.selected_value],Global.user_initials)
+      Global.login_site_user_role = anvil.server.call("user_authorisation",Global.site_options[self.select_site_dropdown.selected_value],Global.login_user_initials)
       if Global.login_site_user_role != "unknown" or Global.login_system_user_role == "System Administrator":
         # user found with a role for the selected site
         #Global.help_page.visible = False
@@ -728,7 +728,7 @@ class Main(MainTemplate):
         if Global.login_system_user_role == "Site User":
           self.user_role.text = Global.login_site_user_role
 
-        if Global.site_user_role in ["Site Manager","Site Leader"]:
+        if Global.login_site_user_role in ["Site Manager","Site Leader"]:
           # add site manager admin actions to admin dropdown
           options = Global.site_leader_action_dropdown + Global.site_admin_action_dropdown
           self.admin_dropdown.items = options
@@ -774,7 +774,7 @@ class Main(MainTemplate):
           self.delete_row.visible = True
           self.execute_sql.visible = False
           self.import_dropdown.visible = True
-        elif Global.site_user_role in ["Site Editor"]:
+        elif Global.login_site_user_role in ["Site Editor"]:
           self.list_dropdown.visible = True
           self.view_row.visible = True        
           self.edit_row.visible = True
@@ -783,7 +783,7 @@ class Main(MainTemplate):
           self.delete_row.visible = False
           self.execute_sql.visible = False
           self.import_dropdown.visible = False
-        elif Global.site_user_role in ["Site Viewer"]:
+        elif Global.login_site_user_role in ["Site Viewer"]:
           self.list_dropdown.visible = True
           self.view_row.visible = True
           self.edit_row.visible = False
@@ -794,7 +794,7 @@ class Main(MainTemplate):
           self.import_dropdown.visible = False
         else:
           # unknown role
-          msg = "Unkown User Role identified: " + str(Global.site_user_role)
+          msg = "Unkown User Role identified: " + str(Global.login_site_user_role)
           n = Notification(msg,timeout=Global.notification_timeout)
           n.show()
           # disable able all action buttons
