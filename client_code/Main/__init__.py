@@ -507,6 +507,8 @@ class Main(MainTemplate):
         self.edit_row.visible = False
         self.delete_row.visible = False
         self.execute_sql.visible = False
+        self.refresh.visible = False
+        self.filter_cols.visible = False
 
       #
       #print("In create_new_work_area")
