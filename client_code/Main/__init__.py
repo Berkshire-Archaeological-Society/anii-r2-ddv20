@@ -213,7 +213,7 @@ class Main(MainTemplate):
         # Make refresh button visible for Global.action_form_type
         # do not do this for users table
         #self.refresh.visible = True if Global.table_name != "users" else False
-        self.refresh.visible = True 
+        self.refresh.visible = True if Global.table_name not in ["qresult","query"] else False
       else:
         #Global.header_refresh_button.visible = False
         self.refresh.visible = False
@@ -234,7 +234,7 @@ class Main(MainTemplate):
       if Global.action_form_type in Global.action_forms_with_filter and Global.work_area[Global.current_work_area_name]["data_list"]:
         # Make filter button visible for Global.action_form_type if data_list is not empty
         #Global.header_filter_button.visible = True
-        self.filter_cols.visible = True if Global.table_name != "users" else False
+        self.filter_cols.visible = True if Global.table_name  not in ["users","qresult","query"] else False
       else:
         #Global.header_filter_button.visible = False
         self.filter_cols.visible = False
@@ -361,7 +361,7 @@ class Main(MainTemplate):
       if action == "View Qresult":
         #print("in creating work area name; action is View Qresult. Checking QueryId "+Global.query_id)
         work_area_name = work_area_name + " " + Global.query_id
-      if action in ["List Qresult","List qresult","View Query","Edit Query"]:
+      if action.lower() in ["list qresult","view query","edit query"]:
         # problem with restore workarea
         if action.split(" ")[0] in ["View", "Edit"]:
           Global.query_id = Global.table_items["QueryId"]
@@ -507,8 +507,6 @@ class Main(MainTemplate):
         self.edit_row.visible = False
         self.delete_row.visible = False
         self.execute_sql.visible = False
-        self.refresh.visible = False
-        self.filter_cols.visible = False
 
       #
       #print("In create_new_work_area")
@@ -538,7 +536,7 @@ class Main(MainTemplate):
         # make Refresh button visible if action_form_type has refresh function (i.e. in list Global.action_forms_with_refresh) 
         # do not do this for users table
         #self.refresh.visible = True if Global.table_name != "users" else False
-        self.refresh.visible = True 
+        self.refresh.visible = True if Global.table_name not in ["qresult","query"] else False
       else:
         #Global.header_refresh_button.visible = False
         self.refresh.visible = False
@@ -557,16 +555,18 @@ class Main(MainTemplate):
       if Global.action_form_type in Global.action_forms_with_download:
         # Make download button visible for Global.action_form_type
         #Global.header_download_button.visible = True
+        #print(Global.table_name, Global.login_site_user_role)
         self.download_csv.visible = True if Global.table_name != "users" and Global.login_site_user_role != "Site Viewer" else False
       else:
         #Global.header_download_button.visible = False
         self.download_csv.visible = False
+      #print("download button "+str(self.download_csv.visible))
       #print(Global.action_form_type)
       #print(Global.action_forms_with_filter)
       if Global.action_form_type in Global.action_forms_with_filter and Global.work_area[work_area_name]["data_list"]:
         # Make filter button visible for Global.action_form_type if data_list is not empty
         #Global.header_filter_button.visible = True
-        self.filter_cols.visible = True if Global.table_name != "users" else False
+        self.filter_cols.visible = True if Global.table_name not in ["users","qresult","query"] else False
       else:
         #Global.header_filter_button.visible = False
         self.filter_cols.visible = False
@@ -720,7 +720,9 @@ class Main(MainTemplate):
       Global.action_seq_no = {}
       Global.work_area = {}
       # check user authorisation role for the selected site
+      #print(Global.login_user_initials)
       Global.login_site_user_role = anvil.server.call("user_authorisation",Global.site_options[self.select_site_dropdown.selected_value],Global.login_user_initials)
+      #print(Global.login_site_user_role)
       if Global.login_site_user_role != "unknown" or Global.login_system_user_role == "System Administrator":
         # user found with a role for the selected site
         #Global.help_page.visible = False
