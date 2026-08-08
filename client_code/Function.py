@@ -8,7 +8,6 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 import re
-import gc
 
 # Global Functions
 from . import Global
@@ -89,8 +88,6 @@ def delete_workspace(work_area_name):
   #Global.header_work_area_type.text = ""
   #Global.header.visible = False
   Global.main_form.menu_bottom.visible = False
-  # run garbage collector to return memory
-  gc.collect()
   return
 
 def format_cell_text(text, max_chars=100):
