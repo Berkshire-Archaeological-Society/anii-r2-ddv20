@@ -8,6 +8,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 import re
+import gc
 
 # Global Functions
 from . import Global
@@ -26,7 +27,6 @@ from SiteForm import SiteForm
 from UserForm import UserForm
 from ImportForm import ImportForm
 from Help import Help
-
 from Draw import Draw
 #from Workarea import Workarea
 
@@ -39,7 +39,6 @@ def create_work_space(type,data_list):
   if table_name in Global.view_queries:
     Global.query_view = True
 
-  #print(type, action, table_name)
   # First param of RowForm and TableList is site_id, but is blanked out. Only used by server print function
   # Make sure any List actions that are not using the TableList Form should be listed first
   if type == "List Users":
@@ -90,6 +89,8 @@ def delete_workspace(work_area_name):
   #Global.header_work_area_type.text = ""
   #Global.header.visible = False
   Global.main_form.menu_bottom.visible = False
+  # run garbage collector to return memory
+  gc.collect()
   return
 
 def format_cell_text(text, max_chars=100):
