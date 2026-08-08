@@ -440,10 +440,10 @@ class RowForm(RowFormTemplate):
           if col[0][-3:] == "Rtf":
             # here we have Rtf column (col[0]), so there will also be a Txt column; save both Rtf and plain Txt
             col_name_txt = col[0][:-3] + "Txt"
-            row_list[col_name_txt] = col[1]["field"].getText()
+            row_list[col_name_txt] = col[1]["field"].getText().strip()
             if row_list[col_name_txt] == "\n":
               row_list[col_name_txt] = ""
-            row_list[col[0]] = col[1]["field"].get_html()
+            row_list[col[0]] = Function.clean_quill_regex(col[1]["field"].get_html())
             #print(col_name_txt,type(row_list[col_name_txt]),len(row_list[col_name_txt]))
           else:
             row_list[col[0]] = col[1]["field"].getText()

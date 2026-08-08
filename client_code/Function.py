@@ -7,15 +7,8 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-#from .ListUsers import ListUsers
+import re
 
-# This is a module.
-# You can define variables and functions here, and use them from any form. For example, in a top-level form:
-#
-#    from .. import Function
-#
-#    Function.say_hello()
-#
 # Global Functions
 from . import Global
 
@@ -174,3 +167,19 @@ def restore_workareas():
       Global.main_form.create_new_work_area(row["workarea_dict"][workarea]["action"])
     Global.restore_workarea_name = ""
   return
+
+def clean_quill_regex(html_content):
+  if not html_content:
+    return ""
+
+  # Remove leading spaces after the opening <p> tag
+  cleaned = re.sub(r'^(<p[^>]*>)\s+', r'\1', html_content, flags=re.IGNORECASE)
+
+  # Remove trailing spaces before the closing </p> tag
+  cleaned = re.sub(r'\s+(</p>)$', r'\1', cleaned, flags=re.IGNORECASE)
+
+  # Remove leading/trailing empty paragraph tags (<p><br></p> or <p></p>)
+  cleaned = re.sub(r'^(<p>\s*(<br/?>)?\s*</p>)+', '', cleaned, flags=re.IGNORECASE)
+  cleaned = re.sub(r'(<p>\s*(<br/?>)?\s*</p>)+$', '', cleaned, flags=re.IGNORECASE)
+
+  return cleaned.strip()
