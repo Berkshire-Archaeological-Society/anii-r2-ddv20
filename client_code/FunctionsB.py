@@ -158,9 +158,14 @@ def table_list_refresh(self):
 
 def list_users_refresh(self):
   # this function does the filling of the table contents
-  self.repeating_panel_1.items = anvil.server.call('system_users_get')
-  self.table.rows_per_page = Global.rows_per_page
-  self.total_user_number.text = "Total number of Users: " + str(len(self.repeating_panel_1.items))
+  if Global.action == "List Users":
+    self.repeating_panel_1.items = anvil.server.call('system_users_get',"all")
+    self.table.rows_per_page = Global.rows_per_page
+    self.total_user_number.text = "Total number of Users: " + str(len(self.repeating_panel_1.items))
+  elif Global.action == "List Online Users":
+    self.repeating_panel_1.items = anvil.server.call('system_users_get',"online")
+    self.table.rows_per_page = Global.rows_per_page
+    self.total_user_number.text = "Total number of Online Users: " + str(len(self.repeating_panel_1.items))
   return
 
 def set_select_site_dropdown_options():

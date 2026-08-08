@@ -36,6 +36,10 @@ class ListUsers(ListUsersTemplate):
     
     # Set table role to horizontal scroll
     self.table.role = "horizontal-scroll"
+    if Global.action == "List Users":
+      self.title.text = "List System Users"
+    else:
+      self.title.text = Global.action
     
     #self.list_users_refresh()
     FunctionsB.list_users_refresh(self)

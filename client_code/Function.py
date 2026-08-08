@@ -40,7 +40,7 @@ def create_work_space(type,data_list):
 
   # First param of RowForm and TableList is site_id, but is blanked out. Only used by server print function
   # Make sure any List actions that are not using the TableList Form should be listed first
-  if type == "List Users":
+  if type in ["List Users","List Online Users"]:
     work_space = ListUsers()
     #work_space = TableList("",table_name,data_list,type,page_info)
   #

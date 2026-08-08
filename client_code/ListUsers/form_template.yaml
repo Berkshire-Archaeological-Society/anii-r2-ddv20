@@ -1,7 +1,7 @@
 components:
 - components:
   - layout_properties: {full_width_row: true, grid_position: 'JKONWX,USNEJR'}
-    name: label_1
+    name: title
     properties: {font_size: 24, text: List of System Users}
     type: Label
   layout_properties: {full_width_row: true, grid_position: 'LYIUJG,WRVCWB'}

@@ -596,6 +596,9 @@ class Main(MainTemplate):
       self.user_role.text = Global.login_system_user_role
       #print(Global.system_user_role)
       
+      # Update last_seen on page load
+      anvil.server.call('update_user_last_seen')
+      
       # when user is logged in, enable Action menu, username field and logout button, and disable content panel (welcome message)
       # also set username  to user email address
       self.create_new_work_area("Help Introduction")
@@ -1391,5 +1394,11 @@ class Main(MainTemplate):
   @handle("search_btn", "click")
   def search_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
+    pass  # Write Code Here
+
+  @handle("timer_1", "tick")
+  def timer_1_tick(self, **event_args):
+    """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
+    anvil.server.call("update_user_last_seen")
     pass  # Write Code Here
 

@@ -332,6 +332,10 @@ components:
           spacing:
             margin: ['0', null, null, null]
         type: FlowPanel
+      - layout_properties: {}
+        name: timer_1
+        properties: {interval: 300}
+        type: Timer
       - components:
         - event_bindings: {click: view_row_click}
           layout_properties: {}
