@@ -28,10 +28,11 @@ components:
     - {data_key: initials, expand: false, id: ATFSVD, title: initials, width: 80.45458984375}
     - {data_key: systemrole, expand: false, id: VJQQOR, title: systemrole, width: 151.9091796875}
     - {data_key: enabled, expand: false, id: OJLQEN, title: enabled, width: 97}
-    - {data_key: last_login, expand: true, id: SRVCJL, title: last login, width: 276}
-    - {data_key: signed_up, expand: true, id: MPXLTV, title: signed up, width: 288}
+    - {data_key: last_login, expand: false, id: SRVCJL, title: last login, width: 331}
+    - {data_key: last_seen, expand: false, id: DNLLWQ, title: last seen, width: 453}
+    - {data_key: signed_up, expand: false, id: MPXLTV, title: signed up, width: 515.6666259765625}
     - {data_key: confirmed_email, expand: true, id: YKUJWY, title: confirmed email, width: 130}
-    - {data_key: n_password_failures, expand: false, id: WXBITA, title: password failures, width: 203.181884765625}
+    - {data_key: n_password_failures, expand: false, id: WXBITA, title: password failures, width: 141}
     - {data_key: '', id: DRLZHP, title: '', width: '10'}
   type: DataGrid
 container:
