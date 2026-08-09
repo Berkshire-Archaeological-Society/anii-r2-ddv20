@@ -179,7 +179,7 @@ class TableList(TableListTemplate):
     for column_data in Global.work_area[Global.current_work_area_name]["table_info"]:
       # Select Column name:
       # anvil users table uses different title for columns names (name) compared to the Database (Field)
-      if Global.table_name in ["users","user"]:
+      if Global.table_name in ["users","online users"]:
         field_name = column_data["name"]
         # ignore following columns of the users table
         # ignore some columns of system users table and columns with Rtf at the end (only use Txt columns)
