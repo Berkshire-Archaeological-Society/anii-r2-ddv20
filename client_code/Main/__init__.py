@@ -28,6 +28,8 @@ class Main(MainTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    #
+    self.last_server_update = 0
     # Any code you write here will run before the form opens.
     # get client variable settings from server configuration file
     globals_from_config = anvil.server.call("client_globals")
@@ -1258,7 +1260,15 @@ class Main(MainTemplate):
     self.admin_dropdown.items = []
     self.username_dropdown.placeholder = Global.username
     self.username_dropdown.items = []
+    
     Global.login_system_user_role = ""
+    Global.login_system_user_role = ""
+    Global.login_site_user_role = ""
+    Global.login_user_initials = ""
+    Global.login_user_firstname = ""
+    Global.login_user_lastname = ""
+    Global.login_user_status = ""
+    
     self.user_role.text = ""
 
     # To be done: save work areas in table for user for loading when login
@@ -1402,9 +1412,9 @@ class Main(MainTemplate):
     """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
     # Get the JavaScript timestamp (in milliseconds)
     last_js_activity = window.lastUserActivity
-
-    # If user interacted since our last server update, ping the server
-    if last_js_activity > self.last_server_update:
+   
+    # If a user is logged in and user interacted since our last server update, ping the server
+    if Global.login_user_initials != "" and last_js_activity > self.last_server_update:
       anvil.server.call("update_user_last_seen")
       self.last_server_update = window.Date.now()
     pass  # Write Code Here
