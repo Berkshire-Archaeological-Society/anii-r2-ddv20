@@ -178,18 +178,21 @@ class TableList(TableListTemplate):
     column_list = []
     for column_data in Global.work_area[Global.current_work_area_name]["table_info"]:
       # Select Column name:
+      #print(column_data)
+      field_name = column_data["COLUMN_NAME"]
       # anvil users table uses different title for columns names (name) compared to the Database (Field)
-      if Global.table_name in ["users","online users"]:
-        field_name = column_data["name"]
-        # ignore following columns of the users table
-        # ignore some columns of system users table and columns with Rtf at the end (only use Txt columns)
-        if field_name in Global.ignore_users_columns or field_name.endswitch("Rtf"):
-          continue
-      else:
-        field_name = column_data["COLUMN_NAME"]
+      #if Global.table_name in ["users","online users"]:
+      #  field_name = column_data["name"]
+      #  # ignore following columns of the users table
+      #  # ignore some columns of system users table and columns with Rtf at the end (only use Txt columns)
+      #  if field_name in Global.ignore_users_columns or field_name.endswith("Rtf"):
+      #    continue
+      #else:
+      if field_name in Global.ignore_users_columns or field_name.endswith("Rtf"):
+        continue
       column_list.append(field_name)
     # now create the table columns and put them in the work area
-    
+    #print(column_list)
     #print("Calling create_table_columns from TableList init")
     FunctionsB.create_table_columns(column_list,Global.work_area[Global.current_work_area_name])
     

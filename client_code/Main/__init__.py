@@ -288,7 +288,10 @@ class Main(MainTemplate):
       if action.split(" ")[0] != "Insert":
         work_area_name = work_area_name + "s"   
       
-    Global.table_name = action.split(" ")[1].lower()
+    if action == "List Online Users":
+      Global.table_name = "online users"
+    else:
+      Global.table_name = action.split(" ")[1].lower()
     table_info = [] 
     
     if action == "Help Introduction":
@@ -297,7 +300,9 @@ class Main(MainTemplate):
       # get table_info, works only for a true DB table. If not (e.g. table is 'qresult') we have to create the table_info dictionary list ourselves   
       if Global.table_name != "qresult":
         # get the Table information form the Database
+        #print(Global.table_name)
         table_info = anvil.server.call("describe_table", Global.table_name)
+        #print(table_info)
         Global.query_view = False
       else:
         Global.query_view = True
@@ -323,6 +328,7 @@ class Main(MainTemplate):
           tmp_table_info.append(col_info)
         # sort table_info in ORDINAL_POSITION
         table_info = sorted(tmp_table_info, key=lambda x: x['ORDINAL_POSITION'])
+      
     ###
     # check is we are restoring work_areas (if so use that name for work_area_name)
     if Global.restore_workarea_name == "":
@@ -389,7 +395,6 @@ class Main(MainTemplate):
       Global.action_seq_no[work_area_name] += 1
       work_area_name = work_area_name + " (" + str(Global.action_seq_no[work_area_name]) + ")"
 
-    
     # create new 'empty row' in nested work_area dictionary for the new work_area_name
     Global.work_area[work_area_name] = {}
     Global.work_area[work_area_name]["action"] = action
