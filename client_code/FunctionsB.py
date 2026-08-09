@@ -106,15 +106,22 @@ def create_table_columns(column_list,work_area):
     #print(column,data_type)
     ratio = 8 # pixels per char
     padding = 10 # padding
-    if data_type == "text" or ("varchar" in data_type and int(data_type.strip("varchar()")) > 50 ):
+    
+    if column in Global.column_width:
+      # for columns with predefined with use this
+      col_width = Global.column_width[column]
+    elif (data_type == "text" or ("varchar" in data_type and int(data_type.strip("varchar()")) > 50 )):
+      # set width for text datatype or varchar > 50 
       col_width = 300
     elif data_type in ["date","datetime"]:
+      # for date and datetime set width to max of (15 or len column name)*ratio+padding
       col_width = (max(15,len(column))) * ratio + padding
     else:
+      # calculate 
       dt_len = re.findall(r'\d+', data_type)[0]
-      print("dt_len is "+str(dt_len))
+      #print("dt_len is "+str(dt_len))
       col_width = (max(int(dt_len),len(column))) * ratio + padding
-    print(column+" width is "+str(col_width))
+    #print(column+" width is "+str(col_width))
     # do not create a columns for DBAcontrol (but for table dbdiary do create DBAcontrol column), select and for column_name with Rtf in name
     if (column == "DBAcontrol" and Global.table_name == "dbdiary") or (column not in ["select","DBAcontrol"] and column[-3:] != "Rtf"):
 

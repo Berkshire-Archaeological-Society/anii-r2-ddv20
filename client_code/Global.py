@@ -168,7 +168,7 @@ role_access = {
   'siteuser':        {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
   'siteuserrole':    {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
   'dbdiary':         {'List': True, 'View': True, 'Edit': False, 'Insert': False, 'Import': False, 'Export': False, 'Delete': False},
-  'users':           {'List': True, 'View': True, 'Edit': False, 'Insert': False, 'Import': False, 'Export': False, 'Delete': False}
+  'users':           {'List': True, 'View': False, 'Edit': False, 'Insert': False, 'Import': False, 'Export': False, 'Delete': False}
   },
 'System Administrator': {
   'anomaly':         {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
@@ -190,7 +190,7 @@ role_access = {
   'siteuser':        {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
   'siteuserrole':    {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
   'dbdiary':         {'List': True, 'View': True, 'Edit': False, 'Insert': False, 'Import': False, 'Export': False, 'Delete': False},
-  'users':           {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True}  
+  'users':           {'List': True, 'View': True, 'Edit': False,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True}  
   }
 }
 button_normal_background_clour = "#DCE5DD"
@@ -209,6 +209,7 @@ db_name = ""
 dummy_btn1 = {}
 dummy_btn2 = {}
 column_order = {}
+column_width = {"initials": 60,"firstname": 150,"lastname":150,"systemrole": 140,"last_seen":210}
 column_with_dropdown = {
   "Enabled" : {
     "options"     : ["True", "False"], 
@@ -301,19 +302,6 @@ table_name = ""
 tmp_table_info = []
 table_items = {}
 
-# Specify names of columns in known colwidth (otherwise default colwidth is used)
-#table_colwidth_60 = ["FillOf","Year","Count","Weight","DiaryId"]
-#table_colwidth_70 = []
-#table_colwidth_80 = ["ContextId","AreaId","YearStart","YearEnd","Workflow","BoxId","FromSample","FindType","Enabled"]
-#table_colwidth_90 = ["FindId"]
-#table_colwidth_100 = ["DBAcontrol","GazControl","FindGroupId","ContextYear","ContextType","PackageType","SmallFindId","FromSample","RecordStatus","SiteId","Role"]
-#table_colwidth_120 = ["SiteId"]
-#table_colwidth_140 = ["RegistrationDate","DatesAssignedBy","StemBoreSizemm","ContextName1","ContextName2","FindName1","FindName2","PermittedOperations","systemrole","SiteName"]
-#table_colwidth_200 = ["Address"]
-#table_colwidth_250 = ["last_login"]
-#table_colwidth_300 = ["Description","URL","Activity","email","Email","Description1","Description2","WhatItDoes"]
-#table_colwidth_350 = ["SQL_command"]
-#table_colwidth_default = 110
 #
 title = system + "\n\n" + organisation
 sign_in_out_button_text = "Sign in"

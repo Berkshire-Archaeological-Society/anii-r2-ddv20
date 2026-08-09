@@ -42,8 +42,8 @@ def create_work_space(type,data_list):
   # Make sure any List actions that are not using the TableList Form should be listed first
   #if type in ["List Users","List Online Users"]:
   if type in ["List Users"]:
-    work_space = ListUsers()
-    #work_space = TableList("",table_name,data_list,type,page_info)
+    #work_space = ListUsers()
+    work_space = TableList("","users",data_list,type,page_info)
   #
   elif type in ["List Online Users"]:
     work_space = TableList("","online users",data_list,type,page_info)

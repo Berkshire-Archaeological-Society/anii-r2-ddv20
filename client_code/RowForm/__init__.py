@@ -94,7 +94,7 @@ class RowForm(RowFormTemplate):
     #print(Global.work_area[Global.current_work_area_name]["table_info"])
     for item in Global.work_area[Global.current_work_area_name]["table_info"]:
       #print(item)
-      if Global.table_name == "users":
+      if Global.table_name == "us":
         column_name = item["name"]
         # ignore some columns of system users table
         if column_name in Global.ignore_users_columns:
@@ -148,7 +148,7 @@ class RowForm(RowFormTemplate):
         input = TextBox(placeholder=column_name)
         # extract length from type
         match = re.search(r'\d+',column_type)
-        max_length = int(match.group())
+        max_length = int(match.group()) if match else 10
         if column_type.find("decimal") != -1 or column_type.find("float") != -1 or column_type.find("double") != -1:
           # for these data types (decimal, double, float) add 1 to max_length as length does not take into account the decimal point
           # (nor for negative symbol but that is not applicable for us)
@@ -162,7 +162,7 @@ class RowForm(RowFormTemplate):
       input_error.visible = False
 
       # set specific validation checks for the various fields
-      if Global.table_name == "users":
+      if Global.table_name == "us":
         cname = "name"
         prim_key = True if item[cname] == "email" else False
       else:
@@ -235,11 +235,16 @@ class RowForm(RowFormTemplate):
         )
 
       elif column_type.find("decimal") != -1 or column_type.find("float") != -1 or column_type.find("double") != -1:
+        print(column_type)
         dec_type = re.findall(r'\d+',column_type)
+        print(dec_type)
         # regex ^\d{0,x}\.?\d{1,y}
-        pattern_string = "^$|^\d{0," + str(int(dec_type[0])-int(dec_type[1])) + "}\.?\d{1," + str(int(dec_type[1])) + "}$"
-        #print(dec_type[0],dec_type[1])
-        input_error.text = "Please enter a valid number in the form " + "x" * (int(dec_type[0]) - int(dec_type[1])) + "." + "x" * int(dec_type[1])
+        input_error.text = "Please enter a valid number"
+        pattern_string = "^$|^\d{0}"
+        if dec_type != []:
+          pattern_string = "^$|^\d{0," + str(int(dec_type[0])-int(dec_type[1])) + "}\.?\d{1," + str(int(dec_type[1])) + "}$"
+          #print(dec_type[0],dec_type[1])
+          input_error.text = "Please enter a valid number in the form " + "x" * (int(dec_type[0]) - int(dec_type[1])) + "." + "x" * int(dec_type[1])
         input_error.foreground ="#FF0000"
         # 
         self.validator.require(
