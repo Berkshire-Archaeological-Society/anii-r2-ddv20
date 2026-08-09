@@ -289,7 +289,7 @@ class Main(MainTemplate):
       if action.split(" ")[0] != "Insert":
         work_area_name = work_area_name + "s"   
       
-    if action == "List Online Users":
+    if action.lower() in ["list online users","view online users"]:
       Global.table_name = "online users"
     else:
       Global.table_name = action.split(" ")[1].lower()
@@ -1036,6 +1036,7 @@ class Main(MainTemplate):
       Global.table_items = row
       #print("View button for row: ",row)
       Global.action = "View " + Global.table_name.capitalize()
+      #print("In view_row: "+Global.action)
       #if Global.action == "View Qresult":
         #print("View_row click. Check Global.query_id: "+Global.query_id)
       if Global.main_form:  # Important to check if the form exists

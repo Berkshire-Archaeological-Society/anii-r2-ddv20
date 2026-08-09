@@ -67,7 +67,9 @@ def create_work_space(type,data_list):
     work_space = RowForm("",table_name,data_list,type,page_info)
   #
   elif action == "view":
-    #print(action, table_name)
+    #print(action, table_name, type)
+    if type.lower() == "view online users":
+      table_name = "users"
     work_space = RowForm("",table_name,data_list,type,page_info)
 
   #elif type == "Draw":

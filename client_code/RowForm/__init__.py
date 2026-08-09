@@ -32,9 +32,9 @@ class RowForm(RowFormTemplate):
 
     #print(column)
     #if column in self.form_fields:
-    #  print(column+" in form_fields dictionary")
+      #print(column+" in form_fields dictionary")
     #else:
-    #  print(column+" not in form_fields dictionary")
+      #print(column+" not in form_fields dictionary")
 
     #print(str(type(event_args["sender"])))
     if str(type(event_args["sender"])) == "<class 'anvil.TextBox'>":
@@ -57,26 +57,27 @@ class RowForm(RowFormTemplate):
     self.init_components(**properties)
     # Any code you write here will run before the form opens.
     self.site_id = site_id
+    Global.table_name = table_name
+    #print("In RowForm "+table_name+" "+action+" "+str(data_list))
     # Global.site_id is only None when form called from server side (e.g. printing form)
     if Global.site_id is None:
       # initialise some Globals variables for when the function is called from the server side
       Global.site_id = site_id
       Global.action = "View " + table_name.capitalize()
       Global.current_work_area_name = Global.action
-      Global.table_name = table_name
       Global.work_area = {}
       Global.work_area[Global.current_work_area_name] = {}
       #print(data_list)
       Global.work_area[Global.current_work_area_name]["data_list"] = data_list
-    else:
+    #else:
       # set table_name to one of "context", "find", from the action Global variable
       #print(Global.table_name)
       #print(Global.work_area[Global.current_work_area_name]["action"])
-      Global.table_name = Global.work_area[Global.current_work_area_name]["action"].split(" ")[1].lower()
+      #Global.table_name = Global.work_area[Global.current_work_area_name]["action"].split(" ")[1].lower()
       # Global.action.split(" ")[1].rstrip("s").lower()
 
     action = Global.action.split(" ")[0].lower()
-
+    #print(action+" "+Global.action+" "+Global.table_name)
     # Inititalize the validator
     self.validator = Validator()
 
@@ -85,7 +86,7 @@ class RowForm(RowFormTemplate):
     self.title.text = "This form is to " + Global.action
     # get table information
     #table_info = anvil.server.call("describe_table",Global.table_name)
-
+    #print(Global.current_work_area_name)
     # And then we need to create all the fields based on table information 
     # loop over table columns
     self.field_details = {}
@@ -94,7 +95,7 @@ class RowForm(RowFormTemplate):
     #print(Global.work_area[Global.current_work_area_name]["table_info"])
     for item in Global.work_area[Global.current_work_area_name]["table_info"]:
       #print(item)
-      if Global.table_name == "us":
+      if Global.table_name == "us": # this if is always false - can be removed
         column_name = item["name"]
         # ignore some columns of system users table
         if column_name in Global.ignore_users_columns:
@@ -235,9 +236,9 @@ class RowForm(RowFormTemplate):
         )
 
       elif column_type.find("decimal") != -1 or column_type.find("float") != -1 or column_type.find("double") != -1:
-        print(column_type)
+        #print(column_type)
         dec_type = re.findall(r'\d+',column_type)
-        print(dec_type)
+        #print(dec_type)
         # regex ^\d{0,x}\.?\d{1,y}
         input_error.text = "Please enter a valid number"
         pattern_string = "^$|^\d{0}"
@@ -342,8 +343,9 @@ class RowForm(RowFormTemplate):
         cur_len = 0
 
       # create column header with column_name and column_description in one flowpanel (col_header)
-      # add * to column name if inoout for field is mandatory
-      if Global.table_name != "users" and item["IS_NULLABLE"] == "YES":
+      # add * to column name if input for field is mandatory
+      #if Global.table_name != "users" and item["IS_NULLABLE"] == "YES":
+      if item["IS_NULLABLE"] == "YES":
         col = "&nbsp"
       else:
         col = "*"
@@ -358,7 +360,8 @@ class RowForm(RowFormTemplate):
 
       #lab = Label(text=col,font_size=14,tag=column_name)
       lab = RichText(content=col,font_size=14,tag=column_name,format='restricted_html')
-      col_comment = "" if Global.table_name == "users" else item["COLUMN_COMMENT"]
+      #col_comment = "" if Global.table_name == "users" else item["COLUMN_COMMENT"]
+      col_comment = item["COLUMN_COMMENT"]
       col_description = Label(text=col_comment,font_size=14)
       col_header = FlowPanel()
       col_header.add_component(lab)
