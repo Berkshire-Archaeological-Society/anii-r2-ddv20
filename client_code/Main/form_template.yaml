@@ -333,7 +333,7 @@ components:
             margin: ['0', null, null, null]
         type: FlowPanel
       - layout_properties: {}
-        name: timer_1
+        name: timer_activity
         properties: {interval: 300}
         type: Timer
       - components:

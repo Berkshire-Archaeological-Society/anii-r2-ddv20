@@ -85,13 +85,27 @@ dependencies:
 metadata: {logo_img: 'asset:logo.png', title: anii_r2_ddv20}
 name: anii_r2_ddv20
 native_deps:
-  head_html: |-
+  head_html: |
     <script>
       function  indeterminate(self, value) {
         self = self.v._anvil.element
         self.find('input[type=checkbox]').prop("indeterminate", value);
       }
 
+    </script>
+
+    <script>
+      // Track the timestamp of the user's last actual interaction
+      window.lastUserActivity = Date.now();
+
+      function recordActivity() {
+        window.lastUserActivity = Date.now();
+      }
+
+      // Listen for common user actions globally across the whole page
+      ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(function(evt) {
+        window.addEventListener(evt, recordActivity, { passive: true });
+      });
     </script>
 package_name: anii_r2_ddv20
 renamed: true

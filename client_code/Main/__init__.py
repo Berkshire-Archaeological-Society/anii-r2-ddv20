@@ -9,6 +9,7 @@ from anvil.tables import app_tables
 import anvil.users
 from anvil.js.window import document
 import anvil.js
+from anvil.js import window
 
 from .. import indeterminate
 from ..Header import Header
@@ -1396,9 +1397,15 @@ class Main(MainTemplate):
     """This method is called when the button is clicked"""
     pass  # Write Code Here
 
-  @handle("timer_1", "tick")
-  def timer_1_tick(self, **event_args):
+  @handle("timer_activity", "tick")
+  def timer_activity_tick(self, **event_args):
     """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
-    anvil.server.call("update_user_last_seen")
+    # Get the JavaScript timestamp (in milliseconds)
+    last_js_activity = window.lastUserActivity
+
+    # If user interacted since our last server update, ping the server
+    if last_js_activity > self.last_server_update:
+      anvil.server.call("update_user_last_seen")
+      self.last_server_update = window.Date.now()
     pass  # Write Code Here
 
