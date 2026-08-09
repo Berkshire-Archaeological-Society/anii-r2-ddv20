@@ -140,12 +140,11 @@ class TableList(TableListTemplate):
     #
     self.repeating_panel_1.set_event_handler('x-selection-change', self.selection_change)
     #
+    Global.table_name = table_name
     self.page_info = page_info
     self.site_id = site_id
     self.ws_name.text = Global.current_work_area_name
-    if Global.table_name != "qresult":
-      self.title.text = anvil.server.call("db_table_comment", Global.table_name)
-    else:
+    if Global.table_name == "qresult":
       #print(Global.work_area[Global.current_work_area_name].keys())
       qname = next((str(item[1]['field'].text) for item in list(Global.query_info) if item[0] == "QueryName"),"")
       qwhat = next((str(item[1]['field'].text) for item in list(Global.query_info) if item[0] == "WhatItDoes"),"")
@@ -153,6 +152,9 @@ class TableList(TableListTemplate):
         self.title.text = Global.query_info["QueryName"] + " - " + Global.query_info["WhatItDoes"]        
       else:
         self.title.text = str(qname) + " - " + str(qwhat)
+    else:
+      #print("Tablelist for table " + Global.table_name)
+      self.title.text = anvil.server.call("db_table_comment", Global.table_name)
       
     # Any code you write here will run before the form open
     # Global.site_id is only None when form called from server side (e.g. printing form)
@@ -163,11 +165,7 @@ class TableList(TableListTemplate):
       Global.current_work_area_name = "TableList"
       Global.work_area = {}
       Global.work_area[Global.current_work_area_name] = {}
-      Global.table_name = table_name
-    else:
-      # set table_name to one of "context", "find", from the action Global variable 
-      Global.table_name = Global.action.split(" ")[1].lower()
-
+    
     # add table to work_area data structure for Global.current_work_area_name
     Global.work_area[Global.current_work_area_name]["table"] = self.table
 

@@ -128,13 +128,16 @@ def table_list_refresh(self):
   # This function does the filling of the table contents
   # 1. call server function '"table_name"s_get', which retrieves all rows of the table_name for the given site
   # This only work for a true DB table refresh. If table is 'qresult' (i.e. a query result) then assign repeating_panel_1 to the Globa.table_items)
-  if Global.table_name != "qresult":
+  if Global.table_name == "qresult":
+    # qresult refresh is just re-pointing to Global.table_items - there is no DB table  
+    self.repeating_panel_1.items = Global.table_items
+  else:
+    print(Global.table_name)
     data_list = anvil.server.call("table_get",Global.site_id,Global.table_name)
     Global.col_order = data_list[1]
     self.repeating_panel_1.items = data_list[0]
-  else:
-    # qresult refresh is just re-pointing to Global.table_items - there is no DB table  
-    self.repeating_panel_1.items = Global.table_items
+
+
     
   # 2. set nr of rows per page from Global variable (which is defined by a parameter in the server-side config file)
   #if Global.rows_per_page is not None:
