@@ -132,7 +132,7 @@ def table_list_refresh(self):
     # qresult refresh is just re-pointing to Global.table_items - there is no DB table  
     self.repeating_panel_1.items = Global.table_items
   else:
-    print(Global.table_name)
+    #print(Global.table_name)
     data_list = anvil.server.call("table_get",Global.site_id,Global.table_name)
     Global.col_order = data_list[1]
     self.repeating_panel_1.items = data_list[0]
