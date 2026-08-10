@@ -68,6 +68,9 @@ class Main(MainTemplate):
     self.app_name.text = document.head.querySelector('[name=title]').content
     self.config_version.text = "cfg " + Global.config_version
     self.db_name.text = Global.db_name
+
+    # Update last_seen on page load
+    self.refresh_online_count()
     
     # add the about_us_text (taken from Anchurus-2.cfg file) to the about_us_box text field by adding a Rich Text Component
     rt = RichText(content=Global.about_us_text,format="restricted_html")
@@ -541,7 +544,7 @@ class Main(MainTemplate):
 
       # Set selected buttons on Header for work area type
       #Global.action_form_type = Global.header_work_area_type.text
-      print(Global.action_form_type, Global.table_name)
+      #print(Global.action_form_type, Global.table_name)
       if Global.action_form_type in Global.action_forms_with_refresh:
         # make Refresh button visible if action_form_type has refresh function (i.e. in list Global.action_forms_with_refresh) 
         # do not do this for users table
@@ -603,7 +606,7 @@ class Main(MainTemplate):
       Global.ip_address = anvil.server.call("user_authentication")
 
       # Update last_seen on page load
-      anvil.server.call('update_user_last_seen')
+      self.refresh_online_count()
 
       # if user has system admin role, add system admin actions list and set it visible
       user = anvil.users.get_user()
@@ -1250,6 +1253,9 @@ class Main(MainTemplate):
     #Global.help_page.visible = False
     #Global.help_page.help_page_text.clear()
 
+    # Update last_seen on page load
+    self.refresh_online_count()
+    
     # Welcome_page will show the login page
     self.welcome_page.visible = True
 
@@ -1415,6 +1421,15 @@ class Main(MainTemplate):
     """This method is called when the button is clicked"""
     pass  # Write Code Here
 
+  def refresh_online_count(self):
+    """Calls server silently and updates the text label."""
+    # Use call_s (silent) to avoid showing the loading spinner
+    count = anvil.server.call_s("update_user_last_seen")
+    print("Online users: "+str(count))
+    # Update your label text
+    self.online_users.text = f"🟢 Online Users: {count}"
+    pass
+    
   @handle("timer_activity", "tick")
   def timer_activity_tick(self, **event_args):
     """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
@@ -1423,7 +1438,7 @@ class Main(MainTemplate):
    
     # If a user is logged in and user interacted since our last server update, ping the server
     if Global.login_user_initials != "" and last_js_activity > self.last_server_update:
-      anvil.server.call("update_user_last_seen")
+      self.refresh_online_count()
       self.last_server_update = window.Date.now()
     pass  # Write Code Here
 
