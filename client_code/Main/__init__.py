@@ -1252,9 +1252,6 @@ class Main(MainTemplate):
     # make help_page invisible
     #Global.help_page.visible = False
     #Global.help_page.help_page_text.clear()
-
-    # Update last_seen on page load
-    self.refresh_online_count()
     
     # Welcome_page will show the login page
     self.welcome_page.visible = True
@@ -1433,6 +1430,8 @@ class Main(MainTemplate):
   @handle("timer_activity", "tick")
   def timer_activity_tick(self, **event_args):
     """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
+    # interval should be set to 120 seconds in time properties
+    
     # Get the JavaScript timestamp (in milliseconds)
     last_js_activity = window.lastUserActivity
    
