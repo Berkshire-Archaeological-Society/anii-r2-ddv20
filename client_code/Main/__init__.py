@@ -1425,7 +1425,7 @@ class Main(MainTemplate):
     """Calls server silently and updates the text label."""
     # Use call_s (silent) to avoid showing the loading spinner
     count = anvil.server.call_s("update_user_last_seen")
-    print("Online users: "+str(count))
+    #print("Online users: "+str(count))
     # Update your label text
     self.online_users.text = f"🟢 Online Users: {count}"
     pass
