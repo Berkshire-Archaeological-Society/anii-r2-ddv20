@@ -71,8 +71,7 @@ gh_list_list = {}
 gh_insert_list = {}
 gh_admin_list = {}
 #
-ignore_users_columns = ["remembered_logins","n_password_failures","password_hash","confirmed_email","email_confirmation_key","signed_up","remembered_logins","mfa","last_login"]
-#
+
 work_area = {}
 # variable for work area header menu options 
 wa_header_menu_bottom = {}
@@ -209,8 +208,9 @@ db_name = ""
 dummy_btn1 = {}
 dummy_btn2 = {}
 column_order = {}
+ignore_users_columns = ["remembered_logins","n_password_failures","password_hash","confirmed_email","email_confirmation_key","signed_up","remembered_logins","mfa"]
 columns_not_editable = ["email","initials","last_login","password_hash", "n_password_failures","confirmed_email","signed_up","email_confirmation_key","remembered_logins","mfa","last_seen"]
-column_width = {"initials": 60,"firstname": 150,"lastname":150,"systemrole": 140,"last_seen":210}
+column_width = {"initials": 60,"firstname": 150,"lastname":150,"systemrole": 140,"last_seen":210,"last_login":210}
 column_with_dropdown = {
   "Enabled" : {
     "options"     : ["True", "False"], 
