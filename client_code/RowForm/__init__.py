@@ -112,7 +112,7 @@ class RowForm(RowFormTemplate):
       # types can be varchar(length),int(length),text,float,double,date
       # type text can be 65535 char so need to be a TextArea, other can be a TextBox
       # create the label and the input field
-      print(column_name,column_type)
+      #print(column_name,column_type)
       if column_type == "text":
         #create TextArea input field for text type
         #input = TextArea(tag=column_name)
