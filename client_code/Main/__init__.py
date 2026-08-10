@@ -599,15 +599,18 @@ class Main(MainTemplate):
       # make welcome block of Main form invisible
       self.welcome_page.visible = False
 
+      # notify server side of login
+      Global.ip_address = anvil.server.call("user_authentication")
+
+      # Update last_seen on page load
+      anvil.server.call('update_user_last_seen')
+
       # if user has system admin role, add system admin actions list and set it visible
       user = anvil.users.get_user()
       Global.login_system_user_role = user["systemrole"]
       Global.login_user_initials = user["initials"]
       self.user_role.text = Global.login_system_user_role
       #print(Global.system_user_role)
-      
-      # Update last_seen on page load
-      anvil.server.call('update_user_last_seen')
       
       # when user is logged in, enable Action menu, username field and logout button, and disable content panel (welcome message)
       # also set username  to user email address
@@ -621,9 +624,6 @@ class Main(MainTemplate):
       self.username_dropdown.placeholder = Global.username
       self.username_dropdown.items = ["Close all work areas","Save all work Areas","Clear saved work areas","Change password","Logout"]
 
-      # notify server side of login
-      Global.ip_address = anvil.server.call("user_authentication")
-      
       # make menu bar variable visible
       self.menu_block.visible = True
       self.menu_top.visible = True

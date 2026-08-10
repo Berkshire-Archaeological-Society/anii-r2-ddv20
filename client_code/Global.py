@@ -190,7 +190,7 @@ role_access = {
   'siteuser':        {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
   'siteuserrole':    {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
   'dbdiary':         {'List': True, 'View': True, 'Edit': False, 'Insert': False, 'Import': False, 'Export': False, 'Delete': False},
-  'users':           {'List': True, 'View': True, 'Edit': False,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True}  
+  'users':           {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True}  
   }
 }
 button_normal_background_clour = "#DCE5DD"
@@ -209,6 +209,7 @@ db_name = ""
 dummy_btn1 = {}
 dummy_btn2 = {}
 column_order = {}
+columns_not_editable = ["email","initials","last_login","password_hash", "n_password_failures","confirmed_email","signed_up","email_confirmation_key","remembered_logins","mfa","last_seen"]
 column_width = {"initials": 60,"firstname": 150,"lastname":150,"systemrole": 140,"last_seen":210}
 column_with_dropdown = {
   "Enabled" : {
@@ -235,6 +236,11 @@ column_with_dropdown = {
     "options"     : ["Bulk", "SmallFind", "Sample", "Group", "FindGroup"],
     "placeholder" : "Please select a type", 
     "error"       : "You must make a selection"    
+  },
+  "systemrole":{
+    "options"     : ["Syetem Administrator", "Site User"],
+    "placeholder" : "Please select a type", 
+    "error"       : "You must make a selection"
   }
 }
 context_id = None

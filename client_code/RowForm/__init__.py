@@ -112,6 +112,7 @@ class RowForm(RowFormTemplate):
       # types can be varchar(length),int(length),text,float,double,date
       # type text can be 65535 char so need to be a TextArea, other can be a TextBox
       # create the label and the input field
+      print(column_name,column_type)
       if column_type == "text":
         #create TextArea input field for text type
         #input = TextArea(tag=column_name)
@@ -131,7 +132,7 @@ class RowForm(RowFormTemplate):
         input = TextBox(placeholder=column_name)
         input.add_event_handler('change',self.input_change)
         max_length = 100
-      elif column_type == "bool":
+      elif column_type in ["bool", "tinyint(1)"]:
         #input = TextBox(placeholder=column_name)
         input = DropDown(items=["True", "False"],placeholder=column_name)
         #input.add_event_handler('change',self.input_change)
@@ -174,7 +175,8 @@ class RowForm(RowFormTemplate):
       if (
         not (action in ["insert","add"] and Global.table_name == "site" and item[cname] == "SiteId") and 
         ((action == "view") or (action in ["edit"] and prim_key) or
-         (action in ["insert"] and item[cname] == "SiteId") or column_name in ["DBAcontrol","RegistrationDate"])
+         (action in ["insert"] and item[cname] == "SiteId") or column_name in ["DBAcontrol","RegistrationDate"]) or
+        column_name in Global.columns_not_editable
       ):
         #if ((action == "view") or (action in ["edit"] and item["COLUMN_KEY"] == "PRI") or (action in ["insert"] and item["COLUMN_NAME"] == "SiteId") or column_name in ["DBAcontrol","RegistrationDate"]):
         input.enabled = False
@@ -213,7 +215,7 @@ class RowForm(RowFormTemplate):
       #    input_error
       #  )
 
-      elif column_name in ["Email"]:
+      elif column_name in ["Email","email"]:
         input_error.text = "You must enter an email address"
         input_error.foreground ="#FF0000"
         # regex "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" = valid email address
@@ -224,7 +226,7 @@ class RowForm(RowFormTemplate):
           input_error
         )
 
-      elif column_type.find("int") != -1:
+      elif column_type[:3] == "int":
         input_error.text = "Please enter a valid whole number"
         input_error.foreground ="#FF0000"
         # 
