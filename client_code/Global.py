@@ -207,10 +207,26 @@ area_options = {}
 db_name = ""
 dummy_btn1 = {}
 dummy_btn2 = {}
+# the following global variables contains details of columns
 column_order = {}
+# the columns of the users table to be ignored in TableList
 ignore_users_columns = ["remembered_logins","n_password_failures","password_hash","confirmed_email","email_confirmation_key","signed_up","remembered_logins","mfa"]
 columns_not_editable = ["email","initials","last_login","password_hash", "n_password_failures","confirmed_email","signed_up","email_confirmation_key","remembered_logins","mfa","last_seen"]
-column_width = {"initials": 60,"firstname": 150,"lastname":150,"systemrole": 140,"last_seen":210,"last_login":210}
+# predefined width of known columns
+column_width = {"initials": 60,
+                "firstname": 150,
+                "lastname":150,
+                "systemrole": 140,
+                "last_seen": 210,
+                "last_login": 210,
+                "YearStart": 75,
+                "YearEnd": 70,
+                "Count": 50,
+                "Width": 50,
+                "Depth": 50,
+                "Length": 60
+               }
+# dropdown lilst for listed columns (for data input)
 column_with_dropdown = {
   "Enabled" : {
     "options"     : ["True", "False"], 
@@ -243,6 +259,7 @@ column_with_dropdown = {
     "error"       : "You must make a selection"
   }
 }
+#
 context_id = None
 context_items = {}
 context_options = {}
