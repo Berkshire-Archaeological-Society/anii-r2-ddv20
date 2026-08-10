@@ -541,7 +541,7 @@ class Main(MainTemplate):
 
       # Set selected buttons on Header for work area type
       #Global.action_form_type = Global.header_work_area_type.text
-      #print(Global.action_form_type)
+      print(Global.action_form_type, Global.table_name)
       if Global.action_form_type in Global.action_forms_with_refresh:
         # make Refresh button visible if action_form_type has refresh function (i.e. in list Global.action_forms_with_refresh) 
         # do not do this for users table
@@ -566,7 +566,7 @@ class Main(MainTemplate):
         # Make download button visible for Global.action_form_type
         #Global.header_download_button.visible = True
         #print(Global.table_name, Global.login_site_user_role)
-        self.download_csv.visible = True if Global.table_name != "users" and Global.login_site_user_role != "Site Viewer" else False
+        self.download_csv.visible = True if Global.table_name not in ["online users","users"] and Global.login_site_user_role != "Site Viewer" else False
       else:
         #Global.header_download_button.visible = False
         self.download_csv.visible = False
@@ -576,7 +576,7 @@ class Main(MainTemplate):
       if Global.action_form_type in Global.action_forms_with_filter and Global.work_area[work_area_name]["data_list"]:
         # Make filter button visible for Global.action_form_type if data_list is not empty
         #Global.header_filter_button.visible = True
-        self.filter_cols.visible = True if Global.table_name not in ["users","qresult","query"] else False
+        self.filter_cols.visible = True if Global.table_name not in ["online users","users","qresult","query"] else False
       else:
         #Global.header_filter_button.visible = False
         self.filter_cols.visible = False
