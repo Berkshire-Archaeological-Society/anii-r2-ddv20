@@ -220,7 +220,7 @@ class TableList(TableListTemplate):
 
   def selection_change(self, **event_args):
     #
-    print("selection_change in TableList")
+    #print("selection_change in TableList")
     #rows = [row for row in self.repeating_panel_1.get_components()]
     rows = [row for row in Global.work_area[Global.current_work_area_name]["self"].repeating_panel_1.get_components()]
     any_checked = any(row.btn_select.checked for row in rows)
