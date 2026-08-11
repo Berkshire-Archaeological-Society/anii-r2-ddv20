@@ -977,23 +977,24 @@ class Main(MainTemplate):
     pass # site_summary_change
 
   # Functions on the header for the work area
-  def selection_change(self, **event_args):
-    #
-    #print("selection_change in Main")
-    rows = [row for row in Global.work_area[Global.current_work_area_name]["self"].repeating_panel_1.get_components()]
-    any_checked = any(row.btn_select.checked for row in rows)
-    all_checked = all(row.btn_select.checked for row in rows)
-    #
-    #self.select_all.checked = any_checked
-    #self.select_all.indeterminate = not all_checked and any_checked
-    ###Global.work_area[Global.current_work_area_name]["self"].select_all.checked = any_checked
-    ###Global.work_area[Global.current_work_area_name]["self"].select_all.indeterminate = not all_checked and any_checked
-    Global.work_area[Global.current_work_area_name]["menu_select_options"].visible = any_checked
-    #
-    pass # selection_change
+  #def selection_change(self, **event_args):
+  #  # This function is not used here. It is the one in TableList
+  #  print("selection_change in Main")
+  #  rows = [row for row in Global.work_area[Global.current_work_area_name]["self"].repeating_panel_1.get_components()]
+  #  any_checked = any(row.btn_select.checked for row in rows)
+  #  all_checked = all(row.btn_select.checked for row in rows)
+  #  #
+  #  #self.select_all.checked = any_checked
+  #  #self.select_all.indeterminate = not all_checked and any_checked
+  #  ###Global.work_area[Global.current_work_area_name]["self"].select_all.checked = any_checked
+  #  ###Global.work_area[Global.current_work_area_name]["self"].select_all.indeterminate = not all_checked and any_checked
+  #  Global.work_area[Global.current_work_area_name]["menu_select_options"].visible = any_checked
+  #  #
+  #  pass # selection_change
   
   def select_all_change(self, **event_args):
     """This method is called when this checkbox is checked or unchecked"""
+    print("select_all_change from Main")
     checked = self.select_all.checked
     indetermined = self.select_all.indeterminate
     #print("Select_all button clicked: ",Global.current_work_area_name, " checked: ",checked, " indeterminate: ",indetermined)
@@ -1111,6 +1112,7 @@ class Main(MainTemplate):
 
   def next_page_click(self, **event_args):
     """This method is called when the button is clicked"""
+    print("next_page_click")
     FunctionsB.clear_selection(Global.work_area[Global.current_work_area_name]["self"])
     Global.work_area[Global.current_work_area_name]["self"].table.set_page(Global.work_area[Global.current_work_area_name]["self"].table.get_page() + 1)
     FunctionsB.update_status_label(Global.work_area[Global.current_work_area_name]["self"])
@@ -1118,6 +1120,7 @@ class Main(MainTemplate):
 
   def last_page_click(self, **event_args):
     """This method is called when the button is clicked"""
+    print("last_page_click")
     FunctionsB.clear_selection(Global.work_area[Global.current_work_area_name]["self"])
     rows_per_page = int(Global.work_area[Global.current_work_area_name]["self"].table.rows_per_page)
     total_rows = len(Global.work_area[Global.current_work_area_name]["self"].repeating_panel_1.items)
@@ -1295,7 +1298,6 @@ class Main(MainTemplate):
     # clear work_area list and action_seq_no
     Global.work_area = {}
     Global.action_seq_no = {}
-
     pass # logout_click
 
   def username_dropdown_change(self, **event_args):
@@ -1439,5 +1441,5 @@ class Main(MainTemplate):
     if Global.login_user_initials != "" and last_js_activity > self.last_server_update:
       self.refresh_online_count()
       self.last_server_update = window.Date.now()
-    pass  # Write Code Here
+    pass  # 
 

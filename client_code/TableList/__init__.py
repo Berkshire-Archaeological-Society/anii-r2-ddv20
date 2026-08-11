@@ -15,56 +15,59 @@ from .. import Global
 import anvil.server
 
 class TableList(TableListTemplate):
-  def update_status_label(self, **event_args):
-    """Calculates and updates the label with the current row range."""
-    page_num = int(self.table.get_page())
-    rows_per_page = int(self.table.rows_per_page)
-    total_rows = len(self.repeating_panel_1.items)
-    # Calculate the start and end row numbers
-    start_row = (page_num) * rows_per_page + 1
-    end_row = min((page_num + 1) * rows_per_page, total_rows)
-    # 
-    if page_num == 0:
-      # disable first_page_btn and prev_page_btn if on page 0
-      self.first_page_btn.enabled = False
-      self.prev_page_btn.enabled = False
-    else:
-      self.first_page_btn.enabled = True
-      self.prev_page_btn.enabled = True
-    if (rows_per_page != 0) and (page_num == (total_rows // rows_per_page)):
-      # disable last_page_btn and next_page_btn if on last page
-      self.last_page_btn.enabled = False
-      self.next_page_btn.enabled = False
-    else:
-      self.last_page_btn.enabled = True
-      self.next_page_btn.enabled = True
+  #def update_status_label(self, **event_args):
+  #  # this function has been moved to FunctionsB
+  #  """Calculates and updates the label with the current row range."""
+  #  page_num = int(self.table.get_page())
+  #  rows_per_page = int(self.table.rows_per_page)
+  #  total_rows = len(self.repeating_panel_1.items)
+  #  # Calculate the start and end row numbers
+  #  start_row = (page_num) * rows_per_page + 1
+  #  end_row = min((page_num + 1) * rows_per_page, total_rows)
+  #  # 
+  #  if page_num == 0:
+  #    # disable first_page_btn and prev_page_btn if on page 0
+  #    self.first_page_btn.enabled = False
+  #    self.prev_page_btn.enabled = False
+  #  else:
+  #    self.first_page_btn.enabled = True
+  #    self.prev_page_btn.enabled = True
+  #  if (rows_per_page != 0) and (page_num == (total_rows // rows_per_page)):
+  #    # disable last_page_btn and next_page_btn if on last page
+  #    self.last_page_btn.enabled = False
+  #    self.next_page_btn.enabled = False
+  #  else:
+  #    self.last_page_btn.enabled = True
+  #    self.next_page_btn.enabled = True
+  #
+  #  # Display the formatted string in the status label if 
+  #  if total_rows > rows_per_page and rows_per_page != 0:
+  #    self.row_number_info.text = f"{start_row}-{end_row} of {total_rows}"
+  #  else:
+  #    # No need to display page control buttons as nr of rows is less than 
+  #    self.last_page_btn.visible = False
+  #    self.next_page_btn.visible = False      
+  #    self.first_page_btn.visible = False
+  #    self.prev_page_btn.visible = False
+  #    self.row_number_info.text = "Total " + str(total_rows) + " rows"
+  #  #
+  #  Global.work_area[Global.current_work_area_name]["page_info"] = {"page_num": page_num, "rows_per_page": rows_per_page, "total_rows": total_rows}
+  #pass
 
-    # Display the formatted string in the status label if 
-    if total_rows > rows_per_page and rows_per_page != 0:
-      self.row_number_info.text = f"{start_row}-{end_row} of {total_rows}"
-    else:
-      # No need to display page control buttons as nr of rows is less than 
-      self.last_page_btn.visible = False
-      self.next_page_btn.visible = False      
-      self.first_page_btn.visible = False
-      self.prev_page_btn.visible = False
-      self.row_number_info.text = "Total " + str(total_rows) + " rows"
-    #
-    Global.work_area[Global.current_work_area_name]["page_info"] = {"page_num": page_num, "rows_per_page": rows_per_page, "total_rows": total_rows}
-  pass
-
-  def clear_selection(self, **event_args):
-    # clear select checkbox of rows
-    for row in self.repeating_panel_1.get_components():
-      row.btn_select.checked = False
-      row.background = ""
-        
-    # clear selection list
-    Global.work_area[Global.current_work_area_name]["selected_rows"].clear()
-    
-    # clear select_all checkbox
-    self.select_all.checked = False
-  pass
+  #def clear_selection(self, **event_args):
+  #  # this is no longer used here. Moved to FunctionsB
+  #  print("clear_slection in TableList")
+  #  # clear select checkbox of rows
+  #  for row in self.repeating_panel_1.get_components():
+  #    row.btn_select.checked = False
+  #    row.background = ""
+  #      
+  #  # clear selection list
+  #  Global.work_area[Global.current_work_area_name]["selected_rows"].clear()
+  #  
+  #  # clear select_all checkbox
+  #  self.select_all.checked = False
+  #pass
   
   #def table_list_refresh_old(self, **event_args):
   #  # This function does the filling of the table contents
@@ -89,47 +92,53 @@ class TableList(TableListTemplate):
   #  self.information.text = Global.table_name
   #pass
 
-  def view_button_click(self, **event_args):
-    """This handler is called by the dynamically created button."""
-    #
-    for row in Global.work_area[Global.current_work_area_name]["selected_rows"]:
-      Global.table_items = row
-      #print("View button for row: ",row)
-      Global.action = "View " + Global.table_name.capitalize()
-      if Global.main_form:  # Important to check if the form exists
-        # Create new work_area "View Context" and set focus on this new work_area
-        #print("From repatingPanel row calling create_new_work_area for:",Global.action)
-        Global.main_form.create_new_work_area(Global.action)
-      else:
-        print("Main form not found!")
-  pass
+  #def view_button_click(self, **event_args):
+  #  """This handler is called by the dynamically created button."""
+  #  # no longer used here
+  #  print("view_button_click in TableList")
+  #  #
+  #  for row in Global.work_area[Global.current_work_area_name]["selected_rows"]:
+  #    Global.table_items = row
+  #    #print("View button for row: ",row)
+  #    Global.action = "View " + Global.table_name.capitalize()
+  #    if Global.main_form:  # Important to check if the form exists
+  #      # Create new work_area "View Context" and set focus on this new work_area
+  #      #print("From repatingPanel row calling create_new_work_area for:",Global.action)
+  #      Global.main_form.create_new_work_area(Global.action)
+  #    else:
+  #      print("Main form not found!")
+  #pass
 
-  def edit_button_click(self, **event_args):
-    """This handler is called by the dynamically created button."""
-    #
-    for row in Global.work_area[Global.current_work_area_name]["selected_rows"]:
-      Global.table_items = row
-      Global.action = "Edit " + Global.table_name.capitalize()
-      if Global.main_form:  # Important to check if the form exists
-        # Create new work_area "View Context" and set focus on this new work_area 
-        Global.main_form.create_new_work_area(Global.action)
-      else:
-        print("Main form not found!")
-  pass
+  #def edit_button_click(self, **event_args):
+  #  """This handler is called by the dynamically created button."""
+  #  # no longer used here
+  #  print("edit_button_click in TableList")
+  #  #
+  #  for row in Global.work_area[Global.current_work_area_name]["selected_rows"]:
+  #    Global.table_items = row
+  #    Global.action = "Edit " + Global.table_name.capitalize()
+  #    if Global.main_form:  # Important to check if the form exists
+  #      # Create new work_area "View Context" and set focus on this new work_area 
+  #      Global.main_form.create_new_work_area(Global.action)
+  #    else:
+  #      print("Main form not found!")
+  #pass
 
-  def delete_button_click(self, **event_args):
-    """This handler is called by the dynamically created button."""
-    message = ""
-    for row in Global.work_area[Global.current_work_area_name]["selected_rows"]:
-      Global.table_items = row
-      #print(row)
-      Global.action = "Delete " + Global.table_name.capitalize()
-      message = message + "\nYou have seleted to delete " + Global.table_name.capitalize() + "\n\n" + str(row)
-    
-    # ask confirmation to delete selected rows
-    message = message + "\n\nDo you wish to continue?"
-    confirm(message)
-  pass
+  #def delete_button_click(self, **event_args):
+  #  """This handler is called by the dynamically created button."""
+  #  # no longer used here
+  #  print("delete_button_click in TableList")
+  #  message = ""
+  #  for row in Global.work_area[Global.current_work_area_name]["selected_rows"]:
+  #    Global.table_items = row
+  #    #print(row)
+  #    Global.action = "Delete " + Global.table_name.capitalize()
+  #    message = message + "\nYou have seleted to delete " + Global.table_name.capitalize() + "\n\n" + str(row)
+  #  
+  #  # ask confirmation to delete selected rows
+  #  message = message + "\n\nDo you wish to continue?"
+  #  confirm(message)
+  #pass
 
   def __init__(self, site_id, table_name, data_list, action, page_info, **properties):
     # Set Form properties and Data Bindings.
@@ -209,9 +218,9 @@ class TableList(TableListTemplate):
     FunctionsB.table_list_refresh(self)
 
 
-    
   def selection_change(self, **event_args):
     #
+    print("selection_change in TableList")
     #rows = [row for row in self.repeating_panel_1.get_components()]
     rows = [row for row in Global.work_area[Global.current_work_area_name]["self"].repeating_panel_1.get_components()]
     any_checked = any(row.btn_select.checked for row in rows)
@@ -230,59 +239,62 @@ class TableList(TableListTemplate):
     #
     pass
     
-  def select_all_change(self, **event_args):
-    """This method is called when this checkbox is checked or unchecked"""
-    checked = self.select_all.checked
-    #
-    for row in self.repeating_panel_1.get_components():
-      prev_status_btn_select = row.btn_select.checked
-      row.btn_select.checked = checked
-      #
-      if checked:
-        Global.work_area[Global.current_work_area_name]["selected_rows"].append(row.item)
-        row.background = Global.selected_highlight_colour
-      else:
-        if prev_status_btn_select:
-          Global.work_area[Global.current_work_area_name]["selected_rows"].remove(row.item)
-          row.background = ""
-    #
-    self.select_all.indeterminate = False
-    Global.main_form.select_all.indeterminate = False
-    #
-    if len(Global.work_area[Global.current_work_area_name]["selected_rows"]) == 0:
-      Global.work_area[Global.current_work_area_name]["menu_select_options"].visible = False
-    else:
-      Global.work_area[Global.current_work_area_name]["menu_select_options"].visible = True
-    pass
+  #def select_all_change(self, **event_args):
+  #  """This method is called when this checkbox is checked or unchecked"""
+  #  print("select_all_change from TableList")
+  #  checked = self.select_all.checked
+  #  #
+  #  for row in self.repeating_panel_1.get_components():
+  #    prev_status_btn_select = row.btn_select.checked
+  #    row.btn_select.checked = checked
+  #    #
+  #    if checked:
+  #      Global.work_area[Global.current_work_area_name]["selected_rows"].append(row.item)
+  #      row.background = Global.selected_highlight_colour
+  #    else:
+  #      if prev_status_btn_select:
+  #        Global.work_area[Global.current_work_area_name]["selected_rows"].remove(row.item)
+  #        row.background = ""
+  #  #
+  #  self.select_all.indeterminate = False
+  #  Global.main_form.select_all.indeterminate = False
+  #  #
+  #  if len(Global.work_area[Global.current_work_area_name]["selected_rows"]) == 0:
+  #    Global.work_area[Global.current_work_area_name]["menu_select_options"].visible = False
+  #  else:
+  #    Global.work_area[Global.current_work_area_name]["menu_select_options"].visible = True
+  #  pass
 
-  def first_page_btn_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    self.clear_selection()
-    self.table.set_page(0)
-    self.update_status_label()
-    pass
+  # the following are old functions
+  #def first_page_btn_click(self, **event_args):
+  #  """This method is called when the button is clicked"""
+  #  print("first_page_btn_click from within TableList")
+  #  self.clear_selection()
+  #  self.table.set_page(0)
+  #  self.update_status_label()
+  #  pass
 
-  def prev_page_btn_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    self.clear_selection()
-    self.table.set_page(self.table.get_page() - 1)
-    self.update_status_label()
-    pass
+  #def prev_page_btn_click(self, **event_args):
+  #  """This method is called when the button is clicked"""
+  #  self.clear_selection()
+  #  self.table.set_page(self.table.get_page() - 1)
+  #  self.update_status_label()
+  #  pass
 
-  def next_page_btn_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    self.clear_selection()
-    self.table.set_page(self.table.get_page() + 1)
-    self.update_status_label()
-    pass
+  #def next_page_btn_click(self, **event_args):
+  #  """This method is called when the button is clicked"""
+  #  self.clear_selection()
+  #  self.table.set_page(self.table.get_page() + 1)
+  #  self.update_status_label()
+  #  pass
 
-  def last_page_btn_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    self.clear_selection()
-    rows_per_page = int(self.table.rows_per_page)
-    total_rows = len(self.repeating_panel_1.items)
-    self.table.set_page(total_rows // rows_per_page)
-    self.update_status_label()
-    pass
+  #def last_page_btn_click(self, **event_args):
+  #  """This method is called when the button is clicked"""
+  #  self.clear_selection()
+  #  rows_per_page = int(self.table.rows_per_page)
+  #  total_rows = len(self.repeating_panel_1.items)
+  #  self.table.set_page(total_rows // rows_per_page)
+  #  self.update_status_label()
+  #  pass
     
 

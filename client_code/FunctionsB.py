@@ -145,8 +145,6 @@ def table_list_refresh(self):
     Global.col_order = data_list[1]
     self.repeating_panel_1.items = data_list[0]
 
-
-    
   # 2. set nr of rows per page from Global variable (which is defined by a parameter in the server-side config file)
   #if Global.rows_per_page is not None:
   self.table.rows_per_page = Global.rows_per_page
