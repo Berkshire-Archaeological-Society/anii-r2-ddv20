@@ -144,7 +144,7 @@ class Main(MainTemplate):
     else:
       # normal Click: make this workspace the current workspace
       # Set Global.table_name linked with work_area_type
-      Global.table_name = Global.work_area[Global.current_work_area_name]["action"].split(" ")[1].lower()
+      Global.table_name = Global.work_area[Global.current_work_area_name]["action"].split(" ",1)[1].lower()
 
       # set Global variables for site information
       Global.site_name = Global.work_area[Global.current_work_area_name]["site_name"]
@@ -187,8 +187,9 @@ class Main(MainTemplate):
       self.select_all.indeterminate = False
       self.select_all.checked = False
 
-      # update status label (page control information) if work_space is a List (but not List Users (not using the TableList form))
-      if Global.work_area[Global.current_work_area_name]["action"].split(" ")[0] in ["List"] and Global.work_area[Global.current_work_area_name]["action"] != "List Users":
+      # update status label (page control information) if work_space is a List 
+      #if Global.work_area[Global.current_work_area_name]["action"].split(" ")[0] in ["List"] and Global.work_area[Global.current_work_area_name]["action"] != "List Users":
+      if Global.work_area[Global.current_work_area_name]["action"].split(" ")[0] in ["List"]:
         #print(Global.current_work_area_name)
         FunctionsB.update_status_label(Global.work_area[Global.current_work_area_name]["self"])
 
@@ -220,7 +221,7 @@ class Main(MainTemplate):
         # Make refresh button visible for Global.action_form_type
         # do not do this for users table
         #self.refresh.visible = True if Global.table_name != "users" else False
-        self.refresh.visible = True if Global.table_name not in ["qresult","query"] else False
+        self.refresh.visible = True if Global.table_name not in ["qresult"] else False
       else:
         #Global.header_refresh_button.visible = False
         self.refresh.visible = False
@@ -286,8 +287,8 @@ class Main(MainTemplate):
     # set name of work_area to be action name with small modifications in some cases
     work_area_name = action.capitalize()
     if action in ["List Users","Insert User","Import Users"]:
-      work_area_name = action.split(" ")[0] + " System " + action.split(" ")[1]
-    if action.split(" ")[1].lower() == "siteuserrole":
+      work_area_name = action.split(" ")[0] + " System " + action.split(" ",1)[1]
+    if action.split(" ",1)[1].lower() == "siteuserrole":
       work_area_name = action.split(" ")[0] + " Site User"
       if action.split(" ")[0] != "Insert":
         work_area_name = work_area_name + "s"   
@@ -295,7 +296,7 @@ class Main(MainTemplate):
     if action.lower() in ["list online users","view online users"]:
       Global.table_name = "online users"
     else:
-      Global.table_name = action.split(" ")[1].lower()
+      Global.table_name = action.split(" ",1)[1].lower()
     table_info = [] 
     
     if action == "Help Introduction":
@@ -344,11 +345,11 @@ class Main(MainTemplate):
         # add first Primary Key ID field when view or edit
         primary_key_list = []
         #print(action)
-        if action.split(" ")[1].lower() == "dbdiary":
+        if action.split(" ",1)[1].lower() == "dbdiary":
           primary_key_list.append("DBAcontrol")
-        elif action.split(" ")[1].lower() == "users":
+        elif action.split(" ",1)[1].lower() == "users":
           primary_key_list.append("email")
-        #elif action.split(" ")[1].lower() == "qresult":
+        #elif action.split(" ",1)[1].lower() == "qresult":
         #  primary_key_list.append("QueryId")
         else:
           for column in table_info:
@@ -356,15 +357,15 @@ class Main(MainTemplate):
               primary_key_list.append(column["COLUMN_NAME"])
         if action.split(" ")[0].lower() in ["view","edit"]:
           work_area_name = ""
-          if action.split(" ")[1].lower() != "dbdiary":
+          if action.split(" ",1)[1].lower() != "dbdiary":
             if action.split(" ")[0].lower() ==  "view":
               work_area_name = "V-"
             else:
               work_area_name = "U-"
-          if action.split(" ")[1].lower() == "siteuserrole":
-            work_area_name = work_area_name + action.split(" ")[1][-8:]
+          if action.split(" ",1)[1].lower() == "siteuserrole":
+            work_area_name = work_area_name + action.split(" ",1)[1][-8:]
           else:
-            work_area_name = work_area_name + action.split(" ")[1]
+            work_area_name = work_area_name + action.split(" ",1)[1]
           if len(primary_key_list) > 0:
             if len(primary_key_list) == 1:
               work_area_name = work_area_name + " " + Global.table_items[primary_key_list[0]]
@@ -549,7 +550,7 @@ class Main(MainTemplate):
         # make Refresh button visible if action_form_type has refresh function (i.e. in list Global.action_forms_with_refresh) 
         # do not do this for users table
         #self.refresh.visible = True if Global.table_name != "users" else False
-        self.refresh.visible = True if Global.table_name not in ["qresult","query"] else False
+        self.refresh.visible = True if Global.table_name not in ["qresult"] else False
       else:
         #Global.header_refresh_button.visible = False
         self.refresh.visible = False
@@ -1222,7 +1223,7 @@ class Main(MainTemplate):
     form = str(type(Global.work_area[Global.current_work_area_name]["form"])).split(".")[2][:-2]
     #print("From new print_click, form to use and send to server function: ",form)
     # table names are all lowercase and singular, so create table name from action
-    tmp_name = Global.work_area[Global.current_work_area_name]["action"].split(" ")[1]
+    tmp_name = Global.work_area[Global.current_work_area_name]["action"].split(" ",1)[1]
     table_name = tmp_name.lower()
 
     # call the print_form at the server-side
