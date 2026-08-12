@@ -254,7 +254,7 @@ column_with_dropdown = {
     "error"       : "You must make a selection"    
   },
   "systemrole":{
-    "options"     : ["Syetem Administrator", "Site User"],
+    "options"     : ["System Administrator", "Site User"],
     "placeholder" : "Please select a type", 
     "error"       : "You must make a selection"
   }
