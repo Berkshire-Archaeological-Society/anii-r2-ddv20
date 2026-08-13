@@ -626,7 +626,7 @@ class Main(MainTemplate):
       #Global.help_page_form.help_page_text.add_component(rt)
       
       self.username_dropdown.placeholder = Global.username
-      self.username_dropdown.items = ["Close all work areas","Save all work Areas","Clear saved work areas","Change password","Logout"]
+      self.username_dropdown.items = Global.username_dropdown_list
 
       # make menu bar variable visible
       self.menu_block.visible = True
@@ -1305,6 +1305,7 @@ class Main(MainTemplate):
     """ This Function is called when the users has selected the logout option of the username dropdown """
     """This method is called when an item is selected"""
     # But we just check in case it is not ;)
+    print(self.username_dropdown.selected_value)
     if self.username_dropdown.selected_value == "Change password":
       user = anvil.users.get_user()
       success = anvil.users.change_password_with_form(require_old_password=True)
@@ -1317,7 +1318,7 @@ class Main(MainTemplate):
         n.show()
         anvil.server.call("send_email","Password reset",msg,user["email"])
 
-    elif self.username_dropdown.selected_value == "Save all Work Areas":
+    elif self.username_dropdown.selected_value == "Save all work areas":
       name = "Saved_areas " + Global.site_id
       work_area_dict = {}
       temp_work_area_name_list = list(Global.work_area.keys())
@@ -1349,17 +1350,18 @@ class Main(MainTemplate):
           #print(len(Global.work_area[work_area_name]["data_list"]))
           work_area_dict[work_area_name]["data_list"] = Global.work_area[work_area_name]["data_list"]
         
+      print("Calling save_workareas")
       msg = anvil.server.call("save_workareas",name,work_area_dict,Global.site_id)
       n = Notification(msg,timeout=Global.notification_timeout)
       n.show()
       #alert(msg,title="Saving work area notification")
-    elif self.username_dropdown.selected_value == "Clear saved Work Areas":
+    elif self.username_dropdown.selected_value == "Clear saved work areas":
       name = "Saved_areas " + Global.site_id
       msg = anvil.server.call("clear_saved_workareas",name)
       n = Notification(msg,timeout=Global.notification_timeout)
       n.show()
       #alert(msg,title="Clearing work area notification")
-    elif self.username_dropdown.selected_value == "Delete all Work Areas":
+    elif self.username_dropdown.selected_value == "Delete all work areas":
       #delete all work_areas and all work_area names/buttons
       temp_work_area_name_list = list(Global.work_area.keys())
       for work_area_name in temp_work_area_name_list:

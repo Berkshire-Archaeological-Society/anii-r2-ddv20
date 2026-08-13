@@ -347,7 +347,9 @@ site_user_role_options = {"Site Viewer","Site Editor","Site Leader","Administrat
 system_user_role_options = {"Site User","System Administrator"}
 user_status_options = {"True", "False"}
 user_items = {}
+username_dropdown_list = ["Close all work areas","Save all work areas","Clear saved work areas","Change password","Logout"]
 config_version = ""
+
 #
 about_us_text = """
 <h3>Welcome to the Anchurus-II R2 Web Application</h3>
