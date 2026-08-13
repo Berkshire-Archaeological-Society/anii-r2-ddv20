@@ -1368,8 +1368,8 @@ class Main(MainTemplate):
       n = Notification(msg,timeout=Global.notification_timeout)
       n.show()
       #alert(msg,title="Clearing work area notification")
-    elif self.username_dropdown.selected_value == "Delete all work areas":
-      #delete all work_areas and all work_area names/buttons
+    elif self.username_dropdown.selected_value == "Close all work areas":
+      # Close all work_areas and all work_area names/buttons
       temp_work_area_name_list = list(Global.work_area.keys())
       for work_area_name in temp_work_area_name_list:
         Function.delete_workspace(work_area_name)
