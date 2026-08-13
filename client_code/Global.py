@@ -385,3 +385,20 @@ Please select a site. If a site you require access to, is not in the 'Select Sit
 For more information on recording Archaeological excavations please go to the
 <a href="https://anchurus.co.uk/" target=_blank>Anchurus Website</a></p>
 """
+site_introduction = """
+<h3>Site Introduction</h3>
+<p>
+Welcome <user>.
+</p>
+<p>You have successfully selected a site.
+</p>
+<p>
+You can now check the contents of the database tables by using a List action.
+Or use the Query tab to check for any queries you wold like run.</p>
+<p>
+<b>Note:</b> When changing/selecting a new site, all current active workspaces will be closed.</p>
+<h3> </h3>
+<p>
+For more information on recording Archaeological excavations please go to the
+<a href="https://anchurus.co.uk/" target=_blank>Anchurus Website</a></p>
+"""

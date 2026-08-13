@@ -443,7 +443,7 @@ class Main(MainTemplate):
     
     # create a new work_space and add this to the work_area_list and add component to main     
     #print("Main create_new_work_area: ",self)
-    #print("Call to cerate_work_space")
+    print("Call to create_work_space "+action)
     form_result = Function.create_work_space(action,Global.table_items)
     if form_result != "Unknown":
       #print(action, work_area_name, Global.work_area)
@@ -764,7 +764,6 @@ class Main(MainTemplate):
           self.admin_dropdown.items = options
           self.admin_dropdown.visible = True
 
-
         # Check permissions and build Query Dropdown list
         Global.query_action_dropdown = []
         role = "System Administrator"
@@ -830,6 +829,8 @@ class Main(MainTemplate):
           self.delete_row.visible = False
           self.execute_sql.visible = False
           self.import_dropdown.visible = False
+        # now we can create a new site introduction work area.
+        self.create_new_work_area("Site Introduction")
       else:
         msg = "Not found a role for you in site " + self.select_site_dropdown.selected_value + ". Please contact the Site Leader."
         Global.site_name = self.select_site_dropdown.selected_value
@@ -894,6 +895,7 @@ class Main(MainTemplate):
         self.create_new_work_area(Global.action)
     else:
       if Global.action != Global.separator:
+        print(Global.action)
         alert("Action not yet implemented.")
 
     # clear selected_value
