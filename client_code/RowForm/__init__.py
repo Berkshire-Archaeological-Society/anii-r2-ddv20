@@ -393,7 +393,9 @@ class RowForm(RowFormTemplate):
       self.column_panel_1.add_component(execute_sql_btn)
     # For this work_area form the page_info details are all set to 0; this is for when the server print function calls this form
     Global.work_area[Global.current_work_area_name]["page_info"] = {"page_num": 0, "rows_per_page": 0, "total_rows": 0}
-
+    #print("Saving self of RowForm for work_area: "+Global.current_work_area_name)
+    Global.work_area[Global.current_work_area_name]["self"] = self
+  
   def execute_sql_btn_click(self, **event_args):
     #print("Execute SQL command button pressed")
     formfields = self.form_fields.items()

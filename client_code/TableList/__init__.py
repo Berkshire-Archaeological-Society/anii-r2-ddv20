@@ -212,6 +212,7 @@ class TableList(TableListTemplate):
     self.table.role = "compact-grid"
     
     # save TableList self in Global.work_area
+    #print("Saving TableList self in Global.work_area structure for "+Global.current_work_area_name)
     Global.work_area[Global.current_work_area_name]["self"] = self
 
     #self.table_list_refresh()

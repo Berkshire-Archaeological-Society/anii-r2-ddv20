@@ -550,7 +550,9 @@ class Main(MainTemplate):
         # make Refresh button visible if action_form_type has refresh function (i.e. in list Global.action_forms_with_refresh) 
         # do not do this for users table
         #self.refresh.visible = True if Global.table_name != "users" else False
-        self.refresh.visible = True if Global.table_name not in ["qresult"] else False
+        #print(action)
+        # no refresh for View 
+        self.refresh.visible = True if Global.table_name not in ["qresult"] and action.split(" ")[0].lower() not in ["view","edit"] else False
       else:
         #Global.header_refresh_button.visible = False
         self.refresh.visible = False
@@ -587,6 +589,7 @@ class Main(MainTemplate):
       #print(self.filter_cols.visible)
       # reset action dropdown list
       #self.action_list.selected_value = None
+      #Global.work_area[Global.current_work_area_name]["self"] = self
     else:
       n = Notification("This action has not yet been implemented.",timeout=Global.notification_timeout)
       n.show()
