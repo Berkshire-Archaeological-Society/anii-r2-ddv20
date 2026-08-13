@@ -221,7 +221,9 @@ class Main(MainTemplate):
         # Make refresh button visible for Global.action_form_type
         # do not do this for users table
         #self.refresh.visible = True if Global.table_name != "users" else False
-        self.refresh.visible = True if Global.table_name not in ["qresult"] else False
+        # no refresh for View  and Edit and not for qresult
+        self.refresh.visible = True if Global.table_name not in ["qresult"] and Global.work_area[Global.current_work_area_name]["action"].split(" ")[0].lower() not in ["view","edit"] else False
+
       else:
         #Global.header_refresh_button.visible = False
         self.refresh.visible = False
@@ -443,7 +445,7 @@ class Main(MainTemplate):
     
     # create a new work_space and add this to the work_area_list and add component to main     
     #print("Main create_new_work_area: ",self)
-    print("Call to create_work_space "+action)
+    #print("Call to create_work_space "+action)
     form_result = Function.create_work_space(action,Global.table_items)
     if form_result != "Unknown":
       #print(action, work_area_name, Global.work_area)
@@ -551,7 +553,7 @@ class Main(MainTemplate):
         # do not do this for users table
         #self.refresh.visible = True if Global.table_name != "users" else False
         #print(action)
-        # no refresh for View 
+        # no refresh for View  and Edit and not for qresult
         self.refresh.visible = True if Global.table_name not in ["qresult"] and action.split(" ")[0].lower() not in ["view","edit"] else False
       else:
         #Global.header_refresh_button.visible = False

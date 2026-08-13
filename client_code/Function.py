@@ -30,7 +30,7 @@ from Draw import Draw
 #from Workarea import Workarea
 
 def create_work_space(type,data_list):
-  print("Work space to create is: ",type)
+  #print("Work space to create is: ",type)
   page_info = {}
   table_name = type.split(" ")[1].lower()
   action = type.split(" ")[0].lower()
