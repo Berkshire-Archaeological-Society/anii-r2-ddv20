@@ -665,7 +665,7 @@ class Main(MainTemplate):
       
       # create a introduction message and add it to the introduction_message of the introduction_message block and make it visible
       #Global.help_page.visible = True
-      Global.site_id = "not_selected"
+      Global.site_id = "site_not_selected"
       
       Function.restore_workareas()
 
@@ -1312,7 +1312,7 @@ class Main(MainTemplate):
     """ This Function is called when the users has selected the logout option of the username dropdown """
     """This method is called when an item is selected"""
     # But we just check in case it is not ;)
-    print(self.username_dropdown.selected_value)
+    #print(self.username_dropdown.selected_value)
     if self.username_dropdown.selected_value == "Change password":
       user = anvil.users.get_user()
       success = anvil.users.change_password_with_form(require_old_password=True)
@@ -1332,7 +1332,7 @@ class Main(MainTemplate):
       # loop through all work_area and build a nested dictionary with further information (do not need to usee all of work_area dict)
       # may want to add more information (e.g. add column filter information of work area in order to restore it with the filter)
       for work_area_name in temp_work_area_name_list:
-        if work_area_name == "Introduction":
+        if work_area_name in ["Introduction","Help Introduction","Site introduction"]:
           continue
         work_area_dict[work_area_name] = {}
         work_area_dict[work_area_name]["action"] = Global.work_area[work_area_name]["action"]
@@ -1357,7 +1357,7 @@ class Main(MainTemplate):
           #print(len(Global.work_area[work_area_name]["data_list"]))
           work_area_dict[work_area_name]["data_list"] = Global.work_area[work_area_name]["data_list"]
         
-      print("Calling save_workareas")
+      #print("Calling save_workareas")
       msg = anvil.server.call("save_workareas",name,work_area_dict,Global.site_id)
       n = Notification(msg,timeout=Global.notification_timeout)
       n.show()
