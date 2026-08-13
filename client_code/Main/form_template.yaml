@@ -261,6 +261,7 @@ components:
             include_placeholder: true
             margin: [-1.1111111405455043, '4', null, '4']
             placeholder: Query
+            tooltip: query
           type: DropDown
         layout_properties: {grid_position: 'WPNVXE,GYVRON'}
         name: mm_middle
