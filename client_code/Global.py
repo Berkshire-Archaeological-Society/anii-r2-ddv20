@@ -28,7 +28,7 @@ admin_action_list_not_implemented = [separator]
 #                   ]
 # action_list_not_implemented should always contain the separator
 #action_list_not_implemented = [separator,"Bulk Upload Finds","Draw","List Areas","Add Area","Add Anomaly"]
-action_list_not_implemented = []
+action_list_not_implemented = [separator]
 # the list_action_list is a list of the tables in DB (not yet sites)
 list_action_dropdown = []
 insert_action_dropdown = []

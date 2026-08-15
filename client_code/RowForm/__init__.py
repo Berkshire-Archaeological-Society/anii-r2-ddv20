@@ -329,9 +329,11 @@ class RowForm(RowFormTemplate):
             cur_len = len(input.text)
 
       if Global.table_name.lower() != "site" and column_name == "SiteId" and action in ["edit","insert","add"]: # pre-set SiteId when
-        #print(column_name,action)
-        Global.work_area[Global.current_work_area_name]["data_list"][0][column_name] = Global.site_id
-        input.text = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
+        #print(Global.table_name,column_name,action,Global.current_work_area_name)
+        #print(Global.work_area[Global.current_work_area_name]["data_list"][0])
+        #Global.work_area[Global.current_work_area_name]["data_list"][0][column_name] = Global.site_id
+        #input.text = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
+        input.text = Global.site_id
         #print(input.text)
         if input.text == "None":
           input.text = ""

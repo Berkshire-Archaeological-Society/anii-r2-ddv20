@@ -864,8 +864,10 @@ class Main(MainTemplate):
     #Global.help_page.visible = False
 
     Global.action = self.admin_dropdown.selected_value
-
+    #print(Global.action)
     if Global.action not in Global.action_list_not_implemented:
+      #print(Global.action)
+      #print(Global.action_list_not_implemented)
       self.create_new_work_area(Global.action)
     else:
       if Global.action != Global.separator:
