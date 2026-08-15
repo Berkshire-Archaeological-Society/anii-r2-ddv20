@@ -10,6 +10,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from .. import Global
+from .. import Function
+from .. import FunctionsB
 from ..validation import Validator
 
 class UserForm(UserFormTemplate):
@@ -136,6 +138,11 @@ class UserForm(UserFormTemplate):
           msg = anvil.server.call('system_user_insert',Global.username,Global.password,Global.system_user_role,Global.user_status,Global.user_initials,Global.user_firstname,Global.user_lastname)
         else:
           msg = "Unknown action: " + Global.action
+        if msg[0:2] == "OK":
+          # action was successful. Close the insert/updare workarea
+          print(Global.current_work_area_name)
+          print(Global.work_area[Global.current_work_area_name])
+          Function.delete_workspace(Global.current_work_area_name)
         n = Notification(msg,timeout=Global.notification_timeout)
         n.show()
     else:
