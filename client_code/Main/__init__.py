@@ -440,7 +440,7 @@ class Main(MainTemplate):
     Global.dummy_btn2.visible = True
     self.work_area_list.add_component(Global.dummy_btn2)
     
-    # add the table_items to the work_area_name
+    # add the table_items to the work_area_name (not sure we need this TB 15/08/2026)
     Global.work_area[work_area_name]["data_list"] = [Global.table_items]
     
     # create a new work_space and add this to the work_area_list and add component to main     
