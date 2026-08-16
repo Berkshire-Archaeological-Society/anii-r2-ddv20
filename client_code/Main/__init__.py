@@ -341,7 +341,7 @@ class Main(MainTemplate):
     if Global.restore_workarea_name == "":
       # For all actions not in Admin_action_list check ID field for creating unique work_area name
       #print(action)
-      if action not in Global.sys_admin_action_list and action not in Global.site_admin_action_list and action.lower() not in ["list qresult","list qresult","view query","edit euery","help nitroduction","site introduction"]:
+      if action not in Global.sys_admin_action_list and action not in Global.site_admin_action_list and action.lower() not in ["list qresult","list qresult","view query","edit query","help introduction","site introduction"]:
         # 
         # trying to make a work_area_name suitabe for action and table (i.e. (List |[E|V]-|Insert )<table_name> <main-pri_id>)
         # add first Primary Key ID field when view or edit
@@ -440,8 +440,9 @@ class Main(MainTemplate):
     Global.dummy_btn2.visible = True
     self.work_area_list.add_component(Global.dummy_btn2)
     
-    # add the table_items to the work_area_name (not sure we need this TB 15/08/2026)
-    Global.work_area[work_area_name]["data_list"] = [Global.table_items]
+    # add the Global.table_items to the work_area_name - not for "insert" action
+    if action.split(" ",1)[0].lower() != "insert":
+      Global.work_area[work_area_name]["data_list"] = [Global.table_items]
     
     # create a new work_space and add this to the work_area_list and add component to main     
     #print("Main create_new_work_area: ",self)
