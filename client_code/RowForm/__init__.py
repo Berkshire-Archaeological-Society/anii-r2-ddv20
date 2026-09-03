@@ -189,7 +189,6 @@ class RowForm(RowFormTemplate):
       if column_name in ["YearEnd","YearStart","Year","ContextYear","SurveyYear"]:
         input_error.text = "Enter a correct year format (-2147483648 to 2147483647)"
         input_error.foreground ="#FF0000"
-        # regex "^(-?[0-9]{1,10}|)$" = any number between -2147483648 to 2147483647; empty string allowed
         # 
         self.validator.require(
           input,
@@ -204,29 +203,15 @@ class RowForm(RowFormTemplate):
         # 
         self.validator.require_text_field(input,input_error)
 
-      #elif column_name in ["Year","ContextYear","SurveyYear"]:   
-      #  input_error.text = "Enter a correct year format ((-2147483648 to 2147483647))"
-      #  input_error.foreground ="#FF0000"
-      #  # regex "^(\d{4}|)$" = 4 digit number (year); empty string allowed 
-      #  # 
-      #  self.validator.require(
-      #    input,
-      #    ['change', 'lost_focus'],
-      #    lambda tb: re.fullmatch(r"^(\d{4}|)$", tb.text),
-      #    input_error
-      #  )
-
       elif column_name in ["Email","email"]:
         input_error.text = "You must enter an email address"
         input_error.foreground ="#FF0000"
-        # regex "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" = valid email address
         self.validator.require(
           input,
           ['change', 'lost_focus'],
           lambda comp: DataValidation.validate_email(comp.text)[0],
           input_error
         )
-        #          lambda tb: re.fullmatch(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", tb.text),
 
       elif column_name.endswith("Percentage"):
         input_error.text = "Please enter a percentage between 0-100"
@@ -238,7 +223,6 @@ class RowForm(RowFormTemplate):
           lambda comp: DataValidation.validate_percentage(comp.text)[0],
           input_error
         )
-        #lambda tb: re.fullmatch(r"^$|^\d*$", tb.text),
       
       elif column_type[:3] == "int":
         input_error.text = "Please enter a valid whole number"
@@ -253,24 +237,27 @@ class RowForm(RowFormTemplate):
         #lambda tb: re.fullmatch(r"^$|^\d*$", tb.text),
 
       elif column_type.find("decimal") != -1 or column_type.find("float") != -1 or column_type.find("double") != -1:
-        print(column_type)
+        #print(column_type)
         dec_type = re.findall(r'\d+',column_type)
         #print(dec_type)
-        # regex ^\d{0,x}\.?\d{1,y}
         input_error.text = "Please enter a valid number"
         pattern_string = "^$|^\d{0}"
         if dec_type != []:
-          pattern_string = "^$|^\d{0," + str(int(dec_type[0])-int(dec_type[1])) + "}\.?\d{1," + str(int(dec_type[1])) + "}$"
-          #print(dec_type[0],dec_type[1])
+          pattern_string = "^$|^-?\d{1," + str(int(dec_type[0])-int(dec_type[1])) + "}(\.?\d{1," + str(int(dec_type[1])) + "})?$"
           input_error.text = "Please enter a valid number in the form " + "x" * (int(dec_type[0]) - int(dec_type[1])) + "." + "x" * int(dec_type[1])
         input_error.foreground ="#FF0000"
+        #
+        print(pattern_string)
+        print(DataValidation.validate_decimal("1",column_type))
         # 
         self.validator.require(
           input,
-          ['change', 'lost_focus'],
-          lambda tb: re.fullmatch(pattern_string, tb.text),
+          ['change','lost_focus'],
+          lambda comp: print(f"UI Text: '{comp.text}' | Type: {type(comp.text)}") or DataValidation.validate_decimal("" if comp.text is None else str(comp.text),"decimal")[0],
           input_error
         )
+        # lambda tb: re.fullmatch(pattern_string, tb.text),
+        # lambda comp: DataValidation.validate_decimal("" if comp.text is None else str(comp.text),column_type)[0],
 
       elif column_name in Global.column_with_list.keys():
         # 1. Define your list of allowed words
