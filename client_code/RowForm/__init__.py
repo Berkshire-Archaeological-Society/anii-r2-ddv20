@@ -238,7 +238,7 @@ class RowForm(RowFormTemplate):
         )
 
       elif column_type.find("decimal") != -1 or column_type.find("float") != -1 or column_type.find("double") != -1:
-        #print(column_type)
+        print(column_type)
         dec_type = re.findall(r'\d+',column_type)
         #print(dec_type)
         # regex ^\d{0,x}\.?\d{1,y}
@@ -257,15 +257,15 @@ class RowForm(RowFormTemplate):
           input_error
         )
 
-      elif column_name in ["RecordStatus"]:
+      elif column_name in Global.column_with_list.keys():
         # 1. Define your list of allowed words
-        allowed_words = ['Registered','Planned','Dated','Grouped','Report']
+        allowed_words = Global.column_with_list[column_name]["options"]
         # 2. Build the "OR" part of the rgex: 
         choices = r'(?:' + '|'.join(map(re.escape, allowed_words)) + r')'
         # 3. Assemble the full pattern
         # Starts with a choice, followed by zero or more (comma + choice)
         pattern_string = rf'^{choices}(?:\s*,\s*{choices})*$'
-        input_error.text = "You must enter a command separarted list of " + str(allowed_words)
+        input_error.text = "You must enter a comma separarted list of " + str(allowed_words)
         input_error.foreground ="#FF0000"
         self.validator.require(
           input,

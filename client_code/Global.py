@@ -230,7 +230,7 @@ column_width = {"initials": 60,
 column_with_list = {
   "RecordStatus" : {
     "options"     : ["Registered","Planned","Dated","Grouped","Report"], 
-    "placeholder" : "You must enter a command separarted list of", 
+    "placeholder" : "You must enter a comma separarted list of Registered, Planned, Dated, Grouped, Report.",
     "error"       : "You must make a selection"
   }
 }
