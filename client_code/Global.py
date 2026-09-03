@@ -227,6 +227,13 @@ column_width = {"initials": 60,
                 "Length": 60
                }
 # dropdown lilst for listed columns (for data input)
+column_with_list = {
+  "RecordStatus" : {
+    "options"     : ["Registered","Planned","Dated","Grouped","Report"], 
+    "placeholder" : "You must enter a command separarted list of", 
+    "error"       : "You must make a selection"
+  }
+}
 column_with_dropdown = {
   "Enabled" : {
     "options"     : ["True", "False"], 

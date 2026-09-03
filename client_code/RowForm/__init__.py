@@ -258,14 +258,14 @@ class RowForm(RowFormTemplate):
         )
 
       elif column_name in ["RecordStatus"]:
-        # 1. Define your allowed words
+        # 1. Define your list of allowed words
         allowed_words = ['Registered','Planned','Dated','Grouped','Report']
         # 2. Build the "OR" part of the rgex: 
         choices = r'(?:' + '|'.join(map(re.escape, allowed_words)) + r')'
         # 3. Assemble the full pattern
         # Starts with a choice, followed by zero or more (comma + choice)
         pattern_string = rf'^{choices}(?:\s*,\s*{choices})*$'
-        input_error.text = "You must enter a list of " + str(allowed_words)
+        input_error.text = "You must enter a command separarted list of " + str(allowed_words)
         input_error.foreground ="#FF0000"
         self.validator.require(
           input,
