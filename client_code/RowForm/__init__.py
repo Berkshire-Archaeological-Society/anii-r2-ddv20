@@ -247,13 +247,13 @@ class RowForm(RowFormTemplate):
           input_error.text = "Please enter a valid number in the form " + "x" * (int(dec_type[0]) - int(dec_type[1])) + "." + "x" * int(dec_type[1])
         input_error.foreground ="#FF0000"
         #
-        print(pattern_string)
-        print(DataValidation.validate_decimal("1",column_type))
+        #print(pattern_string)
+        print(DataValidation.validate_decimal("1.2",column_type))
         # 
         self.validator.require(
           input,
           ['change','lost_focus'],
-          lambda comp: print(f"UI Text: '{comp.text}' | Type: {type(comp.text)}") or DataValidation.validate_decimal("" if comp.text is None else str(comp.text),"decimal")[0],
+          lambda comp: print(f"UI Text: '{comp.text}' | Type: {type(comp.text)}") or DataValidation.validate_decimal("" if comp.text is None else str(comp.text),column_type)[0],
           input_error
         )
         # lambda tb: re.fullmatch(pattern_string, tb.text),

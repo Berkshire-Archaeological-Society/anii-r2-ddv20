@@ -35,6 +35,7 @@ def validate_percentage(number):
   return True, ""
 
 def validate_decimal(number, data_type):
+  data_type = "decimal"
   data_type_lower = data_type.lower()
   
   # Check if data_type belongs to numeric floating/decimal types
@@ -60,7 +61,9 @@ def validate_decimal(number, data_type):
         return False, f"Invalid schema precision specification: {data_type}"
 
       pattern = rf"^-?\d{{1,{integer_digits}}}(\.\d{{1,{decimal_places}}})?$"
-
+      pattern = r"^-?\d{0,4}\.\d{1,2}$"
+      pattern = rf"^-?\d{{1,{max_digits}}}(\.\d+)?$"
+      pattern = r"^-?\d+(\.\d+)?$"
       # 2. Single precision specified: e.g. FLOAT(p)
     elif len(dec_type) == 1:
       max_digits = dec_type[0]
