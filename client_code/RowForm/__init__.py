@@ -16,6 +16,7 @@ from ..validation import Validator
 from .. import FunctionsB
 from .. import Function
 from .. import Global
+from .. import DataValidation
 
 class RowForm(RowFormTemplate):
   def input_change(self, **event_args):
@@ -193,7 +194,7 @@ class RowForm(RowFormTemplate):
         self.validator.require(
           input,
           ['change', 'lost_focus'],
-          lambda tb: re.fullmatch(r"^$|^(-?[0-9]{1,10}|)$", tb.text),
+          lambda comp: DataValidation.validate_year(comp.text)[0],
           input_error
         )
 
@@ -222,10 +223,23 @@ class RowForm(RowFormTemplate):
         self.validator.require(
           input,
           ['change', 'lost_focus'],
-          lambda tb: re.fullmatch(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", tb.text),
+          lambda comp: DataValidation.validate_email(comp.text)[0],
           input_error
         )
+        #          lambda tb: re.fullmatch(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", tb.text),
 
+      elif column_name.endswith("Percentage"):
+        input_error.text = "Please enter a percentage between 0-100"
+        input_error.foreground ="#FF0000"
+        # 
+        self.validator.require(
+          input,
+          ['change', 'lost_focus'],
+          lambda comp: DataValidation.validate_percentage(comp.text)[0],
+          input_error
+        )
+        #lambda tb: re.fullmatch(r"^$|^\d*$", tb.text),
+      
       elif column_type[:3] == "int":
         input_error.text = "Please enter a valid whole number"
         input_error.foreground ="#FF0000"
@@ -233,9 +247,10 @@ class RowForm(RowFormTemplate):
         self.validator.require(
           input,
           ['change', 'lost_focus'],
-          lambda tb: re.fullmatch(r"^$|^\d*$", tb.text),
+          lambda comp: DataValidation.validate_integer(comp.text)[0],
           input_error
         )
+        #lambda tb: re.fullmatch(r"^$|^\d*$", tb.text),
 
       elif column_type.find("decimal") != -1 or column_type.find("float") != -1 or column_type.find("double") != -1:
         print(column_type)
