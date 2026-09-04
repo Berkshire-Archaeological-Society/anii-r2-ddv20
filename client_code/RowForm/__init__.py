@@ -18,6 +18,7 @@ from .. import Function
 from .. import Global
 from .. import DataValidation
 
+
 class RowForm(RowFormTemplate):
   def input_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
