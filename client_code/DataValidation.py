@@ -35,18 +35,15 @@ def validate_percentage(number):
   return True, ""
 
 def validate_decimal(number, data_type):
+  print(data_type)
   data_type_lower = data_type.lower()
   
+  # Convert number to string and clean whitespace
+  num_str = "" if number is None else str(number).strip()
+
   # Check if data_type belongs to numeric floating/decimal types
   if any(dt in data_type_lower for dt in ["decimal", "float", "double"]):
-    # Convert number to string and clean whitespace
-    num_str = "" if number is None else str(number).strip()
 
-    #  Allow empty strings (valid for optional fields)
-    #if num_str == "":
-    #  print("Empty string")
-    #  return True, ""
-      
     # Extract dimensions (e.g., 'decimal(6,2)' -> [6, 2])
     dec_type = [int(n) for n in re.findall(r'\d+', data_type)]
 
@@ -70,9 +67,20 @@ def validate_decimal(number, data_type):
 
     else:
       # 3. Unparameterized type: e.g. FLOAT or DOUBLE
+      print("unparametized type")
+      max_digits = 6
+      decimal_places = 2
+      integer_digits = max_digits - decimal_places
       pattern = r"^-?\d+(\.\d+)?$"
+      pattern = rf"^$|^-?\d{{1,{integer_digits}}}(\.\d{{1,{decimal_places}}})?$"
 
     print(f"Type: {data_type} | Extracted: {dec_type} | Regex: {pattern}")
+
+    #  Allow empty strings (valid for optional fields)
+    if num_str == "":
+      print("Empty string")
+      return True, ""
+    
     if re.match(pattern, num_str):
       return True, ""
     print("No match")
