@@ -184,8 +184,8 @@ class RowForm(RowFormTemplate):
         input.foreground = "#ffffff"
         input.background = "#000000"
       #
-
-      # set validaton for fields 
+      ################################
+      # set input validaton for fields 
       if column_name in ["YearEnd","YearStart","Year","ContextYear","SurveyYear"]:
         input_error.text = "Enter a correct year format (-2147483648 to 2147483647)"
         input_error.foreground ="#FF0000"
@@ -284,8 +284,9 @@ class RowForm(RowFormTemplate):
           input_error
         ) 
       # end of setting validation for fields
+      ######################################
 
-      # spedial case when Field is RegistrationDate: Pre-fill is for Insert and also block edit contents
+      # special case when Field is RegistrationDate: Pre-fill is for Insert and also block edit contents
       cur_len = 0
       #print(column_name)
       if action in ["insert","add"] and column_name == "RegistrationDate":
