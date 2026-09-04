@@ -236,12 +236,10 @@ class RowForm(RowFormTemplate):
         )
         #lambda tb: re.fullmatch(r"^$|^\d*$", tb.text),
 
-      elif column_type.find("decimal") != -1 or column_type.find("float") != -1 or column_type.find("double") != -1:
+      elif any(dt in column_type.lower() for dt in ["decimal", "float", "double"]):
         dec_type = re.findall(r'\d+',column_type)
         input_error.text = "Please enter a valid number"
-        pattern_string = "^$|^\d{0}"
         if dec_type != []:
-          pattern_string = "^$|^-?\d{1," + str(int(dec_type[0])-int(dec_type[1])) + "}(\.?\d{1," + str(int(dec_type[1])) + "})?$"
           input_error.text = "Please enter a valid number in the form " + "x" * (int(dec_type[0]) - int(dec_type[1])) + "." + "x" * int(dec_type[1])
 
         input_error.foreground ="#FF0000"
@@ -249,7 +247,7 @@ class RowForm(RowFormTemplate):
         self.validator.require(
           input,
           ['change','lost_focus'],
-          lambda comp: DataValidation.validate_decimal("" if comp.text is None else str(comp.text),column_type)[0],
+          lambda comp, col_type=column_type: DataValidation.validate_decimal("" if comp.text is None else str(comp.text),col_type)[0],
           input_error
         )
 
