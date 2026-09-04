@@ -44,6 +44,7 @@ def validate_decimal(number, data_type):
 
     #  Allow empty strings (valid for optional fields)
     #if num_str == "":
+    #  print("Empty string")
     #  return True, ""
       
     # Extract dimensions (e.g., 'decimal(6,2)' -> [6, 2])
@@ -56,11 +57,11 @@ def validate_decimal(number, data_type):
       integer_digits = max_digits - decimal_places
 
       # Prevent negative or zero integer digit length
-      #if integer_digits <= 0:
-      #  return False, f"Invalid schema precision specification: {data_type}"
+      if integer_digits <= 0:
+        print("Negative/zero integer value")
+        return False, f"Invalid schema precision specification: {data_type}"
 
-      pattern = rf"^-?\d{{1,{integer_digits}}}(\.\d{{1,{decimal_places}}})?$"
-      print(f"Type: {data_type} | Extracted: {dec_type} | Regex: {pattern}")
+      pattern = rf"^$|^-?\d{{1,{integer_digits}}}(\.\d{{1,{decimal_places}}})?$"
       
     elif len(dec_type) == 1:
       # 2. Single precision specified: e.g. FLOAT(p)
@@ -71,9 +72,10 @@ def validate_decimal(number, data_type):
       # 3. Unparameterized type: e.g. FLOAT or DOUBLE
       pattern = r"^-?\d+(\.\d+)?$"
 
-    #print(f"Type: {data_type} | Extracted: {dec_type} | Regex: {pattern}")
+    print(f"Type: {data_type} | Extracted: {dec_type} | Regex: {pattern}")
     if re.match(pattern, num_str):
       return True, ""
+    print("No match")
     return False, f"Invalid format for {data_type}."
 
   return False, "Unknown data type."
