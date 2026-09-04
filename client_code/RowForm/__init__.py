@@ -183,7 +183,7 @@ class RowForm(RowFormTemplate):
         input.enabled = False
         input.foreground = "#ffffff"
         input.background = "#000000"
-      #
+
       ################################
       # set input validaton for fields 
       if column_name in ["YearEnd","YearStart","Year","ContextYear","SurveyYear"]:
