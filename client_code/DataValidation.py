@@ -23,6 +23,11 @@ def validate_integer(number):
   return True, ""
 
 def validate_year(number):
+  # Convert number to string and clean whitespace
+  num_str = "" if number is None else str(number).strip()
+  #  Allow empty strings (valid for optional fields)
+  if num_str == "":
+    return True, ""
   pattern = r"^$|^(-?[0-9]{1,10}|)$"
   if not number or not re.match(pattern, str(number).strip()):
     return False, "Invalid year format."
