@@ -264,6 +264,11 @@ column_with_dropdown = {
     "options"     : ["System Administrator", "Site User"],
     "placeholder" : "Please select a type", 
     "error"       : "You must make a selection"
+  },
+  "FlatorCurved":{
+    "options"     : ["flat", "curvedUser"],
+    "placeholder" : "Please select a type", 
+    "error"       : "You must make a selection"    
   }
 }
 #
