@@ -215,7 +215,7 @@ class RowForm(RowFormTemplate):
         )
 
       elif column_name == "BNGRcentroid":
-        input_error.text = "Please enter BNGR coordinates"
+        input_error.text = "Please enter BNGR coor"
         input_error.foreground ="#FF0000"
         # 
         self.validator.require(

@@ -111,7 +111,7 @@ def validate_BNGRcentroid(coordinate_string):
   match = BNGR_PATTERN.match(coordinate_string.strip())
 
   if not match:
-    return False  # Invalid layout or mismatched precision length
+    return False, f"'{coordinate_string}' is not a valid BNG centroid format." # Invalid layout or mismatched precision length
 
   gd = match.groupdict()
   grid_square = gd['GridSq'].upper()
@@ -119,12 +119,10 @@ def validate_BNGRcentroid(coordinate_string):
   # Coalesce the capture groups to find which specific precision length matched
   easting = gd['E2'] or gd['E3'] or gd['E4'] or gd['E5']
   northing = gd['N2'] or gd['N3'] or gd['N4'] or gd['N5']
-
-  return {
-    "valid": True,
-    "grid_square": grid_square,
+  details = {
+    "gird_square": grid_square,
     "easting": easting,
     "northing": northing,
     "precision_meters": 10**(5 - len(easting)) * 10 # Calculates actual ground precision
   }
-  return
+  return True, details
