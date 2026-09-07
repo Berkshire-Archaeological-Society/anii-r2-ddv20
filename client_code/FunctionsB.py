@@ -112,7 +112,7 @@ def create_table_columns(column_list,work_area):
       col_width = Global.column_width[column]
     elif (data_type == "text" or ("varchar" in data_type and int(data_type.strip("varchar()")) > 50 )):
       # set width for text datatype or varchar > 50 
-      col_width = 300
+      col_width = Global.column_width["default"]
     elif data_type in ["date","datetime"]:
       # for date and datetime set width to max of (15 or len column name)*ratio+padding
       col_width = (max(15,len(column))) * ratio + padding
