@@ -96,6 +96,10 @@ def validate_decimal(number, data_type):
   return False, "Unknown data type."
 
 def validate_BNGRcentroid(coordinate_string):
+  clean_coordinates = coordinate_string.strip()
+  #  Allow empty strings (valid for optional fields)
+  if clean_coordinates == "":
+    return True, ""
   # Strict regex enforcing matching digit lengths (2, 3, 4, or 5 digits) for both parts
   BNGR_PATTERN = re.compile(
     r"^(?P<GridSq>[HJKLMNOQRSTVWXYZ][A-HJ-Z])\s*"
@@ -108,10 +112,10 @@ def validate_BNGRcentroid(coordinate_string):
     re.IGNORECASE
   )
   # Strip whitespace and match against the strict pattern
-  match = BNGR_PATTERN.match(coordinate_string.strip())
+  match = BNGR_PATTERN.match(clean_coordinates)
 
   if not match:
-    return False, f"'{coordinate_string}' is not a valid BNG centroid format." # Invalid layout or mismatched precision length
+    return False, f"'{clean_coordinates}' is not a valid BNG centroid format." # Invalid layout or mismatched precision length
 
   gd = match.groupdict()
   grid_square = gd['GridSq'].upper()
