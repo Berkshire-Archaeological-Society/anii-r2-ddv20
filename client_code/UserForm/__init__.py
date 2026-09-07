@@ -140,8 +140,8 @@ class UserForm(UserFormTemplate):
           msg = "Unknown action: " + Global.action
         if msg[0:2] == "OK":
           # action was successful. Close the insert/updare workarea
-          print(Global.current_work_area_name)
-          print(Global.work_area[Global.current_work_area_name])
+          #print(Global.current_work_area_name)
+          #print(Global.work_area[Global.current_work_area_name])
           Function.delete_workspace(Global.current_work_area_name)
         n = Notification(msg,timeout=Global.notification_timeout)
         n.show()
