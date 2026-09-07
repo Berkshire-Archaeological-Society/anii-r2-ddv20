@@ -94,3 +94,37 @@ def validate_decimal(number, data_type):
     return False, f"Invalid format for {data_type}."
 
   return False, "Unknown data type."
+
+def validate_BNGRcentroid(coordinate_string):
+  # Strict regex enforcing matching digit lengths (2, 3, 4, or 5 digits) for both parts
+  BNGR_PATTERN = re.compile(
+    r"^(?P<GridSq>[HJKLMNOQRSTVWXYZ][A-HJ-Z])\s*"
+    r"(?:"
+    r"(?P<E2>\d{2})\s*(?P<N2>\d{2})|"   # 4-figure ref (10km accuracy)
+    r"(?P<E3>\d{3})\s*(?P<N3>\d{3})|"   # 6-figure ref (1km accuracy)
+    r"(?P<E4>\d{4})\s*(?P<N4>\d{4})|"   # 8-figure ref (100m accuracy)
+    r"(?P<E5>\d{5})\s*(?P<N5>\d{5})"    # 10-figure ref (1m accuracy)
+    r")$",
+    re.IGNORECASE
+  )
+  # Strip whitespace and match against the strict pattern
+  match = BNGR_PATTERN.match(coordinate_string.strip())
+
+  if not match:
+    return False  # Invalid layout or mismatched precision length
+
+  gd = match.groupdict()
+  grid_square = gd['GridSq'].upper()
+
+  # Coalesce the capture groups to find which specific precision length matched
+  easting = gd['E2'] or gd['E3'] or gd['E4'] or gd['E5']
+  northing = gd['N2'] or gd['N3'] or gd['N4'] or gd['N5']
+
+  return {
+    "valid": True,
+    "grid_square": grid_square,
+    "easting": easting,
+    "northing": northing,
+    "precision_meters": 10**(5 - len(easting)) * 10 # Calculates actual ground precision
+  }
+  return

@@ -214,6 +214,17 @@ class RowForm(RowFormTemplate):
           input_error
         )
 
+      elif column_name == "BNGRcentroid":
+        input_error.text = "Please enter BNGR coordinates"
+        input_error.foreground ="#FF0000"
+        # 
+        self.validator.require(
+          input,
+          ['change', 'lost_focus'],
+          lambda comp: DataValidation.validate_BNGRcentroid(comp.text)[0],
+          input_error
+        )
+
       elif column_name.endswith("Percentage"):
         input_error.text = "Please enter a percentage between 0-100"
         input_error.foreground ="#FF0000"
