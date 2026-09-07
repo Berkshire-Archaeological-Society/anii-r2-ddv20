@@ -17,6 +17,11 @@ def validate_email(email):
   return True, ""
 
 def validate_integer(number):
+  # Convert number to string and clean whitespace
+  num_str = "" if number is None else str(number).strip()
+  #  Allow empty strings (valid for optional fields)
+  if num_str == "":
+    return True, ""
   pattern = r"^$|^\d*$"
   if not number or not re.match(pattern, str(number).strip()):
     return False, "Invalid whole number format."
@@ -34,6 +39,11 @@ def validate_year(number):
   return True, ""
 
 def validate_percentage(number):
+  # Convert number to string and clean whitespace
+  num_str = "" if number is None else str(number).strip()
+  #  Allow empty strings (valid for optional fields)
+  if num_str == "":
+    return True, ""
   pattern = r"^(100(\.0+)?|[1-9]?\d(\.\d+)?)$"
   if not number or not re.match(pattern, str(number).strip()):
     return False, "Invalid percentage format."
@@ -44,7 +54,10 @@ def validate_decimal(number, data_type):
   
   # Convert number to string and clean whitespace
   num_str = "" if number is None else str(number).strip()
-
+  #  Allow empty strings (valid for optional fields)
+  if num_str == "":
+    return True, ""
+    
   # Check if data_type belongs to numeric floating/decimal types
   if any(dt in data_type_lower for dt in ["decimal", "float", "double"]):
 
