@@ -313,6 +313,7 @@ class RowForm(RowFormTemplate):
         #print(Global.work_area[Global.current_work_area_name]["data_list"][0])
         if str(type(input)) == "<class 'anvil_extras.Quill.Quill'>":
           text = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
+          #print(text)
           input.set_html(text)
           cur_len = 0
           if text is not None:
@@ -407,13 +408,40 @@ class RowForm(RowFormTemplate):
   
   def execute_sql_btn_click(self, **event_args):
     #print("Execute SQL command button pressed")
-    formfields = self.form_fields.items()
-    #print(list(formfields)[7])
-    # SQL_Command is a <class 'anvil_extras.Quill.Quill'> object as it is a text datatype so needs to get the test with the Quill method getText()
-    Global.query_info = formfields
-    Global.query_id = next((str(item[1]['field'].text) for item in list(formfields) if item[0] == "QueryId"),0)
-    command = next((str(item[1]['field'].getText()) for item in list(formfields) if item[0] == "SQL_command"),0)
-    #print(command)
+    formfields = self.form_fields
+    print("Available keys in form_fields:", list(self.form_fields.keys()))
+    # SQL_command is a <class 'anvil_extras.Quill.Quill'> object as it is a text datatype so needs to get the test with the Quill method getText()
+    # Get QueryId
+    query_id_field = formfields.get("QueryId", {}).get("field")
+    Global.query_id = str(query_id_field.text) if query_id_field else "0"
+    #print(Global.query_id)
+    
+    # Get SQL Command (Adjust key case if needed: "SQL_command", "SQL_Command", etc.)
+    sql_field = formfields.get("SQL_command", {}).get("field")
+   
+    command = str(sql_field.getText()).strip() if sql_field else ""
+
+    # 2. Safely retrieve field object regardless of key case
+    target_key = next((k for k in formfields.keys() if k.lower() == "sql_command"), None)
+
+    if target_key:
+      sql_field = formfields[target_key]['field']
+      print(f"Field object found: {type(sql_field)}")
+
+      # Try standard anvil_extras Quill .text property first
+      if hasattr(sql_field, 'text'):
+        command = str(sql_field.text).strip()
+      elif hasattr(sql_field, 'get_text'):
+        command = str(sql_field.get_text()).strip()
+      elif hasattr(sql_field, 'getText'):
+        command = str(sql_field.getText()).strip()
+      else:
+        command = ""
+    else:
+      print("ERROR: 'SQL_command' key was not found in form_fields!")
+      command = ""
+    
+    print(f"SQL command to execute is: {command}.")
     if command != "":
       msg, data_list, column_order, Global.tmp_table_info = anvil.server.call("execute_sql_command",command)
       #print(data_list)
