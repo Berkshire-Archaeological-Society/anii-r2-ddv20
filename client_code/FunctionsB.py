@@ -117,7 +117,8 @@ def create_table_columns(column_list,work_area):
       # for date and datetime set width to max of (15 or len column name)*ratio+padding
       col_width = (max(15,len(column))) * ratio + padding
     else:
-      # calculate 
+      # calculate
+      print(column,data_type)
       dt_len = re.findall(r'\d+', data_type)[0]
       #print("dt_len is "+str(dt_len))
       col_width = (max(int(dt_len),len(column))) * ratio + padding
