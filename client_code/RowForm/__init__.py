@@ -116,12 +116,14 @@ class RowForm(RowFormTemplate):
       # create the label and the input field
       #print(column_name,column_type)
       if column_type == "text":
-        #create TextArea input field for text type
-        #input = TextArea(tag=column_name)
-        #input = Quill(placeholder=column_name,toolbar=Global.Quill_toolbarOptions)
-        input = Quill(toolbar=Global.Quill_toolbarOptions)
+        if column_name == "SQL_command": #for SQL_command use a plain text area field
+          #create TextArea input field for SQL_command
+          input = TextArea(tag=column_name)
+        else:
+          #input = Quill(placeholder=column_name,toolbar=Global.Quill_toolbarOptions)
+          input = Quill(toolbar=Global.Quill_toolbarOptions)
+          input.add_event_handler('text_change',self.input_change)
         max_length = 65535
-        input.add_event_handler('text_change',self.input_change)
       elif column_type == "date":
         # by default create TextBox fields
         input = DatePicker(placeholder=column_name,format="%d-%m-%Y")
@@ -410,16 +412,19 @@ class RowForm(RowFormTemplate):
     #print("Execute SQL command button pressed")
     formfields = self.form_fields
     print("Available keys in form_fields:", list(self.form_fields.keys()))
-    # SQL_command is a <class 'anvil_extras.Quill.Quill'> object as it is a text datatype so needs to get the test with the Quill method getText()
+    # SQL_command is a <class 'anvil_extras.Quill.Quill'> object as it is a text datatype so needs to get the text with the Quill method getText()
     # Get QueryId
     query_id_field = formfields.get("QueryId", {}).get("field")
     Global.query_id = str(query_id_field.text) if query_id_field else "0"
-    #print(Global.query_id)
+    print(f"QueryId is: {Global.query_id}")
     
     # Get SQL Command (Adjust key case if needed: "SQL_command", "SQL_Command", etc.)
+    print(f"content is: {formfields['SQL_command']['field'].content}")
     sql_field = formfields.get("SQL_command", {}).get("field")
-   
-    command = str(sql_field.getText()).strip() if sql_field else ""
+    len = sql_field.getLength()
+    print(f"SQL_command is: {sql_field.content}")
+    #command = str(sql_field.getText()).strip() if sql_field else ""
+    command = str(sql_field.html.strip()) if sql_field else ""
 
     # 2. Safely retrieve field object regardless of key case
     target_key = next((k for k in formfields.keys() if k.lower() == "sql_command"), None)
@@ -484,7 +489,6 @@ class RowForm(RowFormTemplate):
         # Add Additional field validation (if needed) before submitting 
         #print(str(type(col[1]["field"])))
         if str(type(col[1]["field"])) == "<class 'anvil_extras.Quill.Quill'>":
-          # at the moment we only get the text of the Quill data, not the full rich text format - need extra column for that
           # here we have to store both the Rtf and the Txt values in two fields (FieldRtf and FieldTxt)
           if col[0][-3:] == "Rtf":
             # here we have Rtf column (col[0]), so there will also be a Txt column; save both Rtf and plain Txt
@@ -495,7 +499,8 @@ class RowForm(RowFormTemplate):
             row_list[col[0]] = Function.clean_quill_regex(col[1]["field"].get_html())
             #print(col_name_txt,type(row_list[col_name_txt]),len(row_list[col_name_txt]))
           else:
-            row_list[col[0]] = col[1]["field"].getText()
+            row_list[col[0]] = col[1]["field"].getText().strip()
+            #print(col[1]["field"].getText())
           #delta = col[1]["field"].getContents()
           #print("Quill Value is: ",row_list[col[0]])
           #row_list[col[0]] = col[1]["field"].clipboard.convert(text)
@@ -509,10 +514,12 @@ class RowForm(RowFormTemplate):
           row_list[col[0]] = col[1]["field"].date
         elif str(type(col[1]["field"])) == "<class 'anvil.DropDown'>":
           row_list[col[0]] = col[1]["field"].selected_value
-        elif str(type(col[1]["field"])) == "<class 'anvil.TextBox'>":
+        elif str(type(col[1]["field"])) in ["<class 'anvil.TextBox'>","<class 'anvil.TextArea'>"]:
           row_list[col[0]] = col[1]["field"].text
 
         # set empty fields to None
+        print(col[0])
+        print(row_list)
         if row_list[col[0]] in ["","\n"," "]:
           row_list[col[0]] = None
       #
