@@ -33,7 +33,7 @@ class RowForm(RowFormTemplate):
       col = "*" + "<b>&nbsp"+column+"</b>"
 
     #print(str(type(event_args["sender"])))
-    if str(type(event_args["sender"])) in ["<class 'anvil.TextBox'>","<class 'anvil.TextArea'>"]:
+    #if str(type(event_args["sender"])) in ["<class 'anvil.TextBox'>","<class 'anvil.TextArea'>"]:
       #self.form_fields[column]["header"].text = col + " (" + str(len(self.form_fields[column]["field"].text)) + "/" + str(self.form_fields[column]["length"]) + "):"
       self.form_fields[column]["header"].content = col + " (" + str(len(self.form_fields[column]["field"].text)) + "/" + str(self.form_fields[column]["length"]) + "):"
     #elif str(type(event_args["sender"])) == "<class 'anvil_extras.Quill.Quill'>":
@@ -112,7 +112,7 @@ class RowForm(RowFormTemplate):
         if column_name in Global.TextArea_columns: # create a TextArea for some text field columns
           #create TextArea input field for SQL_command
           input = TextArea(tag=column_name)
-
+          input.add_event_handler('change',self.input_change)
         else:
           #input = Quill(placeholder=column_name,toolbar=Global.Quill_toolbarOptions)
           input = Quill(toolbar=Global.Quill_toolbarOptions)
