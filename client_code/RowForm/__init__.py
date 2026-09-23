@@ -312,10 +312,10 @@ class RowForm(RowFormTemplate):
 
       # if action is View or Edit then fill all fields
       if action in ["edit","update","view"]:
-        #print(Global.work_area[Global.current_work_area_name]["data_list"][0])
+        print(Global.work_area[Global.current_work_area_name]["data_list"][0])
         if str(type(input)) == "<class 'anvil_extras.Quill.Quill'>":
           text = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
-          #print(text)
+          print(column_name,text)
           input.set_html(text)
           cur_len = 0
           if text is not None:
@@ -465,7 +465,6 @@ class RowForm(RowFormTemplate):
       #print(msg)
       Global.column_order = column_order
       Global.table_items = data_list
-      Global.query_info = data_list
       Global.table_name = "qresult"
       Global.action = "List " + Global.table_name.capitalize()
       if Global.main_form:  # Important to check if the form exists

@@ -1049,6 +1049,7 @@ class Main(MainTemplate):
     #
     for row in Global.work_area[Global.current_work_area_name]["selected_rows"]:
       Global.table_items = row
+      Global.query_info = row
       #print("View button for row: ",row)
       Global.action = "View " + Global.table_name.capitalize()
       #print("In view_row: "+Global.action)
