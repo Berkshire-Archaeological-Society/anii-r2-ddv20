@@ -112,7 +112,7 @@ class RowForm(RowFormTemplate):
         if column_name in Global.TextArea_columns: # create a TextArea for some text field columns
           #create TextArea input field for SQL_command
           input = TextArea(tag=column_name)
-
+          input.add_event_handler('change',self.input_change)
         else:
           #input = Quill(placeholder=column_name,toolbar=Global.Quill_toolbarOptions)
           input = Quill(toolbar=Global.Quill_toolbarOptions)
