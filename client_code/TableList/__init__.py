@@ -154,12 +154,12 @@ class TableList(TableListTemplate):
     self.site_id = site_id
     self.ws_name.text = Global.current_work_area_name
     if Global.table_name == "qresult":
-      print(Global.work_area[Global.current_work_area_name].keys())
-      print(Global.query_info)
+      #print(Global.work_area[Global.current_work_area_name].keys())
+      #print(Global.query_info)
       qname = next((str(item[1]['field'].text) for item in list(Global.query_info) if item[0] == "QueryName"),"")
       qwhat = next((str(item[1]['field'].text) for item in list(Global.query_info) if item[0] == "WhatItDoes"),"")
       if qname == "":
-        print(Global.query_info)
+        #print(Global.query_info)
         self.title.text = Global.query_info["QueryName"] + " - " + Global.query_info["WhatItDoes"]        
       else:
         self.title.text = str(qname) + " - " + str(qwhat)

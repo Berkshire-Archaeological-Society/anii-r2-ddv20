@@ -32,14 +32,8 @@ class RowForm(RowFormTemplate):
       #col = "* " + column
       col = "*" + "<b>&nbsp"+column+"</b>"
 
-    #print(column)
-    #if column in self.form_fields:
-      #print(column+" in form_fields dictionary")
-    #else:
-      #print(column+" not in form_fields dictionary")
-
     #print(str(type(event_args["sender"])))
-    if str(type(event_args["sender"])) == "<class 'anvil.TextBox'>":
+    if str(type(event_args["sender"])) in ["<class 'anvil.TextBox'>","<class 'anvil.TextArea'>"]:
       #self.form_fields[column]["header"].text = col + " (" + str(len(self.form_fields[column]["field"].text)) + "/" + str(self.form_fields[column]["length"]) + "):"
       self.form_fields[column]["header"].content = col + " (" + str(len(self.form_fields[column]["field"].text)) + "/" + str(self.form_fields[column]["length"]) + "):"
     #elif str(type(event_args["sender"])) == "<class 'anvil_extras.Quill.Quill'>":
@@ -79,7 +73,7 @@ class RowForm(RowFormTemplate):
       # Global.action.split(" ")[1].rstrip("s").lower()
 
     action = Global.action.split(" ")[0].lower()
-    #print(action+" "+Global.action+" "+Global.table_name)
+   
     # Inititalize the validator
     self.validator = Validator()
 
@@ -114,16 +108,17 @@ class RowForm(RowFormTemplate):
       # types can be varchar(length),int(length),text,float,double,date
       # type text can be 65535 char so need to be a TextArea, other can be a TextBox
       # create the label and the input field
-      #print(column_name,column_type)
       if column_type == "text":
-        if column_name == "SQL_command": #for SQL_command use a plain text area field
+        if column_name in Global.TextArea_columns: # create a TextArea for some text field columns
           #create TextArea input field for SQL_command
           input = TextArea(tag=column_name)
+
         else:
           #input = Quill(placeholder=column_name,toolbar=Global.Quill_toolbarOptions)
           input = Quill(toolbar=Global.Quill_toolbarOptions)
           input.add_event_handler('text_change',self.input_change)
         max_length = 65535
+        
       elif column_type == "date":
         # by default create TextBox fields
         input = DatePicker(placeholder=column_name,format="%d-%m-%Y")
@@ -132,23 +127,28 @@ class RowForm(RowFormTemplate):
         max_length = 10
         # add event handler for when input field is changed to update the character count
         #input.add_event_handler('change',self.input_change)
+        
       elif column_type == "string":
         input = TextBox(placeholder=column_name)
         input.add_event_handler('change',self.input_change)
         max_length = 100
+        
       elif column_type in ["bool", "tinyint(1)"]:
         #input = TextBox(placeholder=column_name)
         input = DropDown(items=["True", "False"],placeholder=column_name)
         #input.add_event_handler('change',self.input_change)
         max_length = 5
+        
       elif column_type == "datetime":
         input = TextBox(placeholder=column_name)
         #input.add_event_handler('change',self.input_change)
         max_length = 30
+        
       elif column_name in Global.column_with_dropdown.keys():
         input = DropDown(placeholder=column_name)
         #input.add_event_handler('change',self.input_change)
         max_length = 5
+        
       else:
         # by default create TextBox fields
         input = TextBox(placeholder=column_name)
@@ -175,7 +175,6 @@ class RowForm(RowFormTemplate):
         cname = "COLUMN_NAME"
         prim_key = True if item["COLUMN_KEY"] == "PRI"  else False
       # if column is Primary Key or a known special column then make it un-editable when action is View or Edit 
-      # if Global.table_name != "site" and ((action == "view") or (action in ["edit"] and item["COLUMN_KEY"] == "PRI") or (action in ["insert"] and item["COLUMN_NAME"] == "SiteId") or column_name in ["DBAcontrol","RegistrationDate"]):
       if (
         not (action in ["insert","add"] and Global.table_name == "site" and item[cname] == "SiteId") and 
         ((action == "view") or (action in ["edit"] and prim_key) or
@@ -302,7 +301,6 @@ class RowForm(RowFormTemplate):
 
       # special case when Field is RegistrationDate: Pre-fill is for Insert and also block edit contents
       cur_len = 0
-      #print(column_name)
       if action in ["insert","add"] and column_name == "RegistrationDate":
         # force RegistrationDate
         input.text = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -312,11 +310,8 @@ class RowForm(RowFormTemplate):
 
       # if action is View or Edit then fill all fields
       if action in ["edit","update","view"]:
-        #print(Global.work_area[Global.current_work_area_name]["data_list"][0])
         if str(type(input)) == "<class 'anvil_extras.Quill.Quill'>":
-          #print(Global.work_area[Global.current_work_area_name]["data_list"][0])
           text = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
-          #print(column_name,text)
           input.set_html(text)
           cur_len = 0
           if text is not None:
@@ -325,13 +320,11 @@ class RowForm(RowFormTemplate):
             input.enable(False)
             input.foreground = "#ffffff"
             input.background = "#000000"
-            #input.background = "#052014CC"
         elif str(type(input)) == "<class 'anvil.DatePicker'>":
           input.date = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
         elif str(type(input)) == "<class 'anvil.DropDown'>":
           input.selected_value = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
         else:
-          #print(Global.work_area[Global.current_work_area_name]["data_list"])
           input.text = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
           if input.text == "None":
             input.text = ""
@@ -339,11 +332,7 @@ class RowForm(RowFormTemplate):
           if input.text is not None:
             cur_len = len(input.text)
 
-      if Global.table_name.lower() != "site" and column_name == "SiteId" and action in ["edit","insert","add"]: # pre-set SiteId when
-        #print(Global.table_name,column_name,action,Global.current_work_area_name)
-        #print(Global.work_area[Global.current_work_area_name]["data_list"][0])
-        #Global.work_area[Global.current_work_area_name]["data_list"][0][column_name] = Global.site_id
-        #input.text = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
+      if Global.table_name.lower() != "site" and column_name == "SiteId" and action in ["edit","insert","add"]: # pre-set SiteId when]
         input.text = Global.site_id
         #print(input.text)
         if input.text == "None":
@@ -359,18 +348,14 @@ class RowForm(RowFormTemplate):
 
       # create column header with column_name and column_description in one flowpanel (col_header)
       # add * to column name if input for field is mandatory
-      #if Global.table_name != "users" and item["IS_NULLABLE"] == "YES":
       if item["IS_NULLABLE"] == "YES":
         col = "&nbsp"
       else:
         col = "*"
-      #print(column_name)
-      #print(str(type(input)))
+      
       if str(type(input)) in ["<class 'anvil_extras.Quill.Quill'>", "<class 'anvil.TextBox'>"]:
-        #col = col + column_name + " (" + str(cur_len) + "/" + str(max_length) + "): " 
         col = col + "<b>&nbsp"+column_name+"</b>" + " (" + str(cur_len) + "/" + str(max_length) + "):" 
       else:
-        #col = col + column_name + ": "
         col = col + "<b>&nbsp"+column_name+"</b>: "  
 
       #lab = Label(text=col,font_size=14,tag=column_name)
@@ -381,9 +366,9 @@ class RowForm(RowFormTemplate):
       col_header = FlowPanel()
       col_header.add_component(lab)
       col_header.add_component(col_description)
+      
       # add columns details to nested dictionary
       field_details = {"header": lab, "description": col_description,"field": input, "length": max_length}
-      #print(column_name+" added to form_field dictionary")
       self.form_fields[column_name] = field_details
       # add col_header and input field to column_panel
       # do not add an input field for DBAcontrol column if table is not dbdiary
@@ -399,14 +384,14 @@ class RowForm(RowFormTemplate):
       submit_btn.add_event_handler("click",self.submit_btn_click)
       self.column_panel_1.add_component(submit_btn)
 
-      # Add a Execute SQL command button if View Query
+    # Add a Execute SQL command button if View Query
     if Global.action in ["View Query","View query"]:     
       execute_sql_btn = Button(text="Execute SQL command",role="outlined-button")
       execute_sql_btn.add_event_handler("click",self.execute_sql_btn_click)
       self.column_panel_1.add_component(execute_sql_btn)
+      
     # For this work_area form the page_info details are all set to 0; this is for when the server print function calls this form
     Global.work_area[Global.current_work_area_name]["page_info"] = {"page_num": 0, "rows_per_page": 0, "total_rows": 0}
-    #print("Saving self of RowForm for work_area: "+Global.current_work_area_name)
     Global.work_area[Global.current_work_area_name]["self"] = self
 
     pass # end of init
@@ -419,58 +404,54 @@ class RowForm(RowFormTemplate):
     # Get QueryId
     query_id_field = formfields.get("QueryId", {}).get("field")
     Global.query_id = str(query_id_field.text) if query_id_field else "0"
-    #print(f"QueryId is: {Global.query_id}")
     
     # Get SQL Command (Adjust key case if needed: "SQL_command", "SQL_Command", etc.)
-    #print(f"SQL_command content is: {formfields['SQL_command']['field'].text}")
     sql_field = formfields.get("SQL_command", {}).get("field")
-    command = sql_field.text
-    #command = str(sql_field.getText()).strip() if sql_field else ""
-    #command = str(sql_field.html.strip()) if sql_field else ""
+    if str(type(sql_field)) == "<class 'anvil_extras.Quill.Quill'>":
+      # SQL_command is a Quill datatype (which it shouldn't be)
+      command = str(sql_field.getText()).strip() if sql_field else ""
+      #command = str(sql_field.html.strip()) if sql_field else ""
 
-    # 2. Safely retrieve field object regardless of key case
-    #target_key = next((k for k in formfields.keys() if k.lower() == "sql_command"), None)
+      # 2. Safely retrieve field object regardless of key case
+      target_key = next((k for k in formfields.keys() if k.lower() == "sql_command"), None)
 
-    #if target_key:
-    #  sql_field = formfields[target_key]['field']
-    #  print(f"Field object found: {type(sql_field)}")
+      if target_key:
+        sql_field = formfields[target_key]['field']
+        #print(f"Field object found: {type(sql_field)}")
 
-    #  # Try standard anvil_extras Quill .text property first
-    #  if hasattr(sql_field, 'text'):
-    #    command = str(sql_field.text).strip()
-    #  elif hasattr(sql_field, 'get_text'):
-    #    command = str(sql_field.get_text()).strip()
-    #  elif hasattr(sql_field, 'getText'):
-    #    command = str(sql_field.getText()).strip()
-    #  else:
-    #    command = ""
-    #else:
-    #  print("ERROR: 'SQL_command' key was not found in form_fields!")
-    #  command = ""
-    
-    #print(f"SQL command to execute is: {command}.")
+        # Try standard anvil_extras Quill .text property first
+        if hasattr(sql_field, 'text'):
+          command = str(sql_field.text).strip()
+        elif hasattr(sql_field, 'get_text'):
+          command = str(sql_field.get_text()).strip()
+        elif hasattr(sql_field, 'getText'):
+          command = str(sql_field.getText()).strip()
+        else:
+          command = ""
+      else:
+        print("ERROR: 'SQL_command' key was not found in form_fields!")
+        command = ""
+    else:
+      # SQL_command is a TextArea data_type
+      command = sql_field.text
+
     if command != "":
       msg, data_list, column_order, Global.tmp_table_info = anvil.server.call("execute_sql_command",command)
-      #print(data_list)
-      #print(column_order)
-      #print(Global.tmp_table_info)
+
     else:
       msg = "FAIL: SQL command field is empty."
-    #print("after execute_sql_commnd")
-    #print(Global.tmp_table_info)
+ 
     # Check msg for succes or FAIL
     if msg[0: 4] == "FAIL":
       alert(msg)
     else:
       # SQL command completed successfully and returned a data_list. Create a new TableList workspace
-      #print(msg)
       Global.column_order = column_order
       Global.table_items = data_list
       Global.table_name = "qresult"
       Global.action = "List " + Global.table_name.capitalize()
       if Global.main_form:  # Important to check if the form exists
         # Create new work_area "View Context" and set focus on this new work_area
-        #print("From repatingPanel row calling create_new_work_area for:",Global.action)
         Global.main_form.create_new_work_area(Global.action)
       else:
         print("Main form not found!")
@@ -487,9 +468,7 @@ class RowForm(RowFormTemplate):
       # all validated input fields are ok
       row_list = {}
       for col in self.form_fields.items():
-        #print(col)
         # Add Additional field validation (if needed) before submitting 
-        #print(str(type(col[1]["field"])))
         if str(type(col[1]["field"])) == "<class 'anvil_extras.Quill.Quill'>":
           # here we have to store both the Rtf and the Txt values in two fields (FieldRtf and FieldTxt)
           if col[0][-3:] == "Rtf":
@@ -499,33 +478,21 @@ class RowForm(RowFormTemplate):
             if row_list[col_name_txt] == "\n":
               row_list[col_name_txt] = ""
             row_list[col[0]] = Function.clean_quill_regex(col[1]["field"].get_html())
-            #print(col_name_txt,type(row_list[col_name_txt]),len(row_list[col_name_txt]))
           else:
             row_list[col[0]] = col[1]["field"].getText().strip()
-            #print(col[1]["field"].getText())
-          #delta = col[1]["field"].getContents()
-          #print("Quill Value is: ",row_list[col[0]])
-          #row_list[col[0]] = col[1]["field"].clipboard.convert(text)
-          #Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
-          #delta = col[1]["field"].clipboard.convert(text)
-          #col[1]["field"].setContents(delta, 'silent')
-          #cur_len = 0
-          #if text is not None:
-          #cur_len = len(text)
+            
         elif str(type(col[1]["field"])) == "<class 'anvil.DatePicker'>":
           row_list[col[0]] = col[1]["field"].date
+          
         elif str(type(col[1]["field"])) == "<class 'anvil.DropDown'>":
           row_list[col[0]] = col[1]["field"].selected_value
+          
         elif str(type(col[1]["field"])) in ["<class 'anvil.TextBox'>","<class 'anvil.TextArea'>"]:
           row_list[col[0]] = col[1]["field"].text
 
         # set empty fields to None
-        #print(col[0])
-        #print(row_list)
         if row_list[col[0]] in ["","\n"," "]:
           row_list[col[0]] = None
-      #
-      #print(Global.action, table_name, row_list)
       #
       del_workspace = False
       if action in ["add","insert"]:
