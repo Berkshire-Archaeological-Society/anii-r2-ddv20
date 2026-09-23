@@ -22,30 +22,18 @@ from .. import DataValidation
 class RowForm(RowFormTemplate):
   def input_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
-    #print("In input_change function")
+    # column name is in placeholder of field
     column = event_args["sender"].placeholder
-    # add * to column if field is required
-    #print(Global.work_area[Global.current_work_area_name]["table_info"])
-    #col = column
+
     col = "&nbsp" + "<b>&nbsp"+column+"</b>"
     if next((item['IS_NULLABLE'] for item in Global.work_area[Global.current_work_area_name]["table_info"] if item['COLUMN_NAME'] == column),0) != "YES":
-      #col = "* " + column
+      # add * to column if field is required
       col = "*" + "<b>&nbsp"+column+"</b>"
 
-    #print(str(type(event_args["sender"])))
-    #if str(type(event_args["sender"])) in ["<class 'anvil.TextBox'>","<class 'anvil.TextArea'>"]:
-      #self.form_fields[column]["header"].text = col + " (" + str(len(self.form_fields[column]["field"].text)) + "/" + str(self.form_fields[column]["length"]) + "):"
+    # only do char count for TextBox and TextArea type fields
+    if str(type(event_args["sender"])) in ["<class 'anvil.TextBox'>","<class 'anvil.TextArea'>"]:
       self.form_fields[column]["header"].content = col + " (" + str(len(self.form_fields[column]["field"].text)) + "/" + str(self.form_fields[column]["length"]) + "):"
-    #elif str(type(event_args["sender"])) == "<class 'anvil_extras.Quill.Quill'>":
-      # self.form_fields[column]["header"].text = col + " (" + str(len(self.form_fields[column]["field"].get_html())) + "/" + str(self.form_fields[column]["length"]) + "):"
-      #print(self.form_fields[column])
-      #print(self.form_fields[column]["header"])
-      #print(self.form_fields[column]["field"])
-      #print(self.form_fields[column]["length"])
-      #self.form_fields[column]["header"].text = col + " (" + str(len(self.form_fields[column]["field"].getText())) + "/" + str(self.form_fields[column]["length"]) + "):"
-      #self.form_fields[column]["header"].content = col + " (" + str(len(self.form_fields[column]["field"].getText())) + "/" + str(self.form_fields[column]["length"]) + "):"
-      #self.form_fields[column]["header"].content = col + " (" + str(self.form_fields[column]["field"].getLength()) + "/" + str(self.form_fields[column]["length"]) + "):"
-    #print("Leaving input_change function")
+
   pass # end of input_change
 
   def __init__(self, site_id, table_name, data_list, action, page_info, **properties):
@@ -54,7 +42,7 @@ class RowForm(RowFormTemplate):
     # Any code you write here will run before the form opens.
     self.site_id = site_id
     Global.table_name = table_name
-    #print("In RowForm "+table_name+" "+action+" "+str(data_list))
+    
     # Global.site_id is only None when form called from server side (e.g. printing form)
     if Global.site_id is None:
       # initialise some Globals variables for when the function is called from the server side
@@ -63,7 +51,6 @@ class RowForm(RowFormTemplate):
       Global.current_work_area_name = Global.action
       Global.work_area = {}
       Global.work_area[Global.current_work_area_name] = {}
-      #print(data_list)
       Global.work_area[Global.current_work_area_name]["data_list"] = data_list
     #else:
       # set table_name to one of "context", "find", from the action Global variable
@@ -80,15 +67,12 @@ class RowForm(RowFormTemplate):
     # we need to find out which table we are dealing with
     self.ws_name.text = Global.current_work_area_name
     self.title.text = "This form is to " + Global.action
-    # get table information
-    #table_info = anvil.server.call("describe_table",Global.table_name)
-    #print(Global.current_work_area_name)
+
     # And then we need to create all the fields based on table information 
     # loop over table columns
     self.field_details = {}
     self.form_fields = {}
-    #for item in table_info:
-    #print(Global.work_area[Global.current_work_area_name]["table_info"])
+
     for item in Global.work_area[Global.current_work_area_name]["table_info"]:
       #print(item)
       if Global.table_name == "us": # this if is always false - can be removed
@@ -107,11 +91,11 @@ class RowForm(RowFormTemplate):
 
       # types can be varchar(length),int(length),text,float,double,date
       # type text can be 65535 char so need to be a TextArea, other can be a TextBox
-      # create the label and the input field
+      # create the label (= column/field name) and the input field
       if column_type == "text":
         if column_name in Global.TextArea_columns: # create a TextArea for some text field columns
           #create TextArea input field for SQL_command
-          input = TextArea(tag=column_name)
+          input = TextArea(placeholder=column_name,tag=column_name)
           input.add_event_handler('change',self.input_change)
         else:
           #input = Quill(placeholder=column_name,toolbar=Global.Quill_toolbarOptions)
@@ -120,13 +104,9 @@ class RowForm(RowFormTemplate):
         max_length = 65535
         
       elif column_type == "date":
-        # by default create TextBox fields
         input = DatePicker(placeholder=column_name,format="%d-%m-%Y")
-        #input = TextBox(placeholder=column_name)
         # date type is 10 long
         max_length = 10
-        # add event handler for when input field is changed to update the character count
-        #input.add_event_handler('change',self.input_change)
         
       elif column_type == "string":
         input = TextBox(placeholder=column_name)
@@ -160,7 +140,7 @@ class RowForm(RowFormTemplate):
           # (nor for negative symbol but that is not applicable for us)
           max_length = max_length + 1
 
-        # add event handler for when input field is changed to update the character counth
+        # add event handler for when input field is changed to update the character count
         input.add_event_handler('change',self.input_change)
 
       # create input_error label used for validation
@@ -353,7 +333,7 @@ class RowForm(RowFormTemplate):
       else:
         col = "*"
       
-      if str(type(input)) in ["<class 'anvil_extras.Quill.Quill'>", "<class 'anvil.TextBox'>"]:
+      if str(type(input)) in ["<class 'anvil_extras.Quill.Quill'>", "<class 'anvil.TextBox'>", "<class 'anvil.TextArea'>"]:
         col = col + "<b>&nbsp"+column_name+"</b>" + " (" + str(cur_len) + "/" + str(max_length) + "):" 
       else:
         col = col + "<b>&nbsp"+column_name+"</b>: "  
@@ -434,7 +414,11 @@ class RowForm(RowFormTemplate):
     else:
       # SQL_command is a TextArea data_type
       command = sql_field.text
-
+    
+    ###
+    # add a check if the SQL_command is a parametarised procedure and then ask for the input values for the parameters
+    ###
+    
     if command != "":
       msg, data_list, column_order, Global.tmp_table_info = anvil.server.call("execute_sql_command",command)
 
