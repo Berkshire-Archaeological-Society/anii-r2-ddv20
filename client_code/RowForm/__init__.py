@@ -314,9 +314,9 @@ class RowForm(RowFormTemplate):
       if action in ["edit","update","view"]:
         #print(Global.work_area[Global.current_work_area_name]["data_list"][0])
         if str(type(input)) == "<class 'anvil_extras.Quill.Quill'>":
-          print(Global.work_area[Global.current_work_area_name]["data_list"][0])
+          #print(Global.work_area[Global.current_work_area_name]["data_list"][0])
           text = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
-          print(column_name,text)
+          #print(column_name,text)
           input.set_html(text)
           cur_len = 0
           if text is not None:
@@ -414,7 +414,7 @@ class RowForm(RowFormTemplate):
   def execute_sql_btn_click(self, **event_args):
     #print("Execute SQL command button pressed")
     formfields = self.form_fields
-    print("Available keys in form_fields:", list(self.form_fields.keys()))
+    #print("Available keys in form_fields:", list(self.form_fields.keys()))
     # SQL_command is a <class 'anvil_extras.Quill.Quill'> object as it is a text datatype so needs to get the text with the Quill method getText()
     # Get QueryId
     query_id_field = formfields.get("QueryId", {}).get("field")
@@ -448,7 +448,7 @@ class RowForm(RowFormTemplate):
     #  print("ERROR: 'SQL_command' key was not found in form_fields!")
     #  command = ""
     
-    print(f"SQL command to execute is: {command}.")
+    #print(f"SQL command to execute is: {command}.")
     if command != "":
       msg, data_list, column_order, Global.tmp_table_info = anvil.server.call("execute_sql_command",command)
       #print(data_list)

@@ -900,8 +900,7 @@ class Main(MainTemplate):
         self.create_new_work_area(Global.action)
     else:
       if Global.action != Global.separator:
-        print(Global.action)
-        alert("Action not yet implemented.")
+        alert(f"Action {Global.action} not yet implemented.")
 
     # clear selected_value
     self.insert_dropdown.selected_value = None
@@ -1403,7 +1402,7 @@ class Main(MainTemplate):
       # loop through all selected rows
       Global.table_items = row
       Global.query_info = row
-      print(Global.query_info)
+      #print(Global.query_info)
 
       Global.query_id = row["QueryId"]
       command = row["SQL_command"]
