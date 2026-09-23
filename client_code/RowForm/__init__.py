@@ -338,9 +338,7 @@ class RowForm(RowFormTemplate):
       else:
         col = col + "<b>&nbsp"+column_name+"</b>: "  
 
-      #lab = Label(text=col,font_size=14,tag=column_name)
       lab = RichText(content=col,font_size=14,tag=column_name,format='restricted_html')
-      #col_comment = "" if Global.table_name == "users" else item["COLUMN_COMMENT"]
       col_comment = item["COLUMN_COMMENT"]
       col_description = Label(text=col_comment,font_size=14)
       col_header = FlowPanel()
@@ -356,7 +354,7 @@ class RowForm(RowFormTemplate):
         self.column_panel_1.add_component(col_header,full_width_row=True)
         self.column_panel_1.add_component(input,full_width_row=True)
         self.column_panel_1.add_component(input_error,full_width_row=True)
-    # endof forloop item in table_info
+    # endof for loop item in table_info
 
     # Add a Submit button if Edit or Add action
     if action in ["edit","add","insert"]:     #"Edit Context","Edit Find","Add Context","Add Find"]:
@@ -379,7 +377,6 @@ class RowForm(RowFormTemplate):
   def execute_sql_btn_click(self, **event_args):
     #print("Execute SQL command button pressed")
     formfields = self.form_fields
-    #print("Available keys in form_fields:", list(self.form_fields.keys()))
     # SQL_command is a <class 'anvil_extras.Quill.Quill'> object as it is a text datatype so needs to get the text with the Quill method getText()
     # Get QueryId
     query_id_field = formfields.get("QueryId", {}).get("field")
@@ -387,8 +384,9 @@ class RowForm(RowFormTemplate):
     
     # Get SQL Command (Adjust key case if needed: "SQL_command", "SQL_Command", etc.)
     sql_field = formfields.get("SQL_command", {}).get("field")
+    
     if str(type(sql_field)) == "<class 'anvil_extras.Quill.Quill'>":
-      # SQL_command is a Quill datatype (which it shouldn't be)
+      # just in case SQL_command is a Quill datatype (which it shouldn't be)
       command = str(sql_field.getText()).strip() if sql_field else ""
       #command = str(sql_field.html.strip()) if sql_field else ""
 
@@ -411,10 +409,13 @@ class RowForm(RowFormTemplate):
       else:
         print("ERROR: 'SQL_command' key was not found in form_fields!")
         command = ""
-    else:
+    elif str(type(sql_field)) == "<class 'anvil.TextArea'>":
       # SQL_command is a TextArea data_type
       command = sql_field.text
-    
+    else:
+      # SQL_command is a unknown data_type
+      command = ""
+      
     ###
     # add a check if the SQL_command is a parametarised procedure and then ask for the input values for the parameters
     ###
