@@ -1401,6 +1401,7 @@ class Main(MainTemplate):
       # loop through all selected rows
       Global.table_items = row
       Global.query_info = row
+      print(Global.query_info)
 
       Global.query_id = row["QueryId"]
       command = row["SQL_command"]

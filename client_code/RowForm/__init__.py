@@ -407,6 +407,8 @@ class RowForm(RowFormTemplate):
     Global.work_area[Global.current_work_area_name]["page_info"] = {"page_num": 0, "rows_per_page": 0, "total_rows": 0}
     #print("Saving self of RowForm for work_area: "+Global.current_work_area_name)
     Global.work_area[Global.current_work_area_name]["self"] = self
+
+    pass # end of init
   
   def execute_sql_btn_click(self, **event_args):
     #print("Execute SQL command button pressed")
@@ -416,35 +418,34 @@ class RowForm(RowFormTemplate):
     # Get QueryId
     query_id_field = formfields.get("QueryId", {}).get("field")
     Global.query_id = str(query_id_field.text) if query_id_field else "0"
-    print(f"QueryId is: {Global.query_id}")
+    #print(f"QueryId is: {Global.query_id}")
     
     # Get SQL Command (Adjust key case if needed: "SQL_command", "SQL_Command", etc.)
-    print(f"content is: {formfields['SQL_command']['field'].content}")
+    #print(f"SQL_command content is: {formfields['SQL_command']['field'].text}")
     sql_field = formfields.get("SQL_command", {}).get("field")
-    len = sql_field.getLength()
-    print(f"SQL_command is: {sql_field.content}")
+    command = sql_field.text
     #command = str(sql_field.getText()).strip() if sql_field else ""
-    command = str(sql_field.html.strip()) if sql_field else ""
+    #command = str(sql_field.html.strip()) if sql_field else ""
 
     # 2. Safely retrieve field object regardless of key case
-    target_key = next((k for k in formfields.keys() if k.lower() == "sql_command"), None)
+    #target_key = next((k for k in formfields.keys() if k.lower() == "sql_command"), None)
 
-    if target_key:
-      sql_field = formfields[target_key]['field']
-      print(f"Field object found: {type(sql_field)}")
+    #if target_key:
+    #  sql_field = formfields[target_key]['field']
+    #  print(f"Field object found: {type(sql_field)}")
 
-      # Try standard anvil_extras Quill .text property first
-      if hasattr(sql_field, 'text'):
-        command = str(sql_field.text).strip()
-      elif hasattr(sql_field, 'get_text'):
-        command = str(sql_field.get_text()).strip()
-      elif hasattr(sql_field, 'getText'):
-        command = str(sql_field.getText()).strip()
-      else:
-        command = ""
-    else:
-      print("ERROR: 'SQL_command' key was not found in form_fields!")
-      command = ""
+    #  # Try standard anvil_extras Quill .text property first
+    #  if hasattr(sql_field, 'text'):
+    #    command = str(sql_field.text).strip()
+    #  elif hasattr(sql_field, 'get_text'):
+    #    command = str(sql_field.get_text()).strip()
+    #  elif hasattr(sql_field, 'getText'):
+    #    command = str(sql_field.getText()).strip()
+    #  else:
+    #    command = ""
+    #else:
+    #  print("ERROR: 'SQL_command' key was not found in form_fields!")
+    #  command = ""
     
     print(f"SQL command to execute is: {command}.")
     if command != "":
@@ -464,6 +465,7 @@ class RowForm(RowFormTemplate):
       #print(msg)
       Global.column_order = column_order
       Global.table_items = data_list
+      Global.query_info = data_list
       Global.table_name = "qresult"
       Global.action = "List " + Global.table_name.capitalize()
       if Global.main_form:  # Important to check if the form exists
@@ -473,7 +475,7 @@ class RowForm(RowFormTemplate):
       else:
         print("Main form not found!")
 
-    pass # end of init
+    pass # end of execute_sql_btn_click
 
   def submit_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -518,8 +520,8 @@ class RowForm(RowFormTemplate):
           row_list[col[0]] = col[1]["field"].text
 
         # set empty fields to None
-        print(col[0])
-        print(row_list)
+        #print(col[0])
+        #print(row_list)
         if row_list[col[0]] in ["","\n"," "]:
           row_list[col[0]] = None
       #
