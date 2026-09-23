@@ -1048,6 +1048,7 @@ class Main(MainTemplate):
     """This method is called when the button is clicked"""
     #
     for row in Global.work_area[Global.current_work_area_name]["selected_rows"]:
+      #print(row)
       Global.table_items = row
       Global.query_info = row
       #print("View button for row: ",row)

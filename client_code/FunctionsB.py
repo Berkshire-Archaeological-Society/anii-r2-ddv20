@@ -142,9 +142,10 @@ def table_list_refresh(self):
     self.repeating_panel_1.items = Global.table_items
   else:
     #print(Global.table_name)
-    data_list = anvil.server.call("table_get",Global.site_id,Global.table_name)
-    Global.col_order = data_list[1]
-    self.repeating_panel_1.items = data_list[0]
+    self.repeating_panel_1.items, Global.col_order = anvil.server.call("table_get",Global.site_id,Global.table_name)
+    #Global.col_order = data_list[1]
+    #self.repeating_panel_1.items = data_list[0]
+    #print(data_list[0])
 
   # 2. set nr of rows per page from Global variable (which is defined by a parameter in the server-side config file)
   #if Global.rows_per_page is not None:

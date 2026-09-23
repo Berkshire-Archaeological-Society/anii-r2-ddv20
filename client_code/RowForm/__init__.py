@@ -314,6 +314,7 @@ class RowForm(RowFormTemplate):
       if action in ["edit","update","view"]:
         #print(Global.work_area[Global.current_work_area_name]["data_list"][0])
         if str(type(input)) == "<class 'anvil_extras.Quill.Quill'>":
+          print(Global.work_area[Global.current_work_area_name]["data_list"][0])
           text = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
           print(column_name,text)
           input.set_html(text)
