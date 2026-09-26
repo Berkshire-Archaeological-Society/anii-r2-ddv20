@@ -171,7 +171,8 @@ class Main(MainTemplate):
       Global.work_area[Global.current_work_area_name]["menu_select_options"].visible = False
 
       Global.action_form_type = str(type(Global.work_area[Global.current_work_area_name]["form"])).split(".")[2][:-2]
-      
+      Global.action = Global.work_area[Global.current_work_area_name]["action"].split(" ")[0]
+
       #print("Work area action form type: ",Global.action_form_type)
       if Global.work_area[Global.current_work_area_name]["action"].split(" ")[0] in ["View", "Edit", "Insert", "Add", "Import"]:
       #if Global.work_area[Global.current_work_area_name]["action"].split(" ")[0] in ["View", "Edit", "Insert", "Add", "Import"] or Global.work_area[Global.current_work_area_name]["action"] == "List Users":
