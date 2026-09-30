@@ -6,11 +6,6 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 # This is a module.
-# You can define variables and functions here, and use them from any form. For example, in a top-level form:
-#
-#    from .. import Module1
-#
-#    Module1.say_hello()
 #
 # Global Variables
 #
@@ -20,14 +15,6 @@ sys_admin_action_list = ["List Users","Edit User","Insert User","Import Users",s
 site_leader_action_list = ["List Users",separator,"List Site","Edit Site","Add Site"]
 site_admin_action_list = [separator,"List UserRole","Edit UserRole","Add UserRole","Import UserRoles"]
 admin_action_list_not_implemented = [separator]
-#user_action_list = ["Select Site",separator,
-#                    "List Contexts","Add Context","Bulk Upload Contexts",separator,
-#                    "List Finds", "Add Find","Bulk Upload Finds",separator,
-#                    "List Anomalies","Add Anomaly",separator,
-#                    "List Interpretations","Add Interpretation"
-#                   ]
-# action_list_not_implemented should always contain the separator
-#action_list_not_implemented = [separator,"Bulk Upload Finds","Draw","List Areas","Add Area","Add Anomaly"]
 action_list_not_implemented = [separator]
 # the list_action_list is a list of the tables in DB (not yet sites)
 list_action_dropdown = []
@@ -212,71 +199,17 @@ column_order = {}
 # the columns of the users table to be ignored in TableList
 ignore_users_columns = ["remembered_logins","n_password_failures","password_hash","confirmed_email","email_confirmation_key","signed_up","remembered_logins","mfa"]
 columns_not_editable = ["email","initials","last_login","password_hash", "n_password_failures","confirmed_email","signed_up","email_confirmation_key","remembered_logins","mfa","last_seen"]
+
 # predefined width of known columns
-column_width = {"default": 300,
-                "initials": 60,
-                "firstname": 150,
-                "lastname":150,
-                "systemrole": 140,
-                "last_seen": 210,
-                "last_login": 210,
-                "YearStart": 75,
-                "YearEnd": 70,
-                "Count": 50,
-                "Width": 50,
-                "Depth": 50,
-                "Length": 60
-               }
-# dropdown lilst for listed columns (for data input)
-column_with_list = {
-  "RecordStatus" : {
-    "options"     : ["Registered","Planned","Dated","Grouped","Report"], 
-    "placeholder" : "You must enter a comma separarted list of Registered, Planned, Dated, Grouped, Report.",
-    "error"       : "You must make a selection"
-  }
-}
-column_with_dropdown = {
-  "Enabled" : {
-    "options"     : ["True", "False"], 
-    "placeholder" : "Please select 'True' or 'False'", 
-    "error"       : "You must make a selection"
-  }, 
-  "ContextType" : {
-    "options"     : ["Deposit","Fill","Cut","Structure","Feature"], 
-    "placeholder" : "Please select a type", 
-    "error"       : "You must make a selection"
-  },
-  "Role" : {
-    "options"     : ["Site Leader","Site Editor","Site Viewer"], 
-    "placeholder" : "Please select a role", 
-    "error"       : "You must make a selection"
-  },
-  "SurveyMethod" : {
-    "options"     : ["BNG", "Aligned to BNG north", "Not aligned to BNG north"],
-    "placeholder" : "Please select a survey method", 
-    "error"       : "You must make a selection"    
-  },
-  "FindType" : {
-    "options"     : ["Bulk", "SmallFind", "Sample", "Group", "FindGroup"],
-    "placeholder" : "Please select a type", 
-    "error"       : "You must make a selection"    
-  },
-  "systemrole":{
-    "options"     : ["System Administrator", "Site User"],
-    "placeholder" : "Please select a type", 
-    "error"       : "You must make a selection"
-  },
-  "FlatorCurved":{
-    "options"     : ["flat", "curved"],
-    "placeholder" : "Please select a type", 
-    "error"       : "You must make a selection"    
-  }
-}
-#
+column_width = {}  # defined in configuration.yaml file
+# dropdown list for listed columns (for data input)
+column_with_list = {}   # defined in configuration.yaml file
+# dropdown options for selected columns
+column_with_dropdown = []   # defined in configuration.yaml file
+
 context_id = None
 context_items = {}
 context_options = {}
-context_types = ["Deposit","Cut","Structure"]
 copyright = ""
 DBAcontrol = ""
 field_description_changed = False
@@ -285,7 +218,6 @@ find_id = None
 file_list = []
 find_items = {}
 find_options = {}
-find_types = {"Bulk Find","Small Find","Sample","FindGroup"}
 google_link = ""
 context_help_information = """
 Deposit description:
@@ -301,10 +233,6 @@ image_type = ""
 ip_address = ""
 print_action = False
 selected_material_types = {}
-material_types = ["CBM Tile","CBM Brick","CBM Drain Pipe","CBM Mortar",
-                  "Stone","Roofing Slate","Flint","Worked Flint","Pottery",
-                  "Clay Pipe","Metalwork","Nails","Iron Slag","Glass","Animal Bone",
-                  "Oyster Shells","Wood","Charcoal"]
 login_options = {"Sign in", "Sign out"}
 #
 notification_timeout = 10
@@ -331,7 +259,6 @@ select_site_dropdown = {}
 header_site_summary_information = {}
 prefix_special_finds_table = ""
 system_name = ""
-SurveyMethod_options = {"BNG","Aligned to BNG north","Not aligned to BNG north"}
 system = "Anchurus-II Web Application"
 status = ""
 #

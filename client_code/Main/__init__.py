@@ -33,6 +33,7 @@ class Main(MainTemplate):
     # Any code you write here will run before the form opens.
     # get client variable settings from server configuration file
     globals_from_config = anvil.server.call("client_globals")
+    #print(globals_from_config)
     Global.rows_per_page = globals_from_config["rows_per_page"]
     Global.version = globals_from_config["version"]
     Global.organisation = globals_from_config["organisation"]
@@ -43,8 +44,10 @@ class Main(MainTemplate):
     Global.admin_user = globals_from_config["admin_user"]
     Global.admin_user_initials = globals_from_config["admin_user_initials"]
     Global.prefix_special_finds_table = globals_from_config["prefix_special_finds_table"]
-
     Global.selected_highlight_colour = globals_from_config["highlight_colour"]
+    Global.column_width = globals_from_config["column_width"]
+    Global.column_with_dropdown = globals_from_config["column_with_dropdown"]
+    Global.column_with_list = globals_from_config["column_with_list"]
     
     # set the title of a browser tab to be system (which is application name Anchurus-II R2 ) + organisation name (which is realy the anchurus system name)
     document.title = Global.system + "-" + Global.organisation
