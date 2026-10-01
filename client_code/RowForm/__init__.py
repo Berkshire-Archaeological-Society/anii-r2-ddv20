@@ -292,6 +292,7 @@ class RowForm(RowFormTemplate):
       if action in ["edit","update","view"]:
         if str(type(input)) == "<class 'anvil_extras.Quill.Quill'>":
           text = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
+          # the data from the database is quill delta format so use input.content = delta 
           input.set_html(text)
           cur_len = 0
           if text is not None:
@@ -461,7 +462,8 @@ class RowForm(RowFormTemplate):
             row_list[col_name_txt] = col[1]["field"].getText().strip()
             if row_list[col_name_txt] == "\n":
               row_list[col_name_txt] = ""
-            # get the input as html (to be reviewed). Maybe just keep it as Delta format (JSON) is safer
+            # now get the input as html (to be reviewed). Maybe just keep it as Delta format (JSON) is safer
+            # just use the quill.content method and also no need to use the clean_quill_regex
             row_list[col[0]] = Function.clean_quill_regex(col[1]["field"].get_html())
           else:
             row_list[col[0]] = col[1]["field"].getText().strip()
