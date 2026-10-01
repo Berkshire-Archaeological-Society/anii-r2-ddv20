@@ -457,11 +457,11 @@ class RowForm(RowFormTemplate):
         if str(type(col[1]["field"])) == "<class 'anvil_extras.Quill.Quill'>":
           # here we have to store both the Rtf and the Txt values in two fields (FieldRtf and FieldTxt)
           if col[0][-3:] == "Rtf":
-            # here we have Rtf column (col[0]), so there will also be a Txt column; save both Rtf and plain Txt
-            col_name_txt = col[0][:-3] + "Txt"
+            91
             row_list[col_name_txt] = col[1]["field"].getText().strip()
             if row_list[col_name_txt] == "\n":
               row_list[col_name_txt] = ""
+            # get the input as html (to be reviewed). Maybe just keep it as Delta format (JSON) is safer
             row_list[col[0]] = Function.clean_quill_regex(col[1]["field"].get_html())
           else:
             row_list[col[0]] = col[1]["field"].getText().strip()
