@@ -240,7 +240,7 @@ organisation = ""
 query_view = False
 query_id = ""
 query_info = []
-TextArea_columns = ["SQL_command"]
+TextArea_columns = []
 view_queries = ["siteuserrole"]
 #
 # The following variable rows_per_page has to be set to 0, to make sure the print function prints the whole table

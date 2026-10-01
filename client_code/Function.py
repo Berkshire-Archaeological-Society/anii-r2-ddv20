@@ -188,3 +188,14 @@ def clean_quill_regex(html_content):
   cleaned = re.sub(r'(<p>\s*(<br/?>)?\s*</p>)+$', '', cleaned, flags=re.IGNORECASE)
 
   return cleaned.strip()
+
+def dict_get(data, keys, default=None):
+  """Recursively traverse dictionary keys, returning default if any key is missing or None."""
+  for key in keys:
+    if isinstance(data, dict):
+      data = data.get(key)
+    else:
+      return default
+    if data is None:
+      return default
+  return data
