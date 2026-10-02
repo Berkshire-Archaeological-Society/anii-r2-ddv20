@@ -70,7 +70,8 @@ class ImportForm(ImportFormTemplate):
   def commit_inserts_click(self, **event_args):
     """This method is called when the button is clicked"""
     byte_string = bytes(self.message_log.text, "utf-8")
-    text_file = anvil.BlobMedia('text/plain', byte_string, name='Import_message.log')
+    logmsg_name = 'Import_message_' + Global.table_name + '.log'
+    text_file = anvil.BlobMedia('text/plain', byte_string, name=logmsg_name)
     anvil.media.download(text_file)
     n = Notification("The successful Inserts have been comitted to the table. The message log has been downloaded.")
     n.show()
