@@ -378,7 +378,8 @@ class RowForm(RowFormTemplate):
   def execute_sql_btn_click(self, **event_args):
     #print("Execute SQL command button pressed")
     formfields = self.form_fields
-    # SQL_command is a <class 'anvil_extras.Quill.Quill'> object as it is a text datatype so needs to get the text with the Quill method getText()
+    # SQL_command is a <class 'anvil_extras.Quill.Quill'> object as it is a text datatype
+    # so needs to get the text with the Quill method getText() -- not any more. Is is now a TextArea type field (TB 2026-10-02)
     # Get QueryId
     query_id_field = formfields.get("QueryId", {}).get("field")
     Global.query_id = str(query_id_field.text) if query_id_field else "0"
