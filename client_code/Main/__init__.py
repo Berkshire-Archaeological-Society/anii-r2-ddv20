@@ -31,8 +31,10 @@ class Main(MainTemplate):
     #
     self.last_server_update = 0
     # Any code you write here will run before the form opens.
+    
     # get client variable settings from server configuration file
     globals_from_config = anvil.server.call("client_globals")
+    
     #print(globals_from_config)
     Global.rows_per_page = globals_from_config["rows_per_page"]
     Global.version = globals_from_config["version"]
