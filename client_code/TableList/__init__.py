@@ -199,7 +199,7 @@ class TableList(TableListTemplate):
       #  if field_name in Global.ignore_users_columns or field_name.endswith("Rtf"):
       #    continue
       #else:
-      if field_name in Global.ignore_users_columns or field_name.endswith("Rtf"):
+      if field_name in Global.ignore_users_columns or field_name.endswith(Global.RT_extension):
         continue
       column_list.append(field_name)
     # now create the table columns and put them in the work area

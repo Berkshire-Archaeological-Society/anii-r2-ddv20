@@ -86,7 +86,7 @@ class RowForm(RowFormTemplate):
         column_type = item["COLUMN_TYPE"]
      
       # ignore columns with Txt at the end
-      if column_name[-3:] == "Txt":
+      if column_name.endswitch(Global.TX_extension):
         continue
 
       # types can be varchar(length),int(length),text,float,double,date
@@ -458,8 +458,9 @@ class RowForm(RowFormTemplate):
         # Add Additional field validation (if needed) before submitting 
         if str(type(col[1]["field"])) == "<class 'anvil_extras.Quill.Quill'>":
           # here we have to store both the Rtf and the Txt values in two fields (FieldRtf and FieldTxt)
-          if col[0][-3:] == "Rtf":
-            91
+          len_extension = len(Global.RT_extension)
+          if col[0].endswitch(Global.RT_extension):
+            col_name_txt = col[0][:-len_extension] + Global.TX_extension
             row_list[col_name_txt] = col[1]["field"].getText().strip()
             if row_list[col_name_txt] == "\n":
               row_list[col_name_txt] = ""

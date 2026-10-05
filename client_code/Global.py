@@ -242,6 +242,8 @@ query_id = ""
 query_info = []
 TextArea_columns = []
 view_queries = ["siteuserrole"]
+TX_extension = "Txt"
+RT_extension = "Rtf"
 #
 # The following variable rows_per_page has to be set to 0, to make sure the print function prints the whole table
 # During startup of the client (i.e. browser URL click of website) this value can be overwritten by a value for this
