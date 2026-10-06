@@ -292,13 +292,28 @@ class RowForm(RowFormTemplate):
       # if action is View or Edit then fill all fields
       if action in ["edit","update","view"]:
         if str(type(input)) == "<class 'anvil_extras.Quill.Quill'>":
-          text = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
-          print(f"Quill data for {column_name} is: {text}")
+          raw_data = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
+          print(f"Quill data for {column_name} is: {raw_data}")
           # the data from the database is json format so use setContemts(text)
-          input.setContents(text)
+          if raw_data:
+            # 1. If it's a JSON string, parse it into a Python dict
+            if isinstance(raw_data, str):
+              try:
+                delta_dict = json.loads(raw_data)
+              except json.JSONDecodeError:
+                # Fallback if raw text wasn't valid JSON
+                delta_dict = {"ops": [{"insert": f"{raw_data}\n"}]}
+            else:
+              delta_dict = raw_data  # Already a dict
+            # 2. Pass the parsed dict to Quill
+            input.setContents(delta_dict)
+          else:
+            # Clear editor if data is None/empty
+            input.setContents({"ops": []})
+          
           cur_len = 0
-          if text is not None:
-            cur_len = len(text)
+          if raw_data is not None:
+            cur_len = len(raw_data)
           if action == "view":
             input.enable(False)
             input.foreground = "#ffffff"
@@ -472,7 +487,9 @@ class RowForm(RowFormTemplate):
             # just use the quill.content method and also no need to use the clean_quill_regex
             #row_list[col[0]] = Function.clean_quill_regex(col[1]["field"].get_html())
             # just use the json.dump method for the quil getContents()
-            row_list[col[0]] = json.dumps(col[1]["field"].getContents())
+            #row_list[col[0]] = json.dumps(col[1]["field"].getContents())
+            row_list[col[0]] = col[1]["field"].getContents()
+
           else:
             # text field is not an RT datatype, so just get the plain clean text
             row_list[col[0]] = col[1]["field"].getText().strip()
