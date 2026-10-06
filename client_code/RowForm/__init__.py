@@ -3,6 +3,7 @@ from anvil import *
 import anvil.server
 import re
 import datetime
+import json 
 import anvil.google.auth, anvil.google.drive
 from anvil.google.drive import app_files
 import anvil.users
@@ -292,8 +293,8 @@ class RowForm(RowFormTemplate):
       if action in ["edit","update","view"]:
         if str(type(input)) == "<class 'anvil_extras.Quill.Quill'>":
           text = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
-          # the data from the database is quill delta format so use input.content = delta 
-          input.set_html(text)
+          # the data from the database is json format so use setContemts(text)
+          input.setContents(text)
           cur_len = 0
           if text is not None:
             cur_len = len(text)
@@ -459,15 +460,20 @@ class RowForm(RowFormTemplate):
         if str(type(col[1]["field"])) == "<class 'anvil_extras.Quill.Quill'>":
           # here we have to store both the Rtf and the Txt values in two fields (FieldRtf and FieldTxt)
           len_extension = len(Global.RT_extension)
+          # check if column is a RT datatype
           if col[0].endswitch(Global.RT_extension):
             col_name_txt = col[0][:-len_extension] + Global.TX_extension
+            # get the clean text contents of the input out field
             row_list[col_name_txt] = col[1]["field"].getText().strip()
             if row_list[col_name_txt] == "\n":
               row_list[col_name_txt] = ""
             # now get the input as html (to be reviewed). Maybe just keep it as Delta format (JSON) is safer
             # just use the quill.content method and also no need to use the clean_quill_regex
-            row_list[col[0]] = Function.clean_quill_regex(col[1]["field"].get_html())
+            #row_list[col[0]] = Function.clean_quill_regex(col[1]["field"].get_html())
+            # just use the json.dump method for the quil getContents()
+            row_list[col[0]] = json.dumps(col[1]["field"].getContents())
           else:
+            # text field is not an RT datatype, so just get the plain clean text
             row_list[col[0]] = col[1]["field"].getText().strip()
             
         elif str(type(col[1]["field"])) == "<class 'anvil.DatePicker'>":
