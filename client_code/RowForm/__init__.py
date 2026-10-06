@@ -93,7 +93,7 @@ class RowForm(RowFormTemplate):
       # types can be varchar(length),int(length),text,float,double,date
       # type text can be 65535 char so need to be a TextArea, other can be a TextBox
       # create the label (= column/field name) and the input field
-      if column_type == "text":
+      if column_type in ["text","longtext"]:
         if column_name in Global.TextArea_columns: # create a TextArea for some text field columns
           #create TextArea input field for SQL_command
           input = TextArea(placeholder=column_name,tag=column_name)
@@ -293,6 +293,7 @@ class RowForm(RowFormTemplate):
       if action in ["edit","update","view"]:
         if str(type(input)) == "<class 'anvil_extras.Quill.Quill'>":
           text = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
+          print(f"Quill data for {column_name} is: {text}")
           # the data from the database is json format so use setContemts(text)
           input.setContents(text)
           cur_len = 0
