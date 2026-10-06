@@ -87,7 +87,7 @@ class RowForm(RowFormTemplate):
         column_type = item["COLUMN_TYPE"]
      
       # ignore columns with Txt at the end
-      if column_name.endswitch(Global.TX_extension):
+      if column_name.endswith(Global.TX_extension):
         continue
 
       # types can be varchar(length),int(length),text,float,double,date
@@ -461,7 +461,7 @@ class RowForm(RowFormTemplate):
           # here we have to store both the Rtf and the Txt values in two fields (FieldRtf and FieldTxt)
           len_extension = len(Global.RT_extension)
           # check if column is a RT datatype
-          if col[0].endswitch(Global.RT_extension):
+          if col[0].endswith(Global.RT_extension):
             col_name_txt = col[0][:-len_extension] + Global.TX_extension
             # get the clean text contents of the input out field
             row_list[col_name_txt] = col[1]["field"].getText().strip()
