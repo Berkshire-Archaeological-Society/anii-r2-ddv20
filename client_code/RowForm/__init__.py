@@ -293,7 +293,7 @@ class RowForm(RowFormTemplate):
       if action in ["edit","update","view"]:
         if str(type(input)) == "<class 'anvil_extras.Quill.Quill'>":
           raw_data = Global.work_area[Global.current_work_area_name]["data_list"][0][column_name]
-          print(f"Quill data for {column_name} is: {raw_data}")
+          #print(f"Quill data for {column_name} is: {raw_data}")
           # the data from the database is json format so use setContemts(text)
           if raw_data:
             # 1. If it's a JSON string, parse it into a Python dict
@@ -488,7 +488,7 @@ class RowForm(RowFormTemplate):
             #row_list[col[0]] = Function.clean_quill_regex(col[1]["field"].get_html())
             # just use the json.dump method for the quil getContents()
             #row_list[col[0]] = json.dumps(col[1]["field"].getContents())
-            row_list[col[0]] = col[1]["field"].getContents()
+            row_list[col[0]] = Function.convert_quill_to_python(col[1]["field"])
 
           else:
             # text field is not an RT datatype, so just get the plain clean text

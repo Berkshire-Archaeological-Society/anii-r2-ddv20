@@ -6,6 +6,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+import json
 
 import re
 
@@ -199,3 +200,55 @@ def dict_get(data, keys, default=None):
     if data is None:
       return default
   return data
+
+def _clean_js_proxy(obj):
+  """Recursively converts JavaScript proxyobjects and proxylists into native Python dicts, lists, and primitives."""
+  if obj is None:
+    return None
+
+    # 1. Check for JS Proxy Lists / Arrays or Python Lists/Tuples FIRST
+    # (Exclude strings and dicts so they don't get iterated as lists)
+  if (
+    isinstance(obj, (list, tuple))
+    or hasattr(obj, "append")
+    or type(obj).__name__ == "proxylist"
+  ):
+    return [_clean_js_proxy(item) for item in obj]
+
+    # 2. Check for JS Proxy Objects or Python Dicts
+  elif isinstance(obj, dict) or hasattr(obj, "keys"):
+    return {str(k): _clean_js_proxy(obj[k]) for k in obj.keys()}
+
+    # 3. Return primitives (str, int, float, bool) directly
+  return obj
+
+
+def convert_quill_to_python(quill_comp):
+  try:
+    raw_contents = quill_comp.getContents()
+
+    # Step 1: Unwrap top-level Delta ops
+    if hasattr(raw_contents, "ops"):
+      raw_ops = raw_contents.ops
+    elif isinstance(raw_contents, dict) and "ops" in raw_contents:
+      raw_ops = raw_contents["ops"]
+    else:
+      raw_ops = raw_contents
+
+      # Step 2: Recursively clean proxylist and proxyobject instances
+    clean_ops = _clean_js_proxy(raw_ops)
+
+    # Step 3: Ensure clean_ops is enclosed in a Python list
+    if not isinstance(clean_ops, list):
+      clean_ops = [clean_ops] if clean_ops else []
+
+    py_delta = {"ops": clean_ops}
+
+  except Exception as e:
+    #print(f"Quill conversion fallback triggered: {e}")
+    text_val = str(quill_comp.getText() or "")
+    if not text_val.endswith("\n"):
+      text_val += "\n"
+    py_delta = {"ops": [{"insert": text_val}]}
+
+  return json.dumps(py_delta)
