@@ -50,3 +50,4 @@ unique_ids:
     validation: '1773053406069931457779762.622'
   scripts: {}
   server_modules: {}
+  server_tests: {}

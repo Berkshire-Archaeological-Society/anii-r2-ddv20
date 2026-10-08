@@ -93,8 +93,8 @@ role_access = {
 'Site Viewer': {
   "anomaly":         {'List': True,  'View': True,  'Edit': False, 'Insert': False, 'Import': False, 'Export': False, 'Delete': False},
   "context":         {'List': True,  'View': True,  'Edit': False, 'Insert': False,' Import': False, 'Export': False, 'Delete': False},
-  "find":            {'List': True,  'View': True,  'Edit': False, 'Insert': False, 'Import': False, 'Export': False, 'Delete': False},
-  'findgroup':        {'List': True,  'View': True,  'Edit': False, 'Insert': False, 'Import': False, 'Export': False, 'Delete': False},
+  "findsregister":   {'List': True,  'View': True,  'Edit': False, 'Insert': False, 'Import': False, 'Export': False, 'Delete': False},
+  'findgroup':       {'List': True,  'View': True,  'Edit': False, 'Insert': False, 'Import': False, 'Export': False, 'Delete': False},
   'fs tables':       {'List': True,  'View': True,  'Edit': False, 'Insert': False, 'Import': False, 'Export': False, 'Delete': False},
   'ircollection':    {'List': True,  'View': True,  'Edit': False, 'Insert': False, 'Import': False, 'Export': False, 'Delete': False},  
   'ircollectfind':   {'List': True,  'View': True,  'Edit': False, 'Insert': False, 'Import': False, 'Export': False, 'Delete': False},  
@@ -115,7 +115,7 @@ role_access = {
 'Site Editor': {
   'anomaly':         {'List': True,  'View': True,  'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': False},
   'context':         {'List': True,  'View': True,  'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': False},
-  'find':            {'List': True,  'View': True,  'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': False},
+  'findsregister':            {'List': True,  'View': True,  'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': False},
   'findgroup':        {'List': True,  'View': True,  'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': False},
   'fs tables':       {'List': True,  'View': True,  'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': False},
   'ircollection':    {'List': True,  'View': True,  'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': False},
@@ -137,7 +137,7 @@ role_access = {
 'Site Leader': {
   'anomaly':         {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
   'context':         {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
-  'find':            {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
+  'findsregister':            {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
   'findgroup':        {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
   'fs tables':       {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
   'ircollection':    {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
@@ -159,7 +159,7 @@ role_access = {
 'System Administrator': {
   'anomaly':         {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
   'context':         {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
-  'find':            {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
+  'findsregister':            {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
   'findgroup':        {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
   'fs tables':       {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
   'ircollection':    {'List': True, 'View': True, 'Edit': True,  'Insert': True,  'Import': True,  'Export': True,  'Delete': True},
