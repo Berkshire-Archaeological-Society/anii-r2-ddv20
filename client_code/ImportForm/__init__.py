@@ -41,11 +41,27 @@ class ImportForm(ImportFormTemplate):
     self.selected_file_name.text = "You have selected file: " + file.name
     msg = "You have selected file: " + file.name + "\nDo you wish to continue?"
     if confirm(content=msg):
-      msg = anvil.server.call("import_file", Global.table_name, file)
+      # 1. Start the background task instead of a standard server call
+      task = anvil.server.call("start_import_job", Global.table_name, file)
+      # 2. Show a notification so the user knows processing is active
+      n = Notification("Processing import file, please wait...", timeout=None)
+      n.show()
+      # 3. Poll until the background task completes
+      while not task.is_completed():
+        time.sleep(1)
+      n.dismiss()
+      # 4. Fetch the return message from the completed task
+      msg = task.get_return_value()
       self.message_log.text = msg
-      change_id = msg.splitlines(False)[0]
+      # 5. Extract Change ID safely
+      if msg and "Change ID:" in msg:
+        change_id_line = msg.splitlines(False)[0]
+        Global.DBAcontrol = change_id_line.split(" ")[2]
+      #msg = anvil.server.call("import_file", Global.table_name, file)
+      #self.message_log.text = msg
+      #change_id = msg.splitlines(False)[0]
       #print(change_id)
-      Global.DBAcontrol = change_id.split(" ")[2]
+      #Global.DBAcontrol = change_id.split(" ")[2]
       #print(Global.DBAcontrol)
     else:
       self.upload_file.clear()
