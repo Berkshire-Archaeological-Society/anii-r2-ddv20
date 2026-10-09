@@ -29,6 +29,10 @@ components:
   name: selected_file_name
   properties: {}
   type: Label
+- layout_properties: {grid_position: 'FXGYKE,VCDIFK'}
+  name: import_progress_msg
+  properties: {}
+  type: Label
 - layout_properties: {grid_position: 'WRHPNQ,HIMHLI'}
   name: message_log_header
   properties: {bold: true, text: 'Import processing log:'}
