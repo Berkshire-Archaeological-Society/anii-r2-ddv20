@@ -286,7 +286,7 @@ login_user_initials = ""
 login_user_firstname = ""
 login_user_lastname = ""
 login_user_status = ""
-login_use
+login_user_email = ""
 site_user_role_options = {"Site Viewer","Site Editor","Site Leader","Administrator"}
 system_user_role_options = {"Site User","System Administrator"}
 user_status_options = {"True", "False"}

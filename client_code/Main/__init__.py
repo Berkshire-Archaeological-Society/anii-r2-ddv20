@@ -626,6 +626,7 @@ class Main(MainTemplate):
       user = anvil.users.get_user()
       Global.login_system_user_role = user["systemrole"]
       Global.login_user_initials = user["initials"]
+      Global.login_user_email = user["email"]
       self.user_role.text = Global.login_system_user_role
       #print(Global.system_user_role)
       
@@ -1107,7 +1108,7 @@ class Main(MainTemplate):
     if confirm(message):
       # confirmation to delete the selected rows
       # call server function to do the actual deletion
-      msg = anvil.server.call('delete_row',Global.table_name,rows_to_delete,user_email)
+      msg = anvil.server.call('delete_row',Global.table_name,rows_to_delete,Global.login_user_email)
       # update Site Summary
       db_summary = anvil.server.call("db_get_summary",Global.site_id)
       Global.main_form.site_summary.visible = True
@@ -1301,6 +1302,7 @@ class Main(MainTemplate):
     Global.login_user_firstname = ""
     Global.login_user_lastname = ""
     Global.login_user_status = ""
+    Global.login_user_email = ""
     
     self.user_role.text = ""
 
