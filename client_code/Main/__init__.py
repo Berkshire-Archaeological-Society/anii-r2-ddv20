@@ -1105,9 +1105,9 @@ class Main(MainTemplate):
     # ask confirmation to delete selected rows
     message = message + "\n\nDo you wish to continue?"
     if confirm(message):
-      # confirmation to delete the slected rows
+      # confirmation to delete the selected rows
       # call server function to do the actual deletion
-      msg = anvil.server.call('delete_row',Global.table_name,rows_to_delete)
+      msg = anvil.server.call('delete_row',Global.table_name,rows_to_delete,user_email)
       # update Site Summary
       db_summary = anvil.server.call("db_get_summary",Global.site_id)
       Global.main_form.site_summary.visible = True
