@@ -44,10 +44,18 @@ class ImportForm(ImportFormTemplate):
       # 1. Start the background task instead of a standard server call
       task = anvil.server.call("start_import_job", Global.table_name, file)
       # 2. Show a notification so the user knows processing is active
-      self.import_progress_msg.text = "Processing import file in background, please wait..."
+      self.import_progress_msg.text = ""
+      #Processing import file in background, please wait..."
       # 3. Poll until the background task completes
       while not task.is_completed():
+        state = task.get_state()
+        # Retrieve updated progress and status from task_state
+        progress = state.get('progress', 0)
+        status_msg = state.get('status', 'Processing...')
+        # Update UI components (e.g., Labels, Progress Bars)
+        self.import_progress_msg.text = f"{status_msg} ({progress}%)"
         time.sleep(1)
+        
       self.import_progress_msg.text = "Import complete."
       # 4. Fetch the return message from the completed task
       msg = task.get_return_value()
