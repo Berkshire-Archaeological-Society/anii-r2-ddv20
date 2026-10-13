@@ -56,7 +56,7 @@ class ImportForm(ImportFormTemplate):
         self.import_progress_msg.text = f"{status_msg} ({progress}%)"
         time.sleep(1)
         
-      self.import_progress_msg.text = "Import complete."
+      self.import_progress_msg.text = "Import file processing complete."
       # 4. Fetch the return message from the completed task
       msg = task.get_return_value()
       self.message_log.text = msg
