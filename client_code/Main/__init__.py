@@ -737,9 +737,10 @@ class Main(MainTemplate):
       #Global.title_label.text = Global.title + Global.status + Global.selected_site
       #Global.title_label.text = Global.title
       #Global.header_site_name.text = Global.site_name
-      db_summary = anvil.server.call("db_get_summary",Global.site_id)
-      self.site_summary.visible = True
-      self.site_summary.items = db_summary
+      Function.update_db_summary()
+      #db_summary = anvil.server.call("db_get_summary",Global.site_id)
+      #self.site_summary.visible = True
+      #self.site_summary.items = db_summary
 
       #delete all work_areas and all work_area names/buttons and remove seq_no's
       temp_work_area_name_list = list(Global.work_area.keys())
@@ -795,9 +796,10 @@ class Main(MainTemplate):
         #Global.title_label.text = Global.title + Global.status + Global.selected_site
         #Global.title_label.text = Global.title
         #Global.header_site_name.text = Global.site_name
-        db_summary = anvil.server.call("db_get_summary",Global.site_id)
-        self.site_summary.visible = True
-        self.site_summary.items = db_summary
+        Function.update_db_summary()
+        #db_summary = anvil.server.call("db_get_summary",Global.site_id)
+        #self.site_summary.visible = True
+        #self.site_summary.items = db_summary
 
         if Global.login_site_user_role in ["Site Manager","Site Leader"] or Global.login_system_user_role == "System Administrator":
           self.list_dropdown.visible = True
@@ -1110,9 +1112,10 @@ class Main(MainTemplate):
       # call server function to do the actual deletion
       msg = anvil.server.call('delete_row',Global.table_name,rows_to_delete,anvil.users.get_user())
       # update Site Summary
-      db_summary = anvil.server.call("db_get_summary",Global.site_id)
-      Global.main_form.site_summary.visible = True
-      Global.main_form.site_summary.items = db_summary
+      Function.update_db_summary()
+      #db_summary = anvil.server.call("db_get_summary",Global.site_id)
+      #Global.main_form.site_summary.visible = True
+      #Global.main_form.site_summary.items = db_summary
       alert(msg)
     pass # delete_row_click
 
