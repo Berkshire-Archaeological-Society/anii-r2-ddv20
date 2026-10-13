@@ -222,6 +222,11 @@ def _clean_js_proxy(obj):
     # 3. Return primitives (str, int, float, bool) directly
   return obj
 
+def update_db_summary():
+  db_summary = anvil.server.call("db_get_summary",Global.site_id)
+  Global.main_form.site_summary.visible = True
+  Global.main_form.site_summary.items = db_summary
+  return
 
 def convert_quill_to_python(quill_comp):
   try:

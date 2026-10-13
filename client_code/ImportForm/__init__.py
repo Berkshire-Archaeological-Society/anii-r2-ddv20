@@ -11,6 +11,8 @@ import anvil.media
 import time
 from anvil import Notification, confirm
 from .. import Global
+from .. import Function
+from .. import FunctionsB
 
 class ImportForm(ImportFormTemplate):
   def Import_refresh(self, **event_args):
@@ -30,7 +32,6 @@ class ImportForm(ImportFormTemplate):
 
     Global.main_form.mb_left.visible = False
     Global.main_form.mb_middle.visible = False
-
 
   def upload_file_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
@@ -101,9 +102,10 @@ class ImportForm(ImportFormTemplate):
     n = Notification("The successful Inserts have been comitted to the table. The message log has been downloaded.")
     n.show()
     # update Site Summary
-    db_summary = anvil.server.call("db_get_summary",Global.site_id)
-    Global.main_form.site_summary.visible = True
-    Global.main_form.site_summary.items = db_summary
+    Function.update_db_summary()
+    #db_summary = anvil.server.call("db_get_summary",Global.site_id)
+    #Global.main_form.site_summary.visible = True
+    #Global.main_form.site_summary.items = db_summary
     #
     self.upload_file.clear()
     self.selected_file_name.text = ""
