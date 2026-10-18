@@ -94,11 +94,12 @@ class RowForm(RowFormTemplate):
       # type text can be 65535 char so need to be a TextArea, other can be a TextBox
       # create the label (= column/field name) and the input field
       if column_type in ["text","longtext"]:
-        if column_name in Global.TextArea_columns: # create a TextArea for some text field columns
-          #create TextArea input field for SQL_command
+        if column_name in Global.TextArea_columns:
+          # create TextArea input field 
           input = TextArea(placeholder=column_name,tag=column_name)
           input.add_event_handler('change',self.input_change)
         else:
+          # create a Quill input field
           #input = Quill(placeholder=column_name,toolbar=Global.Quill_toolbarOptions)
           input = Quill(toolbar=Global.Quill_toolbarOptions)
           input.add_event_handler('text_change',self.input_change)

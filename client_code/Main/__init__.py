@@ -51,6 +51,7 @@ class Main(MainTemplate):
     Global.column_with_dropdown = globals_from_config["column_with_dropdown"]
     Global.column_with_list = globals_from_config["column_with_list"]
     Global.TextArea_columns = globals_from_config["TextArea_columns"]
+    # TextArea_columns_new has format {'tableA': ['colX'],'tableB': ['colY', 'colZ']} 
     
     # set the title of a browser tab to be system (which is application name Anchurus-II R2 ) + organisation name (which is realy the anchurus system name)
     document.title = Global.system + "-" + Global.organisation
