@@ -206,6 +206,7 @@ columns_not_editable = ["email","initials","last_login","password_hash", "n_pass
 
 # predefined width of known columns
 column_width = {}  # defined in configuration.yaml file
+table_column_width = {}
 # dropdown list for listed columns (for data input)
 column_with_list = {}   # defined in configuration.yaml file
 table_column_with_list = {}
