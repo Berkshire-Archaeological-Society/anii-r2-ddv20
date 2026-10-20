@@ -208,8 +208,10 @@ columns_not_editable = ["email","initials","last_login","password_hash", "n_pass
 column_width = {}  # defined in configuration.yaml file
 # dropdown list for listed columns (for data input)
 column_with_list = {}   # defined in configuration.yaml file
+table_column_with_list = {}
 # dropdown options for selected columns
-column_with_dropdown = []   # defined in configuration.yaml file
+column_with_dropdown = {}   # defined in configuration.yaml file
+table_column_with_dropdown = {}
 
 context_id = None
 context_items = {}
