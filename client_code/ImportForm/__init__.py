@@ -47,7 +47,7 @@ class ImportForm(ImportFormTemplate):
     msg = "You have selected file: " + file.name + "\nDo you wish to continue?"
     if confirm(content=msg):
       # 1. Start the background task instead of a standard server call
-      task = anvil.server.call("start_import_job", Global.table_name, file)
+      self.active_task = anvil.server.call("start_import_job", Global.table_name, file)
       # 2. Show a notification so the user knows processing is active
       self.import_progress_msg.text = ""
       #Processing import file in background, please wait..."
@@ -63,14 +63,14 @@ class ImportForm(ImportFormTemplate):
       #  self.import_progress_msg.text = f"{status_msg} ({progress}%)"
       #  time.sleep(1)
         
-      self.import_progress_msg.text = "Import file processing complete."
+      #self.import_progress_msg.text = "Import file processing complete."
       # 4. Fetch the return message from the completed task
-      msg = task.get_return_value()
-      self.message_log.text = msg
+      #msg = task.get_return_value()
+      #self.message_log.text = msg
       # 5. Extract Change ID safely
-      if msg and "Change ID:" in msg:
-        change_id_line = msg.splitlines(False)[0]
-        Global.DBAcontrol = change_id_line.split(" ")[2]
+      #if msg and "Change ID:" in msg:
+      #  change_id_line = msg.splitlines(False)[0]
+      #  Global.DBAcontrol = change_id_line.split(" ")[2]
       #msg = anvil.server.call("import_file", Global.table_name, file)
       #self.message_log.text = msg
       #change_id = msg.splitlines(False)[0]
@@ -94,7 +94,8 @@ class ImportForm(ImportFormTemplate):
 
     # Update percentage label
     progress = state.get('progress', 0)
-    self.progress_label.text = f"Progress: {progress}%"
+    status_msg = state.get('status', 'Processing...')
+    self.import_progress_msg.text = f"{status_msg} ({progress}%)"
 
     # Slice and append ONLY new log lines
     all_logs = state.get('logs', [])
@@ -102,23 +103,31 @@ class ImportForm(ImportFormTemplate):
       new_logs = all_logs[self.last_log_index:]
 
       # Append new lines to TextArea
-      self.log_box.text += "\n".join(new_logs) + "\n"
+      self.message_log.text += "\n".join(new_logs) + "\n"
 
       # Update pointer index
       self.last_log_index = len(all_logs)
 
-      # Check if background task has finished
+    # Check if background task has finished
     if self.active_task.is_completed():
       # Stop timer polling loop
       self.timer_1.interval = 0
-      self.start_import_button.enabled = True
+      #self.start_import_button.enabled = True
+      self.import_progress_msg.text = "Import file processing complete."
+      # 4. Fetch the return message from the completed task
+      msg = self.active_task.get_return_value()
+      self.message_log.text += msg
+      # 5. Extract Change ID safely
+      if msg and "Change ID:" in msg:
+        change_id_line = msg.splitlines(False)[0]
+        Global.DBAcontrol = change_id_line.split(" ")[2]
 
       try:
         result = self.active_task.get_return_value()
-        self.log_box.text += f"\n--- FINISHED: {result} ---"
+        self.message_log.text += f"\n--- FINISHED: {result} ---"
         Notification("Import completed successfully!", style="success").show()
       except Exception as err:
-        self.log_box.text += f"\n--- ERROR: {err} ---"
+        self.message_log.text += f"\n--- ERROR: {err} ---"
         Notification("Import failed with an error.", style="danger").show()
     pass 
 
