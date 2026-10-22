@@ -33,6 +33,10 @@ class ImportForm(ImportFormTemplate):
     Global.main_form.mb_left.visible = False
     Global.main_form.mb_middle.visible = False
 
+    self.timer_1.interval = 0
+    self.active_task = None
+    self.last_log_index = 0
+
   def upload_file_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
     #print(Global.current_work_area_name)
@@ -47,15 +51,17 @@ class ImportForm(ImportFormTemplate):
       # 2. Show a notification so the user knows processing is active
       self.import_progress_msg.text = ""
       #Processing import file in background, please wait..."
+      # 3. Enable Timer component to poll every 1 second
+      self.timer_1.interval = 1
       # 3. Poll until the background task completes
-      while not task.is_completed():
-        state = task.get_state()
-        # Retrieve updated progress and status from task_state
-        progress = state.get('progress', 0)
-        status_msg = state.get('status', 'Processing...')
-        # Update UI components (e.g., Labels, Progress Bars)
-        self.import_progress_msg.text = f"{status_msg} ({progress}%)"
-        time.sleep(1)
+      #while not task.is_completed():
+      #  state = task.get_state()
+      #  # Retrieve updated progress and status from task_state
+      #  progress = state.get('progress', 0)
+      #  status_msg = state.get('status', 'Processing...')
+      #  # Update UI components (e.g., Labels, Progress Bars)
+      #  self.import_progress_msg.text = f"{status_msg} ({progress}%)"
+      #  time.sleep(1)
         
       self.import_progress_msg.text = "Import file processing complete."
       # 4. Fetch the return message from the completed task
@@ -76,6 +82,45 @@ class ImportForm(ImportFormTemplate):
       self.selected_file_name.text = ""
       self.message_log.text = ""
     pass
+
+  def timer_1_tick(self, **event_args):
+    """Fires every second while timer_1.interval == 1."""
+    if not self.active_task:
+      self.timer_1.interval = 0
+      return
+
+      # Fetch active task state
+    state = self.active_task.get_state()
+
+    # Update percentage label
+    progress = state.get('progress', 0)
+    self.progress_label.text = f"Progress: {progress}%"
+
+    # Slice and append ONLY new log lines
+    all_logs = state.get('logs', [])
+    if len(all_logs) > self.last_log_index:
+      new_logs = all_logs[self.last_log_index:]
+
+      # Append new lines to TextArea
+      self.log_box.text += "\n".join(new_logs) + "\n"
+
+      # Update pointer index
+      self.last_log_index = len(all_logs)
+
+      # Check if background task has finished
+    if self.active_task.is_completed():
+      # Stop timer polling loop
+      self.timer_1.interval = 0
+      self.start_import_button.enabled = True
+
+      try:
+        result = self.active_task.get_return_value()
+        self.log_box.text += f"\n--- FINISHED: {result} ---"
+        Notification("Import completed successfully!", style="success").show()
+      except Exception as err:
+        self.log_box.text += f"\n--- ERROR: {err} ---"
+        Notification("Import failed with an error.", style="danger").show()
+    pass 
 
   def cancel_inserts_click(self, **event_args):
     """This method is called when the button is clicked"""
