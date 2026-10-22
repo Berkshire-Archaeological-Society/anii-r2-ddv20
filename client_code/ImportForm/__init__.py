@@ -33,7 +33,11 @@ class ImportForm(ImportFormTemplate):
     Global.main_form.mb_left.visible = False
     Global.main_form.mb_middle.visible = False
 
-    self.timer_1.interval = 0
+    # Programmatically create and bind timer
+    self.timer_1 = Timer(interval=0)
+    self.timer_1.set_event_handler('tick', self.timer_1_tick)
+    self.add_component(self.timer_1)
+    
     self.active_task = None
     self.last_log_index = 0
 
