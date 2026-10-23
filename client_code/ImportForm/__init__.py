@@ -9,6 +9,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.media
 import time
+import re
 from anvil import Notification, confirm
 from .. import Global
 from .. import Function
@@ -122,13 +123,16 @@ class ImportForm(ImportFormTemplate):
       msg = self.active_task.get_return_value()
       self.message_log.text += msg
       # 5. Extract Change ID safely
+      #print(msg)
       if msg and "Change ID:" in msg:
-        change_id_line = msg.splitlines(False)[0]
-        Global.DBAcontrol = change_id_line.split(" ")[2]
-
+        #change_id_line = msg.splitlines(False)[0]
+        #Global.DBAcontrol = change_id_line.split(" ")[2]
+        match = re.search(r"Change ID:\s*([A-Za-z0-9]+)", msg)
+        Global.DBAcontrol = match.group(1) if match else None
+        print(Global.DBAcontrol)
       try:
-        result = self.active_task.get_return_value()
-        self.message_log.text += f"--- FINISHED: {result} ---"
+        #result = self.active_task.get_return_value()
+        self.message_log.text += "--- FINISHED ---"
         Notification("Import completed successfully!", style="success").show()
       except Exception as err:
         self.message_log.text += f"--- ERROR: {err} ---"
@@ -137,6 +141,7 @@ class ImportForm(ImportFormTemplate):
 
   def cancel_inserts_click(self, **event_args):
     """This method is called when the button is clicked"""
+    print(Global.DBAcontrol)
     message = anvil.server.call("delete_by_DBAcontrol",Global.DBAcontrol,Global.table_name)
     self.message_log.text = self.message_log.text + message
     byte_string = bytes(self.message_log.text, "utf-8")
