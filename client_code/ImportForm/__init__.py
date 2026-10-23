@@ -22,6 +22,17 @@ class ImportForm(ImportFormTemplate):
     self.message_log.text = ""
     self.upload_file.clear()
   pass
+
+  def scroll_log_to_bottom(self):
+    """Scrolls the log_box TextArea directly to the bottom."""
+    try:
+      # Get the underlying HTML DOM element of the TextArea
+      dom_element = anvil.js.get_dom_node(self.message_log)
+
+      # Set scroll position to the total scroll height
+      dom_element.scrollTop = dom_element.scrollHeight
+    except Exception:
+      pass
   
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -113,6 +124,9 @@ class ImportForm(ImportFormTemplate):
       # Update pointer index
       self.last_log_index = len(all_logs)
 
+      # Auto-scroll to the latest log line
+      self.scroll_log_to_bottom()
+
     # Check if background task has finished
     if self.active_task.is_completed():
       # Stop timer polling loop
@@ -122,6 +136,8 @@ class ImportForm(ImportFormTemplate):
       # 4. Fetch the return message from the completed task
       msg = self.active_task.get_return_value()
       self.message_log.text += msg
+      # Auto-scroll to the latest log line
+      self.scroll_log_to_bottom()
       # 5. Extract Change ID safely
       #print(msg)
       if msg and "Change ID:" in msg:
