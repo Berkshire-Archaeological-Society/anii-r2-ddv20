@@ -50,7 +50,7 @@ class ImportForm(ImportFormTemplate):
     self.selected_file_name.text = "You have selected file: " + file.name
     msg = "You have selected file: " + file.name + "\nDo you wish to continue?"
     if confirm(content=msg):
-      # 1. Start the background task instead of a standard server call
+      # 1. Start the background task 
       self.active_task = anvil.server.call("start_import_job", Global.table_name, file)
       # 2. Show a notification so the user knows processing is active
       self.import_progress_msg.text = ""
@@ -128,10 +128,10 @@ class ImportForm(ImportFormTemplate):
 
       try:
         result = self.active_task.get_return_value()
-        self.message_log.text += f"\n--- FINISHED: {result} ---"
+        self.message_log.text += f"--- FINISHED: {result} ---"
         Notification("Import completed successfully!", style="success").show()
       except Exception as err:
-        self.message_log.text += f"\n--- ERROR: {err} ---"
+        self.message_log.text += f"--- ERROR: {err} ---"
         Notification("Import failed with an error.", style="danger").show()
     pass 
 
