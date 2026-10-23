@@ -129,25 +129,25 @@ class ImportForm(ImportFormTemplate):
         #Global.DBAcontrol = change_id_line.split(" ")[2]
         match = re.search(r"Change ID:\s*([A-Za-z0-9]+)", msg)
         Global.DBAcontrol = match.group(1) if match else None
-        print(Global.DBAcontrol)
+        #print(Global.DBAcontrol)
       try:
         #result = self.active_task.get_return_value()
         self.message_log.text += "--- FINISHED ---"
-        Notification("Import completed successfully!", style="success").show()
+        #Notification("The Import completed successfully!", style="success").show()
       except Exception as err:
         self.message_log.text += f"--- ERROR: {err} ---"
-        Notification("Import failed with an error.", style="danger").show()
+        #Notification("Import failed with an error.", style="danger").show()
     pass 
 
   def cancel_inserts_click(self, **event_args):
     """This method is called when the button is clicked"""
-    print(Global.DBAcontrol)
+    #print(Global.DBAcontrol)
     message = anvil.server.call("delete_by_DBAcontrol",Global.DBAcontrol,Global.table_name)
-    self.message_log.text = self.message_log.text + message
+    self.message_log.text += f"\nImport cancelled: {message}"
     byte_string = bytes(self.message_log.text, "utf-8")
     text_file = anvil.BlobMedia('text/plain', byte_string, name='Import_message.log')
     anvil.media.download(text_file)
-    note = "The successful inserts to table " + Global.table_name + " have been cancelled and deleted from the table. The message log has been downloaded."
+    note = f"The import of records to table {Global.table_name} have been cancelled and any successfull inserts during the import process have been deleted from the table.\n{message}\nYou can check the downloaded log file for details."
     n = Notification(note)
     n.show()
     #
@@ -162,7 +162,7 @@ class ImportForm(ImportFormTemplate):
     logmsg_name = 'Import_message_' + Global.table_name + '.log'
     text_file = anvil.BlobMedia('text/plain', byte_string, name=logmsg_name)
     anvil.media.download(text_file)
-    n = Notification("The successful Inserts have been comitted to the table. The message log has been downloaded.")
+    n = Notification(f"You selected to commit the successfull inserts to the table {Global.table_name}. You can check the downloaded log file for details.")
     n.show()
     # update Site Summary
     Function.update_db_summary()
