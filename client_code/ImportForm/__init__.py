@@ -131,7 +131,18 @@ class ImportForm(ImportFormTemplate):
     if self.active_task.is_completed():
       # Stop timer polling loop
       self.timer_1.interval = 0
-      #self.start_import_button.enabled = True
+      
+      # Re-fetch state & flush any final remaining log entries
+      final_state = self.active_task.get_state()
+      final_logs = final_state.get('logs', [])
+      print(len(final_logs),self.last_log_index)
+      if len(final_logs) > self.last_log_index:
+        print("Get last log messages")
+        remaining_logs = final_logs[self.last_log_index:]
+        self.log_box.text += "\n".join(remaining_logs) + "\n"
+        self.last_log_index = len(final_logs)
+        self.scroll_log_to_bottom()
+        
       self.import_progress_msg.text = "Import file processing complete."
       # 4. Fetch the return message from the completed task
       msg = self.active_task.get_return_value()
