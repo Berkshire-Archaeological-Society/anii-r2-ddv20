@@ -8,11 +8,6 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 #
 import re
-
-# This is a module.
-# You can define variables and functions here, and use them from any form. For example, in a top-level form:
-#
-#    from .. import Module1
 #
 from  . import Global
 #
@@ -82,7 +77,7 @@ def refresh_click(self):
     list_users_refresh(self)
   elif Global.work_area[Global.current_work_area_name]["form_type"] == "TableList":
     table_list_refresh(self)
-  elif Global.work_area[Global.current_work_area_name]["form_type"] == "Import_form":
+  elif Global.work_area[Global.current_work_area_name]["form_type"] == "ImportForm":
     import_form_refresh(self)
   else:
     msg = "Refresh not yet implemented."
@@ -180,6 +175,10 @@ def list_users_refresh(self):
   return
   
 def import_form_refresh(self):
+  self.message_log.text = ""
+  self.upload_file.clear()
+  self.selected_file_name.text = ""
+  self.import_progress_msg.text = ""
   return
   
 def set_select_site_dropdown_options():

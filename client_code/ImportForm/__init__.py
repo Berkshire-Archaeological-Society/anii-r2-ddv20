@@ -15,15 +15,7 @@ from .. import Global
 from .. import Function
 from .. import FunctionsB
 
-class ImportForm(ImportFormTemplate):
-  def Import_refresh(self, **event_args):
-    # this function does the filling of the table contents
-    print("Import refresh button pressed. Current work_area ",Global.current_work_area_name )
-    self.message_log.text = ""
-    self.upload_file.clear()
-    self.selected_file_name.text = ""
-  pass
-  
+class ImportForm(ImportFormTemplate): 
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -43,11 +35,17 @@ class ImportForm(ImportFormTemplate):
     self.active_task = None
     self.last_log_index = 0
 
+    # save TableList self in Global.work_area
+    Global.work_area[Global.current_work_area_name]["self"] = self
+
+    FunctionsB.import_form_refresh(self)
+
   def upload_file_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
     #print(Global.current_work_area_name)
     self.selected_file_name.text = ""
     self.message_log.text = ""
+    self.import_progress_msg.text = ""
     Global.DBAcontrol = ""
     self.selected_file_name.text = "You have selected file: " + file.name
     msg = "You have selected file: " + file.name + "\nDo you wish to continue?"
@@ -56,37 +54,14 @@ class ImportForm(ImportFormTemplate):
       self.active_task = anvil.server.call("start_import_job", Global.table_name, file)
       # 2. Show a notification so the user knows processing is active
       self.import_progress_msg.text = ""
-      #Processing import file in background, please wait..."
       # 3. Enable Timer component to poll every 1 second
       self.timer_1.interval = 1
-      # 3. Poll until the background task completes
-      #while not task.is_completed():
-      #  state = task.get_state()
-      #  # Retrieve updated progress and status from task_state
-      #  progress = state.get('progress', 0)
-      #  status_msg = state.get('status', 'Processing...')
-      #  # Update UI components (e.g., Labels, Progress Bars)
-      #  self.import_progress_msg.text = f"{status_msg} ({progress}%)"
-      #  time.sleep(1)
-        
-      #self.import_progress_msg.text = "Import file processing complete."
-      # 4. Fetch the return message from the completed task
-      #msg = task.get_return_value()
-      #self.message_log.text = msg
-      # 5. Extract Change ID safely
-      #if msg and "Change ID:" in msg:
-      #  change_id_line = msg.splitlines(False)[0]
-      #  Global.DBAcontrol = change_id_line.split(" ")[2]
-      #msg = anvil.server.call("import_file", Global.table_name, file)
-      #self.message_log.text = msg
-      #change_id = msg.splitlines(False)[0]
-      #print(change_id)
-      #Global.DBAcontrol = change_id.split(" ")[2]
-      #print(Global.DBAcontrol)
+  
     else:
       self.upload_file.clear()
       self.selected_file_name.text = ""
       self.message_log.text = ""
+      self.import_progress_msg.text = ""
     pass
 
   def timer_1_tick(self, **event_args):
