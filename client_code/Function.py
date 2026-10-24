@@ -257,3 +257,16 @@ def convert_quill_to_python(quill_comp):
     py_delta = {"ops": [{"insert": text_val}]}
 
   return json.dumps(py_delta)
+
+def scroll_log_to_bottom(component):
+  """Scrolls the log_box TextArea directly to the bottom."""
+  try:
+    if component is not None:
+      # Get the underlying HTML DOM element of the TextArea
+      dom_element = anvil.js.get_dom_node(component)
+
+      # Set scroll position to the total scroll height
+      dom_element.scrollTop = dom_element.scrollHeight
+  except Exception:
+    pass
+  pass

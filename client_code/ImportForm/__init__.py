@@ -23,17 +23,7 @@ class ImportForm(ImportFormTemplate):
     self.upload_file.clear()
   pass
 
-  def scroll_log_to_bottom(self):
-    """Scrolls the log_box TextArea directly to the bottom."""
-    try:
-      # Get the underlying HTML DOM element of the TextArea
-      dom_element = anvil.js.get_dom_node(self.message_log)
 
-      # Set scroll position to the total scroll height
-      dom_element.scrollTop = dom_element.scrollHeight
-    except Exception:
-      pass
-  
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -111,7 +101,7 @@ class ImportForm(ImportFormTemplate):
     # Update percentage label
     progress = state.get('progress', 0)
     status_msg = state.get('status', 'Processing...')
-    self.import_progress_msg.text = f"{status_msg} ({progress}%)"
+    self.import_progress_msg.text = f"{status_msg} ({progress}%)."
 
     # Slice and append ONLY new log lines
     all_logs = state.get('logs', [])
@@ -125,7 +115,7 @@ class ImportForm(ImportFormTemplate):
       self.last_log_index = len(all_logs)
 
       # Auto-scroll to the latest log line
-      self.scroll_log_to_bottom()
+      Function.scroll_log_to_bottom(self.message_log)
 
     # Check if background task has finished
     if self.active_task.is_completed():
@@ -137,16 +127,16 @@ class ImportForm(ImportFormTemplate):
       final_logs = final_state.get('logs', [])
       if len(final_logs) > self.last_log_index:
         remaining_logs = final_logs[self.last_log_index:]
-        self.log_box.text += "\n".join(remaining_logs) + "\n"
+        self.message_log.text += "\n".join(remaining_logs) + "\n"
         self.last_log_index = len(final_logs)
-        self.scroll_log_to_bottom()
+        Function.scroll_log_to_bottom(self.message_log)
         
-      self.import_progress_msg.text = "Import file processing complete."
+      self.import_progress_msg.text += " Import file processing completed."
       # 4. Fetch the return message from the completed task
       msg = self.active_task.get_return_value()
       self.message_log.text += msg
       # Auto-scroll to the latest log line
-      self.scroll_log_to_bottom()
+      Function.scroll_log_to_bottom(self.message_log)
       # 5. Extract Change ID safely
       #print(msg)
       if msg and "Change ID:" in msg:
