@@ -21,9 +21,9 @@ class ImportForm(ImportFormTemplate):
     print("Import refresh button pressed. Current work_area ",Global.current_work_area_name )
     self.message_log.text = ""
     self.upload_file.clear()
+    self.selected_file_name.text = ""
   pass
-
-
+  
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -166,9 +166,9 @@ class ImportForm(ImportFormTemplate):
     n = Notification(note)
     n.show()
     #
-    self.upload_file.clear()
-    self.selected_file_name.text = ""
-    self.message_log.text = ""
+    #self.upload_file.clear()
+    #self.selected_file_name.text = ""
+    #self.message_log.text = ""
     pass
 
   def commit_inserts_click(self, **event_args):
@@ -185,9 +185,9 @@ class ImportForm(ImportFormTemplate):
     #Global.main_form.site_summary.visible = True
     #Global.main_form.site_summary.items = db_summary
     #
-    self.upload_file.clear()
-    self.selected_file_name.text = ""
-    self.message_log.text = ""
+    #self.upload_file.clear()
+    #self.selected_file_name.text = ""
+    #self.message_log.text = ""
     pass
 
   @handle("download_csv_template", "click")

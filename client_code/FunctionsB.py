@@ -82,8 +82,8 @@ def refresh_click(self):
     list_users_refresh(self)
   elif Global.work_area[Global.current_work_area_name]["form_type"] == "TableList":
     table_list_refresh(self)
-#  elif Global.work_area[Global.current_work_area_name]["form_type"] == "ListUsers":
-#    list_anvil_users_refresh(self)
+  elif Global.work_area[Global.current_work_area_name]["form_type"] == "Import_form":
+    import_form_refresh(self)
   else:
     msg = "Refresh not yet implemented."
     n = Notification(msg,timeout=Global.notification_timeout)
@@ -178,7 +178,10 @@ def list_users_refresh(self):
     self.table.rows_per_page = Global.rows_per_page
     self.total_user_number.text = "Total number of Online Users: " + str(len(self.repeating_panel_1.items))
   return
-
+  
+def import_form_refresh(self):
+  return
+  
 def set_select_site_dropdown_options():
   sites_list = anvil.server.call('sites_get_summary',Global.username)
   site_options = {}

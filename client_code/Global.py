@@ -29,7 +29,7 @@ site_admin_action_dropdown = [(separator,separator),("List Site Users","List sit
 #
 import_action_dropdown = ["context","find"]
 #
-action_forms_with_refresh = ["TableList","RowForm","ListUsers","ListSites","ListContexts","ListFinds","ListAreas","BulkUpload","Add Area","List Areas"]
+action_forms_with_refresh = ["TableList","RowForm","ListUsers","ListSites","ImportForm","ListContexts","ListFinds","ListAreas","BulkUpload","Add Area","List Areas"]
 action_forms_with_print = []
 action_forms_with_download = ["ListContexts","ListFinds","TableList"]
 action_forms_with_filter = ["ListContexts","ListFinds","TableList"]
