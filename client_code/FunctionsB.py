@@ -72,7 +72,7 @@ def clear_selection(self):
 def refresh_click(self):
   # The refresh button on the main menu has been clicked. 
   # The self variable is the one of the current_work_area_name
-  # select which refresh fucntion should be called
+  # select which refresh function should be called
   if Global.work_area[Global.current_work_area_name]["form_type"] == "ListUsers":
     list_users_refresh(self)
   elif Global.work_area[Global.current_work_area_name]["form_type"] == "TableList":
@@ -80,7 +80,7 @@ def refresh_click(self):
   elif Global.work_area[Global.current_work_area_name]["form_type"] == "ImportForm":
     import_form_refresh(self)
   else:
-    msg = "Refresh not yet implemented."
+    msg = "Refresh action for this work area not yet implemented."
     n = Notification(msg,timeout=Global.notification_timeout)
     n.show()
   return
@@ -175,10 +175,13 @@ def list_users_refresh(self):
   return
   
 def import_form_refresh(self):
+  # reset all important ImportForm variables
   self.message_log.text = ""
   self.upload_file.clear()
   self.selected_file_name.text = ""
   self.import_progress_msg.text = ""
+  self.active_task = None
+  self.last_log_index = 0
   return
   
 def set_select_site_dropdown_options():

@@ -37,12 +37,12 @@ class ImportForm(ImportFormTemplate):
 
     # save TableList self in Global.work_area
     Global.work_area[Global.current_work_area_name]["self"] = self
-
+    # call refresh 
     FunctionsB.import_form_refresh(self)
 
   def upload_file_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
-    #print(Global.current_work_area_name)
+    # A file has been selected, confirm this with user and call server to start the import
     self.selected_file_name.text = ""
     self.message_log.text = ""
     self.import_progress_msg.text = ""
@@ -66,11 +66,14 @@ class ImportForm(ImportFormTemplate):
 
   def timer_1_tick(self, **event_args):
     """Fires every second while timer_1.interval == 1."""
+    # When the user confirms the file to be imported, this timer function gets activated every second 
+    # It gets information on the status of the import_file task and displays the progress
+    
     if not self.active_task:
       self.timer_1.interval = 0
       return
 
-      # Fetch active task state
+    # Fetch active task state
     state = self.active_task.get_state()
 
     # Update percentage label
@@ -110,23 +113,9 @@ class ImportForm(ImportFormTemplate):
       # 4. Fetch the return message from the completed task
       msg = self.active_task.get_return_value()
       self.message_log.text += msg
+      self.message_log.text += "--- FINISHED ---"
       # Auto-scroll to the latest log line
       Function.scroll_log_to_bottom(self.message_log)
-      # 5. Extract Change ID safely
-      #print(msg)
-      if msg and "Change ID:" in msg:
-        #change_id_line = msg.splitlines(False)[0]
-        #Global.DBAcontrol = change_id_line.split(" ")[2]
-        match = re.search(r"Change ID:\s*([A-Za-z0-9]+)", msg)
-        Global.DBAcontrol = match.group(1) if match else None
-        #print(Global.DBAcontrol)
-      try:
-        #result = self.active_task.get_return_value()
-        self.message_log.text += "--- FINISHED ---"
-        #Notification("The Import completed successfully!", style="success").show()
-      except Exception as err:
-        self.message_log.text += f"--- ERROR: {err} ---"
-        #Notification("Import failed with an error.", style="danger").show()
     pass 
 
   def cancel_inserts_click(self, **event_args):
@@ -140,10 +129,9 @@ class ImportForm(ImportFormTemplate):
     note = f"The import of records to table {Global.table_name} have been cancelled and any successfull inserts during the import process have been deleted from the table.\n{message}\nYou can check the downloaded log file for details."
     n = Notification(note)
     n.show()
-    #
-    #self.upload_file.clear()
-    #self.selected_file_name.text = ""
-    #self.message_log.text = ""
+    
+    # update Site Summary
+    Function.update_db_summary()
     pass
 
   def commit_inserts_click(self, **event_args):
@@ -154,15 +142,9 @@ class ImportForm(ImportFormTemplate):
     anvil.media.download(text_file)
     n = Notification(f"You selected to commit the successfull inserts to the table {Global.table_name}. You can check the downloaded log file for details.")
     n.show()
+    
     # update Site Summary
     Function.update_db_summary()
-    #db_summary = anvil.server.call("db_get_summary",Global.site_id)
-    #Global.main_form.site_summary.visible = True
-    #Global.main_form.site_summary.items = db_summary
-    #
-    #self.upload_file.clear()
-    #self.selected_file_name.text = ""
-    #self.message_log.text = ""
     pass
 
   @handle("download_csv_template", "click")
