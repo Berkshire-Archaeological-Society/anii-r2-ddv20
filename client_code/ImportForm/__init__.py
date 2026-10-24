@@ -135,9 +135,7 @@ class ImportForm(ImportFormTemplate):
       # Re-fetch state & flush any final remaining log entries
       final_state = self.active_task.get_state()
       final_logs = final_state.get('logs', [])
-      print(len(final_logs),self.last_log_index)
       if len(final_logs) > self.last_log_index:
-        print("Get last log messages")
         remaining_logs = final_logs[self.last_log_index:]
         self.log_box.text += "\n".join(remaining_logs) + "\n"
         self.last_log_index = len(final_logs)
