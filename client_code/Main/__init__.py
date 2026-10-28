@@ -48,8 +48,11 @@ class Main(MainTemplate):
     Global.prefix_special_finds_table = globals_from_config["prefix_special_finds_table"]
     Global.selected_highlight_colour = globals_from_config["highlight_colour"]
     Global.column_width = globals_from_config["column_width"]
+    Global.table_column_width = globals_from_config["table_column_width"]
     Global.column_with_dropdown = globals_from_config["column_with_dropdown"]
+    Global.table_column_with_dropdown = globals_from_config["table_column_with_dropdown"]
     Global.column_with_list = globals_from_config["column_with_list"]
+    Global.table_column_with_list = globals_from_config["table_column_with_list"]
     Global.TextArea_columns = globals_from_config["TextArea_columns"]
     # TextArea_columns_new has format {'tableA': ['colX'],'tableB': ['colY', 'colZ']} 
     
