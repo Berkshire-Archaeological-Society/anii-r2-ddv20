@@ -47,26 +47,14 @@ class Main(MainTemplate):
     Global.admin_user_initials = globals_from_config["admin_user_initials"]
     Global.prefix_special_finds_table = globals_from_config["prefix_special_finds_table"]
     Global.selected_highlight_colour = globals_from_config["highlight_colour"]
-    #Global.column_width = globals_from_config["column_width"]
     Global.table_column_width = globals_from_config["table_column_width"]
-    #Global.column_with_dropdown = globals_from_config["column_with_dropdown"]
     Global.table_column_with_dropdown = globals_from_config["table_column_with_dropdown"]
-    #Global.column_with_list = globals_from_config["column_with_list"]
     Global.table_column_with_list = globals_from_config["table_column_with_list"]
     Global.TextArea_columns = globals_from_config["TextArea_columns"]
     # TextArea_columns_new has format {'tableA': ['colX'],'tableB': ['colY', 'colZ']} 
     
     # set the title of a browser tab to be system (which is application name Anchurus-II R2 ) + organisation name (which is realy the anchurus system name)
     document.title = Global.system + "-" + Global.organisation
-
-    # add Header component (but make it invisible)
-    #Global.header = Header()
-    #self.add_component(Global.header, slot='header_slot')
-    #Global.header.visible = False
-    # add Help component (but make it invisible)
-    #Global.help_page = Help()
-    #self.add_component(Global.help_page, slot='help_slot')
-    #Global.help_page.visible = False
 
     # set Main title field with name of organisation (defined in Anchurus-2.cgf file from server)
     #Global.title_label = self.title
