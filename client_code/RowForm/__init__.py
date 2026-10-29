@@ -127,7 +127,7 @@ class RowForm(RowFormTemplate):
         max_length = 30
 
       
-      elif column_name in Global.table_column_with_dropdown[Global.table_name].keys():
+      elif Global.table_name in Global.table_column_with_dropdown.keys() and column_name in Global.table_column_with_dropdown[Global.table_name].keys():
       #elif column_name in Global.column_with_dropdown.keys():
         input = DropDown(placeholder=column_name)
         #input.add_event_handler('change',self.input_change)
