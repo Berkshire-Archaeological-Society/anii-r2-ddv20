@@ -150,6 +150,7 @@ class TableList(TableListTemplate):
     self.repeating_panel_1.set_event_handler('x-selection-change', self.selection_change)
     #
     Global.table_name = table_name
+
     self.page_info = page_info
     self.site_id = site_id
     self.ws_name.text = Global.current_work_area_name

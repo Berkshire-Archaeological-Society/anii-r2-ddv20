@@ -91,7 +91,11 @@ def create_table_columns(column_list,work_area):
   #first column is for the select button
   columns_titles.append({"id": 1, "title": "", "data_key": "select", "width": 30, "expand": False })
   id = 1
-  print(f"in create_table_columns: work_area is: {work_area}")
+  #print(f"in create_table_columns: work_area is: {work_area}")
+  table_name = work_area["table_name"]
+  print(table_name)
+  if table_name == "online users":
+    table_name = "users"
   for column in column_list:
     # Select Column "Field"
     work_area["columns_show"].append(column)
@@ -103,15 +107,15 @@ def create_table_columns(column_list,work_area):
     padding = 10 # padding
 
     # set column width
-    #if column in Global.table_column_width[Global.table_name].keys():
-    if column in Global.column_width:
+    if table_name in Global.table_column_width.keys() and column in Global.table_column_width[table_name].keys():
+    #if column in Global.column_width:
       # for columns with predefined with use this
-      #col_width = Global.table_column_width[Global.table_name][column]
-      col_width = Global.column_width[column]
+      col_width = Global.table_column_width[table_name][column]
+      #col_width = Global.column_width[column]
     elif (data_type == "text" or ("varchar" in data_type and int(data_type.strip("varchar()")) > 50 )):
       # set width for text datatype or varchar > 50
-      #col_width = Global.table_column_width[Global.table_name]["default"]
-      col_width = Global.column_width["default"]
+      col_width = Global.table_column_width["default"]
+      #col_width = Global.column_width["default"]
     elif data_type in ["date","datetime"]:
       # for date and datetime set width to max of (15 or len column name)*ratio+padding
       col_width = (max(15,len(column))) * ratio + padding

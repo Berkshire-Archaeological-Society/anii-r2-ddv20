@@ -419,6 +419,7 @@ class Main(MainTemplate):
     Global.current_work_area_name = work_area_name
     
     # save table_info in work_area structure
+    Global.work_area[work_area_name]["table_name"] = Global.table_name
     Global.work_area[work_area_name]["table_info"] = table_info
     Global.work_area[work_area_name]["column_order"] = Global.column_order
     Global.work_area[work_area_name]["tmp_table_info"] = Global.tmp_table_info
