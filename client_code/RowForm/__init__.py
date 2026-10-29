@@ -127,8 +127,8 @@ class RowForm(RowFormTemplate):
         max_length = 30
 
       
-      #elif column_name in Global.table_column_with_dropdown[Global.table_name].keys():
-      elif column_name in Global.column_with_dropdown.keys():
+      elif column_name in Global.table_column_with_dropdown[Global.table_name].keys():
+      #elif column_name in Global.column_with_dropdown.keys():
         input = DropDown(placeholder=column_name)
         #input.add_event_handler('change',self.input_change)
         max_length = 5
@@ -248,11 +248,11 @@ class RowForm(RowFormTemplate):
           input_error
         )
 
-      #elif column_name in Global.table_column_with_list[Global.table_name].keys():
-      elif column_name in Global.column_with_list.keys():
+      elif Global.table_name in Global.table_column_with_list.keys() and column_name in Global.table_column_with_list[Global.table_name].keys():
+      #elif column_name in Global.column_with_list.keys():
         # 1. Define your list of allowed words
-        #allowed_words = Global.table_column_with_list[Global.table_name][column_name]["options"]
-        allowed_words = Global.column_with_list[column_name]["options"]
+        allowed_words = Global.table_column_with_list[Global.table_name][column_name]["options"]
+        #allowed_words = Global.column_with_list[column_name]["options"]
         # 2. Build the "OR" part of the rgex: 
         choices = r'(?:' + '|'.join(map(re.escape, allowed_words)) + r')'
         # 3. Assemble the full pattern
@@ -266,17 +266,17 @@ class RowForm(RowFormTemplate):
           lambda tb: re.fullmatch(pattern_string, tb.text),
           input_error
         )
-      #elif column_name in Global.table_column_with_dropdown[Global.table_name].keys():
-      elif column_name in Global.column_with_dropdown.keys():
+      elif Global.table_name in Global.table_column_with_dropdown.keys() and column_name in Global.table_column_with_dropdown[Global.table_name].keys():
+      #elif column_name in Global.column_with_dropdown.keys():
         # 1. Define your allowed options for the DropDown
-        #input.items = Global.table_column_with_dropdown[Global.table_name][column_name]["options"]
-        input.items = Global.column_with_dropdown[column_name]["options"]
+        input.items = Global.table_column_with_dropdown[Global.table_name][column_name]["options"]
+        #input.items = Global.column_with_dropdown[column_name]["options"]
         input.include_placeholder = True 
-        #input.placeholder = Global.table_column_with_dropdown[Global.table_name][column_name]["placeholder"]
-        input.placeholder = Global.column_with_dropdown[column_name]["placeholder"]
+        input.placeholder = Global.table_column_with_dropdown[Global.table_name][column_name]["placeholder"]
+        #input.placeholder = Global.column_with_dropdown[column_name]["placeholder"]
         # 2. Configure the error label
-        #input_error.text = Global.table_column_with_dropdown[Global.table_name][column_name]["error"]
-        input_error.text = Global.column_with_dropdown[column_name]["error"]
+        input_error.text = Global.table_column_with_dropdown[Global.table_name][column_name]["error"]
+        #input_error.text = Global.column_with_dropdown[column_name]["error"]
         input_error.foreground = "#FF0000"
         # 3. Use the validator to check the selected_value
         self.validator.require(
