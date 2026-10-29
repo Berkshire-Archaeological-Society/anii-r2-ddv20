@@ -91,7 +91,7 @@ def create_table_columns(column_list,work_area):
   #first column is for the select button
   columns_titles.append({"id": 1, "title": "", "data_key": "select", "width": 30, "expand": False })
   id = 1
-  #print("in create_table_columns: work_area[table_info] is: "+str(work_area["table_info"]))
+  print(f"in create_table_columns: work_area is: {work_area}")
   for column in column_list:
     # Select Column "Field"
     work_area["columns_show"].append(column)
